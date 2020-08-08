@@ -14,11 +14,11 @@ This is a fork of quirkycorts excellent EV3 virtual environment ([Gears](https:/
 * customBlocks.json - define the user created variables that need to be included in generated python code
 * pybricks_generator.js - generates Python3 code from blocks user selects
 
-## Python
+## Python Code Editor
 * pythonPanel.js - tab to access Python3 code editor
 * ace.js - Python3 code editor
 
-### Python Interpreter
+## Python Interpreter
 * skultp.js - Javascript implementation of Python2/3
 * Python3 robotics support library (in public/js/pybricks folder - formerly ev3dev2 folder)
    * motor.py
@@ -27,7 +27,7 @@ This is a fork of quirkycorts excellent EV3 virtual environment ([Gears](https:/
 * simPython.js -  skulpt implementation of robot components in Javascript, 
    * uses SK.builtin.func to make python code accessible in skulpt Python3 environment; this is the link from Python3 code to javascript virtual environment
 
-### Simulator
+## 3D Simulator
 * simPanel.js - tab to access virtual environment
 * Babylon.js - 3D virtual environment implemented in Javascript
 * Robot.js - Javascript robot representation used in Babylon.js
