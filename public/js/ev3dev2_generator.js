@@ -39,6 +39,7 @@ var ev3dev2_generator = new function() {
       'import math\n' +
       'import time\n' +      
       'from ev3dev2.pybricks import *\n' +      
+      'from pybricks.robotics import *\n' +            
       'from ev3dev2.motor import *\n' +
       'from ev3dev2.sound import Sound\n' +
       'from ev3dev2.sensor import *\n' +
@@ -114,7 +115,7 @@ var ev3dev2_generator = new function() {
     var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     if (speed === undefined) { speed = 0;  }
 
-    var code = 'straight(' + speed + ')\n';
+    var code = 'straightPy(' + speed + ')\n';
 
     return code;    
   }

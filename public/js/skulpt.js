@@ -64,14 +64,16 @@ var skulpt = new function() {
   this.outf = function (text) {
     simPanel.consoleWrite(text);
   }
-
+  
   // File loader
   this.builtinRead = function (filename) {
     var externalLibs = {
       './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=1596843175',
       './ev3dev2/motor.py': 'ev3dev2/motor.py?v=1596843175',
       './ev3dev2/sound.py': 'ev3dev2/sound.py?v=1596843175',
-      './ev3dev2/pybricks.py': 'ev3dev2/pybricks.py?v=1596843175',      
+      './ev3dev2/pybricks.py': 'ev3dev2/pybricks.py?v=1596843175',     
+      './pybricks/__init__.py': 'pybricks/__init__.py?v=1596843175',      
+      './pybricks/robotics.py': 'pybricks/robotics.py?v=1596843175',           
       './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=1596843175',
       './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=1596843175',
       './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=1596843175',

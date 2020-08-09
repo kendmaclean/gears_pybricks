@@ -18,8 +18,7 @@ class MoveStraight():
         tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)
         tank_drive.on(distance, distance) 
         print("### MoveStraight ###; distance_var " + str(distance))
-''''
-'''
+
 classMotor()
     def __init__(self, port, positive_direction=Direction.CLOCKWISE, gears=None)
         self.port = port
@@ -37,8 +36,7 @@ classDriveBase()
         tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)
         tank_drive.on(distance, distance) 
         print("### MoveStraight ###; distance_var " + str(distance))
-'''
-'''
+
 # works
 class MoveStraight(MotorSet):
     def __init__(self, left_motor_port, right_motor_port, desc=None, motor_class=LargeMotor):
