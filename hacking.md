@@ -35,3 +35,109 @@ This is a fork of quirkycorts excellent EV3 virtual environment ([Gears](https:/
   * Robot.js - Javascript robot representation used in Babylon.js
     * robotComponents.js - 
     * robotTemplates.js - robot and component dimensions
+
+
+# Hacking
+## howto create new command in its own Python file
+
+* update Toolbox.xml
+```
+ <category name="Pybrick" colour="#5b67a5">
+    <block type="move_straight">
+      <field name="units">PERCENT</field>
+      <value name="left">
+        <shadow type="math_number">
+          <field name="NUM">20</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+
+```
+
+* update customBlocks.json
+```
+{
+  "type": "move_straight",
+  "message0": "move straight for speed %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+```
+
+* create new Python file: ev3dev2/pybricks.py
+```
+# Needed to prevent loops from locking up the javascript thread
+SENSOR_DELAY = 0.001
+
+# Import the necessary libraries
+import simPython, time
+import math
+from ev3dev2.motor import *
+
+def straight(speed):
+    tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)
+    tank_drive.on(speed, speed) 
+
+```
+* update skulpt.js
+  * add pybricks.py to externalLibs
+```
+   var externalLibs = {
+      './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=1596843175',
+      './ev3dev2/motor.py': 'ev3dev2/motor.py?v=1596843175',
+      './ev3dev2/sound.py': 'ev3dev2/sound.py?v=1596843175',
+      './ev3dev2/pybricks.py': 'ev3dev2/pybricks.py?v=1596123904',          
+      './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=1596843175',
+      './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=1596843175',
+      './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=1596843175',
+      './simPython.js': 'js/simPython.js?v=1596843175'
+    }
+
+```
+
+* update ev3dev_generator.js
+  * assign new function to Python command
+```
+  // Load Python generators
+  this.load = function() {
+    Blockly.Python['move_straight'] = self.move_straight; // !!!!!!  
+    ...  
+```
+  * update base code
+```
+  // Generate python code
+  this.genCode = function() {
+    let code =
+      '#!/usr/bin/env python3\n' +
+      `\n` +
+      '# Import the necessary libraries\n' +
+      'import math\n' +
+      'import time\n' +      
+      'from ev3dev2.pybricks import *\n' +      
+      ...
+```
+  * add Python generator for newly created Python command
+```
+ // move straight
+  this.move_straight = function(block) {
+    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+    if (distance === undefined) { speed = 0;  }
+
+    var code = 'straight(' + speed + ')\n';
+
+    return code;    
+  }
+```
+
