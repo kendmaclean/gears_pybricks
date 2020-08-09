@@ -111,10 +111,10 @@ var ev3dev2_generator = new function() {
 
   // move straight
   this.move_straight = function(block) {
-    var distance = Blockly.Python.valueToCode(block, 'distance', Blockly.Python.ORDER_ATOMIC);
-    if (distance === undefined) { distance = 0;  }
+    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+    if (speed === undefined) { speed = 0;  }
 
-    var code = 'straight(' + distance + ')\n';
+    var code = 'straight(' + speed + ')\n';
 
     return code;    
   }

@@ -478,7 +478,7 @@
   "args0": [
     {
       "type": "input_value",
-      "name": "distance",
+      "name": "speed",
       "check": "Number"
     }
   ],

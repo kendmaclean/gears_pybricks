@@ -37,8 +37,9 @@ This is a fork of quirkycorts excellent EV3 virtual environment ([Gears](https:/
     * robotTemplates.js - robot and component dimensions
 
 
-# Hacking
-## howto create new command in its own Python file
+-----
+
+## Howto create new command in its own Python file
 
 * update Toolbox.xml
 ```
@@ -91,6 +92,7 @@ def straight(speed):
     tank_drive.on(speed, speed) 
 
 ```
+
 * update skulpt.js
   * add pybricks.py to externalLibs
 ```
@@ -98,7 +100,7 @@ def straight(speed):
       './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=1596843175',
       './ev3dev2/motor.py': 'ev3dev2/motor.py?v=1596843175',
       './ev3dev2/sound.py': 'ev3dev2/sound.py?v=1596843175',
-      './ev3dev2/pybricks.py': 'ev3dev2/pybricks.py?v=1596123904',          
+      './ev3dev2/pybricks.py': 'ev3dev2/pybricks.py?v=1596843175',          
       './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=1596843175',
       './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=1596843175',
       './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=1596843175',
@@ -128,7 +130,7 @@ def straight(speed):
       'from ev3dev2.pybricks import *\n' +      
       ...
 ```
-  * add Python generator for newly created Python command
+  * add Python generator function for newly created Python command
 ```
  // move straight
   this.move_straight = function(block) {

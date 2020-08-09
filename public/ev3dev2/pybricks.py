@@ -7,10 +7,10 @@ import math
 from ev3dev2.motor import *
 
 print("### pybrick.py imported ###")
-def straight(distance):
+def straight(speed):
     tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)
-    tank_drive.on(distance, distance) 
-    print("### MoveStraight ###; distance_var " + str(distance))
+    tank_drive.on(speed, speed) 
+    print("### MoveStraight ###; speed " + str(speed))
 
 '''
 class MoveStraight():
