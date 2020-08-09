@@ -471,6 +471,25 @@
   "tooltip": "",
   "helpUrl": ""
 },
+
+{
+  "type": "move_straight",
+  "message0": "move straight for distance of %1 millimetres, then stop",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "distance",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
 {
   "type": "move_tank_for",
   "message0": "move tank with left speed %1 and right speed %2 %3 %4 for %5 %6",

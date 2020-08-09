@@ -71,6 +71,7 @@ var skulpt = new function() {
       './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=1596843175',
       './ev3dev2/motor.py': 'ev3dev2/motor.py?v=1596843175',
       './ev3dev2/sound.py': 'ev3dev2/sound.py?v=1596843175',
+      './ev3dev2/pybricks.py': 'ev3dev2/pybricks.py?v=1596843175',      
       './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=1596843175',
       './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=1596843175',
       './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=1596843175',

@@ -4,6 +4,7 @@ var ev3dev2_generator = new function() {
   // Load Python generators
   this.load = function() {
     Blockly.Python['when_started'] = self.when_started;
+    Blockly.Python['move_straight'] = self.move_straight; // !!!!!!
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
     Blockly.Python['move_steering'] = self.move_steering;
@@ -35,8 +36,9 @@ var ev3dev2_generator = new function() {
       '#!/usr/bin/env python3\n' +
       `\n` +
       '# Import the necessary libraries\n' +
-      'import time\n' +
       'import math\n' +
+      'import time\n' +      
+      'from ev3dev2.pybricks import *\n' +      
       'from ev3dev2.motor import *\n' +
       'from ev3dev2.sound import Sound\n' +
       'from ev3dev2.sensor import *\n' +
@@ -62,8 +64,6 @@ var ev3dev2_generator = new function() {
         sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n';
       } else if (sensor.type == 'UltrasonicSensor') {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n';
-      } else if (sensor.type == 'LaserRangeSensor') {
-        sensorsCode += 'laserRange_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ') # Laser Range Sensor\n';
       } else if (sensor.type == 'GyroSensor') {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
       } else if (sensor.type == 'GPSSensor') {
@@ -108,6 +108,16 @@ var ev3dev2_generator = new function() {
     var code = '';
     return code;
   };
+
+  // move straight
+  this.move_straight = function(block) {
+    var distance = Blockly.Python.valueToCode(block, 'distance', Blockly.Python.ORDER_ATOMIC);
+    if (distance === undefined) { distance = 0;  }
+
+    var code = 'straight(' + distance + ')\n';
+
+    return code;    
+  }
 
   // move tank
   this.move_tank = function(block) {

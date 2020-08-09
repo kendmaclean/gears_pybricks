@@ -68,6 +68,23 @@
       <field name="stop_action">HOLD</field>
     </block>
   </category>
+
+ <category name="Pybrick" colour="#5b67a5">
+    <block type="move_straight">
+      <field name="units">PERCENT</field>
+      <value name="left">
+        <shadow type="math_number">
+          <field name="NUM">20</field>
+        </shadow>
+      </value>
+    </block>
+     <block type="stop">
+      <field name="stop_action">HOLD</field>
+    </block>
+  </category>
+
+
+
   <category name="Motor" colour="#5b67a5">
     <block type="run_motor">
       <field name="port">A</field>
