@@ -4,7 +4,6 @@ var ev3dev2_generator = new function() {
   // Load Python generators
   this.load = function() {
     Blockly.Python['when_started'] = self.when_started;
-    Blockly.Python['move_straight'] = self.move_straight; // !!!!!!
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
     Blockly.Python['move_steering'] = self.move_steering;
@@ -38,7 +37,6 @@ var ev3dev2_generator = new function() {
       '# Import the necessary libraries\n' +
       'import math\n' +
       'import time\n' +      
-      'from pybricks.robotics import *\n' +            
       'from ev3dev2.motor import *\n' +
       'from ev3dev2.sound import Sound\n' +
       'from ev3dev2.sensor import *\n' +
@@ -108,16 +106,6 @@ var ev3dev2_generator = new function() {
     var code = '';
     return code;
   };
-
-  // move straight
-  this.move_straight = function(block) {
-    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    if (speed === undefined) { speed = 0;  }
-
-    var code = 'straight(' + speed + ')\n';
-
-    return code;    
-  }
 
   // move tank
   this.move_tank = function(block) {

@@ -6,6 +6,26 @@
   "tooltip": "",
   "helpUrl": ""
 },
+
+{
+  "type": "move_straight",
+  "message0": "move straight for distance of %1 millimetres, then stop",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "this is tool tip",
+  "helpUrl": "helpPage.html"
+},
+
+
 {
   "type": "sleep",
   "message0": "sleep for %1 %2",
@@ -472,23 +492,7 @@
   "helpUrl": ""
 },
 
-{
-  "type": "move_straight",
-  "message0": "move straight for distance of %1 millimetres, then stop",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "speed",
-      "check": "Number"
-    }
-  ],
-  "inputsInline": true,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
+
 
 {
   "type": "move_tank_for",

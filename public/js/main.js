@@ -237,8 +237,8 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'Ev3dev Mode', line: false, callback: self.switchToEv3dev},
-        {html: 'Pybricks Mode (Currently not working with simulator)', line: false, callback: self.switchToPybricks}
+        {html: 'Ev3dev Mode', line: false,  callback: self.switchToEv3dev},
+        {html: 'Pybricks Mode (asdfasdfasd Currently not working with simulator)', line: false, callback: self.switchToPybricks}
       ];
       var tickIndex;
       if (blockly.generator == ev3dev2_generator) {
