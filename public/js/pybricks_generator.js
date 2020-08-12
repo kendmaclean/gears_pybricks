@@ -57,6 +57,8 @@ var pybricks_generator = new function() {
       'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
       '\n' +
       'spkr = Sound()\n' +
+      '\n' +
+      'motorP = MotorP(PortP.B)\n' +      
       '\n';
 
     var sensorsCode = '';

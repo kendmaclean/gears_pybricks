@@ -1,34 +1,27 @@
 # Needed to prevent loops from locking up the javascript thread
 SENSOR_DELAY = 0.001
 
-# Import the necessary libraries
-import simPython, time
-import math
-from ev3dev2.motor import *
-
-print("!!!!!! importing parameters.py")
-
-class PORT:
+class PortP:
     A = 'outA'
     B = 'outB'
     C = 'outC'
     D = 'outD'
 
-    INPUT_S1 = 'inS1'
-    INPUT_S2 = 'inS2'
-    INPUT_S3 = 'inS3'
-    INPUT_S4 = 'inS4'
+    S1 = 'inS1'
+    S2 = 'inS2'
+    S3 = 'inS3'
+    S4 = 'inS4'
 
-class Direction:
-    CLOCKWISE = 'CLOCKWISE'
-    COUNTERCLOCKWISE = 'COUNTERCLOCKWISE'
+class DirectionP:
+    CLOCKWISE = 1
+    COUNTERCLOCKWISE = -1
 
-class Stop:
+class StopP:
     COAST = 'COAST'
     BRAKE = 'BRAKE'
     HOLD = 'HOLD'
 
-class Color:
+class ColorP:
     BLACK = 'BLACK'
     BLUE = 'BLUE'
     GREEN = 'GREEN'
@@ -39,5 +32,5 @@ class Color:
     ORANGE = 'ORANGE'
     PURPLE = 'PURPLE'    
 
-class Button:
-    print("not implemented") 
+class ButtonP:
+    print("Button not implemented") 

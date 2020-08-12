@@ -8,19 +8,13 @@ from ev3dev2.motor import *
 
 from pybricks.parameters import *
 
-class Motor:
+class MotorP:
     MAX_SPEED = 300    
     MAX_DURATION = 1000    
 
-    def __init__(self, port, positive_direction=Direction.CLOCKWISE, gears=None):
-        if isinstance(port, Port):
-            self.port = port
-        else:
-            raise TypeError("port not of type Port")        
-        if isinstance(positive_direction, Direction):
-            self.positive_direction = positive_direction
-        else:
-            raise TypeError("positive_direction not of type Direction")             
+    def __init__(self, port, positive_direction=DirectionP.CLOCKWISE, gears=None):
+        self.port = port
+        self.positive_direction = positive_direction
         if (gears is not None):
             raise ValueError("gears not implemented")
 
@@ -58,7 +52,7 @@ class Motor:
         else:
             raise ValueError("speed outside allowable bounds")        
 
-    def run_time(self, speed, time, then=Stop.HOLD, wait=True):
+    def run_time(self, speed, time, then=StopP.HOLD, wait=True):
         if -MAX_SPEED <= speed <= MAX_SPEED:
             self.speed = speed
         else:
@@ -71,7 +65,7 @@ class Motor:
         self.then = then        
         self.wait = wait                    
 
-    def run_angle(self, speed, rotation_angle, then=Stop.HOLD, wait=True):
+    def run_angle(self, speed, rotation_angle, then=StopP.HOLD, wait=True):
         if (-MAX_SPEED <= speed <= MAX_SPEED):
             self.speed = speed
         else:
@@ -81,7 +75,7 @@ class Motor:
         self.wait = wait            
         print("not implemented")
 
-    def run_target(self, speed, target_angle, then=Stop.HOLD, wait=True):
+    def run_target(self, speed, target_angle, then=StopP.HOLD, wait=True):
         if -MAX_SPEED <= speed <= MAX_SPEED:
             self.speed = speed
         else:
@@ -91,7 +85,7 @@ class Motor:
         self.wait = wait            
         print("not implemented")
 
-    def run_until_stalled(self, speed, then=Stop.COAST, duty_limit=None):
+    def run_until_stalled(self, speed, then=StopP.COAST, duty_limit=None):
         if -MAX_SPEED <= speed <= MAX_SPEED:
             self.speed = speed
         else:
@@ -100,14 +94,14 @@ class Motor:
         self.duty_limit = duty_limit   
         print("not implemented")
 
-class TouchSensor:
+class TouchSensorP:
     def __init__(self, port):
         self.port = port
 
     def pressed(self):
         print("TouchSensor not implemented")
 
-class ColorSensor:
+class ColorSensorP:
     def __init__(self, port):
         self.port = port
 
@@ -123,15 +117,15 @@ class ColorSensor:
     def rgb(self):
         print("ColorSensor not implemented")
 
-class UltrasonicSensor:
+class UltrasonicSensorP:
     def __init__(self, port):
         self.port = port
 
     def distance(self, silent=False):
         print("ColorSensor not implemented")       
 
-class GyroSensor:
-    def __init__(self, port, positive_direction=Direction.CLOCKWISE):
+class GyroSensorP:
+    def __init__(self, port, positive_direction=DirectionP.CLOCKWISE):
         self.port = port
         self.positive_direction = positive_direction        
 

@@ -6,7 +6,7 @@ import simPython, time
 import math
 from ev3dev2.motor import *
 
-class EV3Bricks:
+class EV3BricksP:
     def __init__(self):
         print("not implemented")
 

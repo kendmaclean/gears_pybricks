@@ -8,7 +8,7 @@ from ev3dev2.motor import *
 
 from pybricks.robotics import *
 
-print("### pybrick.py imported ###")
+print("### robotics.py imported ###")
 def straight(speed):
     tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)
     tank_drive.on(speed, speed) 
