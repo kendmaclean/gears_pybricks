@@ -58,7 +58,9 @@ var pybricks_generator = new function() {
       '\n' +
       'spkr = Sound()\n' +
       '\n' +
-      'motorP = MotorP(PortP.B)\n' +      
+      'leftP_motor = MotorP(PortP.A)\n' +          
+      'rightP_motor = MotorP(PortP.B)\n' +      
+      'robot = DriveBase(leftP_motor, rightP_motor, wheel_diameter=55.5, axle_track=104)\n' +            
       '\n';
 
     var sensorsCode = '';
@@ -119,7 +121,8 @@ var pybricks_generator = new function() {
     var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     if (speed === undefined) { speed = 0;  }
 
-    var code = 'straight(' + speed + ')\n';
+    //var code = 'straight(' + speed + ')\n';
+    var code = 'robot.straight(' + speed + ')\n';
 
     return code;    
   }

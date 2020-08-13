@@ -6,6 +6,7 @@ import simPython, time
 import math
 from ev3dev2.motor import *
 
+from pybricks.ev3devices import *
 from pybricks.robotics import *
 
 print("### robotics.py imported ###")
@@ -24,46 +25,50 @@ class DriveBase:
     MAX_DEGREES = 360
 
     def __init__(self, left_motor, right_motor, wheel_diameter, axle_track):
-        if isinstance(left_motor, Motor):
+        if isinstance(left_motor, MotorP):
             self.left_motor = left_motor
         else:
-            raise TypeError("left_motor not of type Motor")
-        if isinstance(right_motor, Motor):
+            raise TypeError("left_motor not of type MotorP")
+        if isinstance(right_motor, MotorP):
             self.right_motor = right_motor
         else:
-            raise TypeError("right_motor not of type Motor")
-        if SMALLEST_TIRE <= wheel_diameter <= LARGEST_TIRE:
+            raise TypeError("right_motor not of type MotorP")
+        if DriveBase.SMALLEST_TIRE <= wheel_diameter <= DriveBase.LARGEST_TIRE:
             self.wheel_diameter = wheel_diameter
         else:
-            raise ValueError("Wheel diameter must be between " + SMALLEST_TIRE + "mm and " + LARGEST_TIRE + "mm")
-        if SMALLEST_AXLE_TRACK <= axle_track <= LARGEST_AXLE_TRACK:
+            raise ValueError("Wheel diameter must be between " +
+            DriveBase.SMALLEST_TIRE + "mm and " + DriveBase.LARGEST_TIRE + "mm")
+        if DriveBase.SMALLEST_AXLE_TRACK <= axle_track <= DriveBase.LARGEST_AXLE_TRACK:
             self.axle_track = axle_track
         else:
-            raise ValueError("Wheel diameter must be between " + SMALLEST_AXLE_TRACK + "mm and " + LARGEST_AXLE_TRACK + "mm")                
+            raise ValueError("Wheel diameter must be between " +
+            DriveBase.SMALLEST_AXLE_TRACK + "mm and " + DriveBase.LARGEST_AXLE_TRACK + "mm")                
 
     def settings(self, straight_speed=100, straight_acceleration=100, turn_rate=0, turn_acceleration=100):
-        if -MAX_SPEED <= straight_speed <= MAX_SPEED:
+        if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
             self.straight_speed = straight_speed
         else:
             raise ValueError("straight_speed outside allowable bounds")
-        if -MAX_ACCEL <= straight_acceleration <= MAX_ACCEL:
+        if -DriveBase.MAX_ACCEL <= straight_acceleration <= DriveBase.MAX_ACCEL:
             self.straight_acceleration = straight_acceleration
         else:
             raise ValueError("straight_acceleration outside allowable bounds")
-        if -MAX_DEGREES <= turn_rate <= MAX_DEGREES:
+        if -DriveBase.MAX_DEGREES <= turn_rate <= DriveBase.MAX_DEGREES:
             self.turn_rate = turn_rate
         else:
             raise ValueError("turn_rate outside allowable bounds")        
         self.turn_acceleration = turn_acceleration
-        if -MAX_ACCEL <= turn_acceleration <= MAX_ACCEL:
+        if -DriveBase.MAX_ACCEL <= turn_acceleration <= DriveBase.MAX_ACCEL:
             self.turn_acceleration = turn_acceleration
         else:
             raise ValueError("turn_acceleration outside allowable bounds")        
 
     def straight(self, speed):
-        tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)
+        tank_drive = MoveTank(self.left_motor.port, self.right_motor.port)
         tank_drive.on(speed, speed) 
         print("### MoveStraight ###; speed " + str(speed))
+        print("### left_motor " + self.left_motor.port)        
+        print("### right_motor " + self.right_motor.port)     
 
     def turn(self, angle):
         self.angle = angle        
