@@ -90,8 +90,8 @@ class DriveBase:
         print( "rotations: " + str(rotations) )  
         tank_drive.on_for_degrees(self.straight_speed, self.straight_speed, rot_degrees, brake=False, block=True)
 
-    # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf
-    '''
+
+'''
     Robot:
       b = robotWheelbase
       Cturn = (b * pi) = circumferenceOfTurn
@@ -125,10 +125,12 @@ class DriveBase:
 
         motorRotationsInDegrees = 360degrees * (theta / 360degrees) / Cturn) / Cwheel
 
-      retuce:
+      reduce:
 
         motorRotationsInDegrees =  theta * (Cturn / Cwheel)     
-    '''
+
+    # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
+'''
     def turn(self, angle):
         steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
         robot_circumference_of_turn = self.axle_track * math.pi
