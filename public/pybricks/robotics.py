@@ -90,11 +90,51 @@ class DriveBase:
         print( "rotations: " + str(rotations) )  
         tank_drive.on_for_degrees(self.straight_speed, self.straight_speed, rot_degrees, brake=False, block=True)
 
+    # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf
+    '''
+    Robot:
+      b = robotWheelbase
+      Cturn = (b * pi) = circumferenceOfTurn
+      dCT = distanceAlongTurn
+      theta = desired robot angle of rotation
+
+    Wheel:
+      dw = wheel diameter
+      Cwheel = (dw * pi) = wheelCircumference
+      alpha = motor angle of rotation
+
+    goal: get robot to turn a set number of degrees (theta) by turning the power wheels
+          in opposite directions
+
+    relations:
+      robot:
+        theta /3 60degrees = dCT / Cturn
+
+        solve for dCT:
+
+          dCT = (theta / 360degrees) / Cturn
+
+    wheels:
+      dCT is the distance the wheels must rotate along Cturn
+
+      therefore:
+
+        motorRotationsInDegrees = 360degrees * (dCT / Cturn)
+
+      replace dCT with above formula:
+
+        motorRotationsInDegrees = 360degrees * (theta / 360degrees) / Cturn) / Cwheel
+
+      retuce:
+
+        motorRotationsInDegrees =  theta * (Cturn / Cwheel)     
+    '''
     def turn(self, angle):
         steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
-        #steering_drive.on(angle, self.turn_rate )
-        steering_drive.on_for_rotations(angle, self.turn_rate, 1)
-
+        robot_circumference_of_turn = self.axle_track * math.pi
+        wheel_circumference = self.wheel_diameter * math.pi
+        degrees = angle * (robot_circumference_of_turn / wheel_circumference)
+        steering_drive.on_for_degrees(self, steering, speed, degrees, brake=True, block=True):
 
 
     """
