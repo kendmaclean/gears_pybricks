@@ -25,6 +25,23 @@
   "helpUrl": "helpPage.html"
 },
 
+{
+  "type": "move_turn",
+  "message0": "turn in place by %1 degrees, then stop",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "angle",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "this is tool tip",
+  "helpUrl": "helpPage.html"
+},
 
 {
   "type": "sleep",

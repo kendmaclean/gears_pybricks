@@ -1,5 +1,5 @@
 import simPython, time
-print("### motor.py imported ###")
+
 # Needed to prevent loops from locking up the javascript thread
 SENSOR_DELAY = 0.001
 
@@ -213,7 +213,6 @@ class Motor:
   _DRIVER_NAME = None
 
   def __init__(self, address=None):
-    print("### Motor ###" + str(address))
     self.wheel = simPython.Motor(address)
 
     self.max_speed = 1050
@@ -700,7 +699,6 @@ class MediumMotor(Motor):
 
 class MotorSet:
   def __init__(self, motor_specs, desc=None):
-    print("### MotorSet ###")
     self.motors = {}
     for motor_port in motor_specs.keys():
       motor_class = motor_specs[motor_port]
@@ -728,7 +726,6 @@ class MotorSet:
 
 class MoveTank(MotorSet):
   def __init__(self, left_motor_port, right_motor_port, desc=None, motor_class=LargeMotor):
-    print("### MoveTank ###")
     motor_specs = {
       left_motor_port : motor_class,
       right_motor_port : motor_class,
@@ -738,6 +735,12 @@ class MoveTank(MotorSet):
     self.right_motor = self.motors[right_motor_port]
     self.max_speed = self.left_motor.max_speed
 
+    # !!!!!!
+    self.wheel_diameter = self.left_motor.wheel.wheelDiameter()
+    self.axle_track = self.left_motor.wheel.axleTrack()    
+  
+     
+    # !!!!!!
   def on_for_degrees(self, left_speed, right_speed, degrees, brake=True, block=True):
     """
     Rotate the motors at 'left_speed' and 'right_speed' for 'degrees'.

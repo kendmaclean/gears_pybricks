@@ -48,6 +48,7 @@ function Wheel(scene, options) {
   // Accessed by through Python
   //
   this.runForever = function() {
+    console.log("runForever");    
     self.mode = self.modes.RUN;
   };
 
@@ -243,8 +244,8 @@ function Wheel(scene, options) {
   };
 
   this.updatePosition = function(delta) {
-    let e = self.mesh.rotationQuaternion;
-    let rot = self.getRotation(self.s, e) / Math.PI * 180;
+    var e = self.mesh.rotationQuaternion;
+    var rot = self.getRotation(self.s, e) / Math.PI * 180;
 
     if (rot - self.prevRotation > 180) {
       self.rotationRounds -= 1;
@@ -253,7 +254,8 @@ function Wheel(scene, options) {
     }
     prevRotation = self.prevRotation
     self.prevRotation = rot;
-
+    // weird behavior with let?????
+    //var position = self.rotationRounds * 360 + rot;
     let position = self.rotationRounds * 360 + rot;
     self.angularVelocity = (position - self.actualPosition) / delta * 1000;
     self.actualPosition = position;
@@ -262,6 +264,7 @@ function Wheel(scene, options) {
     self.prevv2 = v2
   };
 
+  // see: https://forum.babylonjs.com/t/get-angle-from-setmotor-rotations/11696 
   this.getRotation = function(s, e) {
     var r = e.multiply(self.s_i);
 

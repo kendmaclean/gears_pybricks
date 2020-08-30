@@ -71,7 +71,15 @@
 
  <category name="Pybrick" colour="#5b67a5">
     <block type="move_straight">
-      <field name="units">PERCENT</field>
+      <field name="units">Millimetres</field>
+      <value name="left">
+        <shadow type="math_number">
+          <field name="NUM">20</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="move_turn">
+      <field name="units">DEGREES</field>
       <value name="left">
         <shadow type="math_number">
           <field name="NUM">20</field>

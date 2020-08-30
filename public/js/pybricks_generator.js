@@ -5,6 +5,7 @@ var pybricks_generator = new function() {
   this.load = function() {
     Blockly.Python['when_started'] = self.when_started;
     Blockly.Python['move_straight'] = self.move_straight; // !!!!!!
+    Blockly.Python['move_turn'] = self.move_turn; // !!!!!!    
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
     Blockly.Python['move_steering'] = self.move_steering;
@@ -40,32 +41,18 @@ var pybricks_generator = new function() {
       'import time\n' +      
       'from pybricks.ev3devices import *\n' +      
       'from pybricks.parameters import *\n' +    
-      'from pybricks.robotics import *\n' +   
-                       
-      'from ev3dev2.motor import *\n' +
-      'from ev3dev2.sound import Sound\n' +
-      'from ev3dev2.sensor import *\n' +
-      'from ev3dev2.sensor.lego import *\n' +
-      'from ev3dev2.sensor.virtual import *\n' +
-      '\n' +
-      '# Create the sensors and motors objects\n' +
-      'motorA = LargeMotor(OUTPUT_A)\n' +
-      'motorB = LargeMotor(OUTPUT_B)\n' +
-      'left_motor = motorA\n' +
-      'right_motor = motorB\n' +
-      'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
-      'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
-      '\n' +
-      'spkr = Sound()\n' +
+      'from pybricks.robotics import *\n' + 
       '\n' +
       'leftP_motor = MotorP(PortP.A)\n' +          
       'rightP_motor = MotorP(PortP.B)\n' +      
-      'robot = DriveBase(leftP_motor, rightP_motor, wheel_diameter=55.5, axle_track=104)\n' +            
+      'robot = DriveBase(leftP_motor, rightP_motor, wheel_diameter=5.6, axle_track=104)\n' +   
+      '#robot.settings(straight_speed=300, straight_acceleration=100, turn_rate=0, turn_acceleration=100)\n' +                  
       '\n';
 
     var sensorsCode = '';
     var i = 1;
     var sensor = null;
+    /*
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
         sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n';
@@ -78,11 +65,13 @@ var pybricks_generator = new function() {
       }
       i++;
     }
+    */ 
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var motorsCode = '';
     i = 3;
     var motor = null;
+    /*
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Magnet\n';
@@ -95,7 +84,8 @@ var pybricks_generator = new function() {
       }
       i++;
     }
-
+    */
+   
     code += sensorsCode + '\n';
     code += motorsCode + '\n';
 
@@ -116,17 +106,28 @@ var pybricks_generator = new function() {
     return code;
   };
 
+  // !!!!!!
   // move straight
   this.move_straight = function(block) {
     var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     if (speed === undefined) { speed = 0;  }
 
-    //var code = 'straight(' + speed + ')\n';
     var code = 'robot.straight(' + speed + ')\n';
 
     return code;    
   }
 
+ // move turn
+ this.move_turn = function(block) {
+  var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
+  if (angle === undefined) { angle = 0;  }
+
+  var code = 'robot.turn(' + angle + ')\n';
+
+  return code;    
+}  
+  // !!!!!!
+  
   // move tank
   this.move_tank = function(block) {
     var value_left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);

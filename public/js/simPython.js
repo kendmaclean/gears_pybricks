@@ -8,6 +8,7 @@ var $builtinmodule = function(name) {
     var self = this;
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
+
       if (address.v == 'outA') {
         self.motor = robot.leftWheel;
       } else if (address.v == 'outB') {
@@ -101,6 +102,26 @@ var $builtinmodule = function(name) {
       return self.motor.speed;
     });
 
+    // !!!!!! these need to be called as functions from Python (i.e. have brackets at end: '()')
+    // they are not object attirbutes
+    $loc.wheelDiameter = new Sk.builtin.func(function(self) {
+      return robot.options.wheelDiameter;
+    });   
+
+    $loc.axleTrack = new Sk.builtin.func(function(self) {
+      var wheelMidpoint = robot.options.wheelWidth  / 2;
+      return robot.options.bodyWidth + robot.options.wheelToBodyOffset + (wheelMidpoint * 2);
+    });       
+
+    // self.motor = robot.leftWheel or robot.rightWheel;
+    //$loc.rotationRounds = new Sk.builtin.func(function(self) {
+    //  return self.motor.rotationRounds;
+    //});       
+    $loc.MAX_SPEED = new Sk.builtin.func(function(self) {
+      return self.motor.MAX_SPEED;
+    });          
+    // !!!!!!
+    
   }, 'Motor', []);
 
   mod.ColorSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {

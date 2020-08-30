@@ -7,7 +7,7 @@ import math
 from ev3dev2.motor import *
 
 from pybricks.parameters import *
-print("### ev3devices.py imported ###")
+
 class MotorP:
     MAX_SPEED = 300    
     MAX_DURATION = 1000    
@@ -17,6 +17,12 @@ class MotorP:
         self.positive_direction = positive_direction
         if (gears is not None):
             raise ValueError("gears not implemented")
+
+        self.motor = LargeMotor(port)
+        self.wheelDiameter = self.motor.wheel.wheelDiameter()
+
+    def __str__(self):
+        return "Port: " + str(self.port) + " wheelDiameter: " + str(self.wheelDiameter)
 
     # Measuring
     def speed(self):
