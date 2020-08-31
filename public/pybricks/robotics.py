@@ -20,15 +20,17 @@ def straight(speed):
     tank_drive.on(speed, speed) 
 
 class DriveBase:
-    SMALLEST_TIRE_DIAMETER = 1
-    LARGEST_TIRE_DIAMETER = 150
-    SMALLEST_AXLE_TRACK = 100
-    LARGEST_AXLE_TRACK = 300
+    SMALLEST_TIRE_DIAMETER = 1.0
+    LARGEST_TIRE_DIAMETER = 150.0
+    SMALLEST_AXLE_TRACK = 20.0
+    LARGEST_AXLE_TRACK = 250.0
     MAX_SPEED = 300
     MAX_ACCEL = 100
     MAX_DEGREES = 360
 
     def __init__(self, left_motor, right_motor, wheel_diameter, axle_track):
+        print("robotics wheel_diameter:"  + str(wheel_diameter) + "; axle_track:"  + str(axle_track))
+
         if isinstance(left_motor, MotorP):
             self.left_motor = left_motor
         else:
@@ -38,9 +40,10 @@ class DriveBase:
         else:
             raise TypeError("right_motor not of type MotorP")
 
-        if wheel_diameter != left_motor.wheelDiameter or wheel_diameter != right_motor.wheelDiameter:
+        if not math.isclose(wheel_diameter, left_motor.wheelDiameter) or not math.isclose(wheel_diameter, right_motor.wheelDiameter):
             print("DriveBase wheel diameter of " + str(wheel_diameter) + " not the same as described in robotTemples.js: " + 
             str(left_motor.wheelDiameter) + "... using value from robotTemplates.js")
+            wheel_diameter = left_motor.wheelDiameter
 
         if DriveBase.SMALLEST_TIRE_DIAMETER <= wheel_diameter <= DriveBase.LARGEST_TIRE_DIAMETER:
             self.wheel_diameter = wheel_diameter
@@ -49,6 +52,11 @@ class DriveBase:
             DriveBase.SMALLEST_TIRE_DIAMETER + "mm and " + DriveBase.LARGEST_TIRE_DIAMETER + "mm")
 
         self.wheel_circ = self.wheel_diameter * math.pi
+
+        if not math.isclose(axle_track, left_motor.axleTrack) or not math.isclose(axle_track, right_motor.axleTrack):
+            print("DriveBase wheel axle_track of " + str(axle_track) + " not the same as described in robotTemples.js: " + 
+            str(left_motor.axleTrack) + "... using value from robotTemplates.js")
+            axle_track = left_motor.axleTrack
 
         if DriveBase.SMALLEST_AXLE_TRACK <= axle_track <= DriveBase.LARGEST_AXLE_TRACK:
             self.axle_track = axle_track
@@ -90,54 +98,59 @@ class DriveBase:
         print( "rotations: " + str(rotations) )  
         tank_drive.on_for_degrees(self.straight_speed, self.straight_speed, rot_degrees, brake=False, block=True)
 
+    '''
+        Robot:
+        b = robotWheelbase
+        Cturn = (b * pi) = circumferenceOfTurn
+        dCT = distanceAlongTurn
+        theta = desired robot angle of rotation
 
-'''
-    Robot:
-      b = robotWheelbase
-      Cturn = (b * pi) = circumferenceOfTurn
-      dCT = distanceAlongTurn
-      theta = desired robot angle of rotation
+        Wheel:
+        dw = wheel diameter
+        Cwheel = (dw * pi) = wheelCircumference
+        alpha = motor angle of rotation
 
-    Wheel:
-      dw = wheel diameter
-      Cwheel = (dw * pi) = wheelCircumference
-      alpha = motor angle of rotation
+        goal: get robot to turn a set number of degrees (theta) by turning the power wheels
+            in opposite directions
 
-    goal: get robot to turn a set number of degrees (theta) by turning the power wheels
-          in opposite directions
+        relations:
+        robot:
+            theta /3 60degrees = dCT / Cturn
 
-    relations:
-      robot:
-        theta /3 60degrees = dCT / Cturn
+            solve for dCT:
 
-        solve for dCT:
+            dCT = (theta / 360degrees) / Cturn
 
-          dCT = (theta / 360degrees) / Cturn
+        wheels:
+        dCT is the distance the wheels must rotate along Cturn
 
-    wheels:
-      dCT is the distance the wheels must rotate along Cturn
+        therefore:
 
-      therefore:
+            motorRotationsInDegrees = 360degrees * (dCT / Cturn)
 
-        motorRotationsInDegrees = 360degrees * (dCT / Cturn)
+        replace dCT with above formula:
 
-      replace dCT with above formula:
+            motorRotationsInDegrees = 360degrees * (theta / 360degrees) / Cturn) / Cwheel
 
-        motorRotationsInDegrees = 360degrees * (theta / 360degrees) / Cturn) / Cwheel
+        reduce:
 
-      reduce:
+            motorRotationsInDegrees =  theta * (Cturn / Cwheel)     
 
-        motorRotationsInDegrees =  theta * (Cturn / Cwheel)     
-
-    # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
-'''
+        # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
+    '''
     def turn(self, angle):
         steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
+
+        if angle > 0:
+            steering = 100
+        else:
+            steering = -100
+
         robot_circumference_of_turn = self.axle_track * math.pi
         wheel_circumference = self.wheel_diameter * math.pi
         degrees = angle * (robot_circumference_of_turn / wheel_circumference)
-        steering_drive.on_for_degrees(self, steering, speed, degrees, brake=True, block=True):
 
+        steering_drive.on_for_degrees(steering, self.turn_rate, degrees)
 
     """
     def straight(self, distance):

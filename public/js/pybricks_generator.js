@@ -45,7 +45,7 @@ var pybricks_generator = new function() {
       '\n' +
       'leftP_motor = MotorP(PortP.A)\n' +          
       'rightP_motor = MotorP(PortP.B)\n' +      
-      'robot = DriveBase(leftP_motor, rightP_motor, wheel_diameter=5.6, axle_track=104)\n' +   
+      'robot = DriveBase(leftP_motor, rightP_motor, wheel_diameter=56, axle_track=152)\n' +   
       '#robot.settings(straight_speed=300, straight_acceleration=100, turn_rate=0, turn_acceleration=100)\n' +                  
       '\n';
 

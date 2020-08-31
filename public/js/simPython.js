@@ -103,14 +103,18 @@ var $builtinmodule = function(name) {
     });
 
     // !!!!!! these need to be called as functions from Python (i.e. have brackets at end: '()')
-    // they are not object attirbutes
+    // they are not object attributes
+
+    // returns wheelDiameter in millimetres
     $loc.wheelDiameter = new Sk.builtin.func(function(self) {
-      return robot.options.wheelDiameter;
+      return robot.options.wheelDiameter * 10;
     });   
 
+    // returns axleTrack in millimetres
     $loc.axleTrack = new Sk.builtin.func(function(self) {
       var wheelMidpoint = robot.options.wheelWidth  / 2;
-      return robot.options.bodyWidth + robot.options.wheelToBodyOffset + (wheelMidpoint * 2);
+      axleTrack = robot.options.bodyWidth + (robot.options.wheelToBodyOffset * 2) + (wheelMidpoint * 2);
+      return axleTrack * 10
     });       
 
     // self.motor = robot.leftWheel or robot.rightWheel;

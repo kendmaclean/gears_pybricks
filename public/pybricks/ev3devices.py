@@ -20,9 +20,10 @@ class MotorP:
 
         self.motor = LargeMotor(port)
         self.wheelDiameter = self.motor.wheel.wheelDiameter()
+        self.axleTrack = self.motor.wheel.axleTrack()
 
     def __str__(self):
-        return "Port: " + str(self.port) + " wheelDiameter: " + str(self.wheelDiameter)
+        return "Port: " + str(self.port) + ";\n robotTemplates.js wheelDiameter: " + str(self.wheelDiameter) + ";\n robotTemplates.js axleTrack: " + str(self.axleTrack) 
 
     # Measuring
     def speed(self):
