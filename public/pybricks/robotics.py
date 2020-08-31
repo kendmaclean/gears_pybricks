@@ -141,11 +141,12 @@ class DriveBase:
     def turn(self, angle):
         steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
 
-        if angle > 0:
-            steering = 100
-        else:
-            steering = -100
-
+        #if angle > 0:
+        #    steering = 100
+        #else:
+        #    steering = -100
+        steering = 100
+        
         robot_circumference_of_turn = self.axle_track * math.pi
         wheel_circumference = self.wheel_diameter * math.pi
         degrees = angle * (robot_circumference_of_turn / wheel_circumference)
