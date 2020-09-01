@@ -15,88 +15,96 @@ from ev3dev2.sensor import *
 from ev3dev2.sensor.lego import *
 from ev3dev2.sensor.virtual import *
 
-def straight(speed):
-    tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)
-    tank_drive.on(speed, speed) 
-
 class DriveBase:
-    SMALLEST_TIRE_DIAMETER = 1.0
-    LARGEST_TIRE_DIAMETER = 150.0
-    SMALLEST_AXLE_TRACK = 20.0
-    LARGEST_AXLE_TRACK = 250.0
-    MAX_SPEED = 300
-    MAX_ACCEL = 100
+    SMALLEST_TIRE_DIAMETER = 10
+    LARGEST_TIRE_DIAMETER = 200
+    SMALLEST_AXLE_TRACK = 20
+    LARGEST_AXLE_TRACK = 250
+    MAX_SPEED = 1000
+    MAX_ACCEL = 300
     MAX_DEGREES = 360
 
     def __init__(self, left_motor, right_motor, wheel_diameter, axle_track):
-        print("robotics wheel_diameter:"  + str(wheel_diameter) + "; axle_track:"  + str(axle_track))
+        # TODO are these checks even required since motor.py does them anyway...
+        def check_motors():
+            if isinstance(left_motor, MotorP):
+                self.left_motor = left_motor
+            else:
+                raise TypeError("left_motor not of type MotorP")
+            if isinstance(right_motor, MotorP):
+                self.right_motor = right_motor
+            else:
+                raise TypeError("right_motor not of type MotorP")
+        def check_wheel_diameter():
+            if not math.isclose(wheel_diameter, left_motor.wheelDiameter) or not math.isclose(wheel_diameter, right_motor.wheelDiameter):
+                print("DriveBase wheel diameter of " + str(wheel_diameter) + " not the same as described in robotTemples.js: " + 
+                str(left_motor.wheelDiameter) + "overriding robotTemplates.js")
+            if DriveBase.SMALLEST_TIRE_DIAMETER <= wheel_diameter <= DriveBase.LARGEST_TIRE_DIAMETER:
+                self.wheel_diameter = wheel_diameter
+            else:
+                raise ValueError("Wheel circumference must be between " + 
+                str(DriveBase.SMALLEST_TIRE_DIAMETER) + "mm and " + str(DriveBase.LARGEST_TIRE_DIAMETER) + "mm")
+        def check_axle_track():
+            if not math.isclose(axle_track, left_motor.axleTrack) or not math.isclose(axle_track, right_motor.axleTrack):
+                print("DriveBase wheel axle_track of " + str(axle_track) + " not the same as described in robotTemples.js: " + 
+                str(left_motor.axleTrack) + "overriding robotTemplates.js")
 
-        if isinstance(left_motor, MotorP):
-            self.left_motor = left_motor
-        else:
-            raise TypeError("left_motor not of type MotorP")
-        if isinstance(right_motor, MotorP):
-            self.right_motor = right_motor
-        else:
-            raise TypeError("right_motor not of type MotorP")
-
-        if not math.isclose(wheel_diameter, left_motor.wheelDiameter) or not math.isclose(wheel_diameter, right_motor.wheelDiameter):
-            print("DriveBase wheel diameter of " + str(wheel_diameter) + " not the same as described in robotTemples.js: " + 
-            str(left_motor.wheelDiameter) + "... using value from robotTemplates.js")
-            wheel_diameter = left_motor.wheelDiameter
-
-        if DriveBase.SMALLEST_TIRE_DIAMETER <= wheel_diameter <= DriveBase.LARGEST_TIRE_DIAMETER:
-            self.wheel_diameter = wheel_diameter
-        else:
-            raise ValueError("Wheel circumference must be between " +
-            DriveBase.SMALLEST_TIRE_DIAMETER + "mm and " + DriveBase.LARGEST_TIRE_DIAMETER + "mm")
-
-        self.wheel_circ = self.wheel_diameter * math.pi
-
-        if not math.isclose(axle_track, left_motor.axleTrack) or not math.isclose(axle_track, right_motor.axleTrack):
-            print("DriveBase wheel axle_track of " + str(axle_track) + " not the same as described in robotTemples.js: " + 
-            str(left_motor.axleTrack) + "... using value from robotTemplates.js")
-            axle_track = left_motor.axleTrack
-
-        if DriveBase.SMALLEST_AXLE_TRACK <= axle_track <= DriveBase.LARGEST_AXLE_TRACK:
-            self.axle_track = axle_track
-        else:
-            if DriveBase.SMALLEST_AXLE_TRACK < axle_track:
-                self.axle_track = DriveBase.SMALLEST_AXLE_TRACK        
-            if axle_track > DriveBase.LARGEST_AXLE_TRACK:
-                self.axle_track = DriveBase.LARGEST_AXLE_TRACK
-            raise ValueError("Wheel diameter must be between " +
-            DriveBase.SMALLEST_AXLE_TRACK + "mm and " + DriveBase.LARGEST_AXLE_TRACK + "mm")                
-
+            if DriveBase.SMALLEST_AXLE_TRACK <= axle_track <= DriveBase.LARGEST_AXLE_TRACK:
+                self.axle_track = axle_track
+            else:
+                if DriveBase.SMALLEST_AXLE_TRACK < axle_track:
+                    self.axle_track = DriveBase.SMALLEST_AXLE_TRACK        
+                if axle_track > DriveBase.LARGEST_AXLE_TRACK:
+                    self.axle_track = DriveBase.LARGEST_AXLE_TRACK
+                raise ValueError("Wheel diameter must be between " +
+                str(DriveBase.SMALLEST_AXLE_TRACK) + "mm and " + str(DriveBase.LARGEST_AXLE_TRACK) + "mm")       
+       
+        check_motors()
+        check_wheel_diameter()
+        self.wheel_circumference = self.wheel_diameter * math.pi   # in millimetres          
+        check_axle_track()
         self.settings()
 
-    def settings(self, straight_speed=50, straight_acceleration=100, turn_rate=25, turn_acceleration=100):
-        # TODO straight_speed is a percentage of motor top speed!!!!!!
-        if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
-            self.straight_speed = straight_speed
-        else:
-            raise ValueError("straight_speed outside allowable bounds")
-        if -DriveBase.MAX_ACCEL <= straight_acceleration <= DriveBase.MAX_ACCEL:
-            self.straight_acceleration = straight_acceleration
-        else:
-            raise ValueError("straight_acceleration outside allowable bounds")
-        if -DriveBase.MAX_DEGREES <= turn_rate <= DriveBase.MAX_DEGREES:
-            self.turn_rate = turn_rate
-        else:
-            raise ValueError("turn_rate outside allowable bounds")        
-        self.turn_acceleration = turn_acceleration
-        if -DriveBase.MAX_ACCEL <= turn_acceleration <= DriveBase.MAX_ACCEL:
-            self.turn_acceleration = turn_acceleration
-        else:
-            raise ValueError("turn_acceleration outside allowable bounds")        
+    def settings(self, straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100):
+        def check_straight_speed():
+            if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
+                # straight_speed in mm/s
+                self.straight_speed = straight_speed
+            else:
+                raise ValueError("straight_speed outside allowable bounds")
+        def check_straight_acceleration():
+            if -DriveBase.MAX_ACCEL <= straight_acceleration <= DriveBase.MAX_ACCEL:
+                self.straight_acceleration = straight_acceleration
+            else:
+                raise ValueError("straight_acceleration outside allowable bounds")
+        def check_turn_rate():
+            if -DriveBase.MAX_DEGREES <= turn_rate <= DriveBase.MAX_DEGREES:
+                self.turn_rate = turn_rate
+            else:
+                raise ValueError("turn_rate outside allowable bounds")   
+        def check_turn_acceleration():       
+            if -DriveBase.MAX_ACCEL <= turn_acceleration <= DriveBase.MAX_ACCEL:
+                self.turn_acceleration = turn_acceleration
+            else:
+                raise ValueError("turn_acceleration outside allowable bounds")        
 
+        check_straight_speed()
+        check_straight_acceleration()        
+        check_turn_rate()    
+        check_turn_acceleration()               
 
     def straight(self, distance):
+        def getSpeedDPSObj(): # Speed in degrees-per-second
+            rotations = self.straight_speed / self.wheel_circumference
+            degrees = rotations * 360
+            return SpeedDPS(degrees)
+        def getDistanceInDegrees():
+            dist_in_rotations = distance / self.wheel_circumference
+            return dist_in_rotations * 360
+
         tank_drive = MoveTank(self.left_motor.port, self.right_motor.port)
-        rotations = distance / self.wheel_circ
-        rot_degrees = rotations * 360
-        print( "rotations: " + str(rotations) )  
-        tank_drive.on_for_degrees(self.straight_speed, self.straight_speed, rot_degrees, brake=False, block=True)
+        speedDPS_obj = getSpeedDPSObj()
+        tank_drive.on_for_degrees(speedDPS_obj, speedDPS_obj, getDistanceInDegrees(), brake=True, block=True)
 
     '''
         Robot:
@@ -139,31 +147,20 @@ class DriveBase:
         # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
     '''
     def turn(self, angle):
+        def getSpeedDPSObj(): # turn_rate (speed) in degrees-per-second
+            rotations = self.turn_rate / self.wheel_circumference
+            degrees = rotations * 360
+            return SpeedDPS(degrees)        
+        def getTurnInDegrees():
+            robot_circumference_of_turn = self.axle_track * math.pi
+            return angle * (robot_circumference_of_turn / self.wheel_circumference)
+
         steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
+        steering=100
+        # turn rate is still in percentages!!!
+        steering_drive.on_for_degrees(steering, getSpeedDPSObj(), getTurnInDegrees(), brake=True, block=True)
 
-        #if angle > 0:
-        #    steering = 100
-        #else:
-        #    steering = -100
-        steering = 100
-        
-        robot_circumference_of_turn = self.axle_track * math.pi
-        wheel_circumference = self.wheel_diameter * math.pi
-        degrees = angle * (robot_circumference_of_turn / wheel_circumference)
-
-        steering_drive.on_for_degrees(steering, self.turn_rate, degrees)
-
-    """
-    def straight(self, distance):
-        tank_drive = MoveTank(self.left_motor.port, self.right_motor.port)
-
-        while tank_drive.right_motor.position < distance and tank_drive.left_motor.position < distance:
-            tank_drive.on(self.straight_speed, self.straight_speed)
-            print( "left_motor position: " + str(tank_drive.left_motor.position ))   
-            #time.sleep(0.25)             
-
-        tank_drive.stop()
-    """
+    ###########################################################################
 
     def drive(self, drive_speed, turn_rate):
         self.drive_speed = drive_speed
@@ -191,31 +188,3 @@ class DriveBase:
 
 
 
-'''
-# works
-class MoveStraight(MotorSet):
-    def __init__(self, left_motor_port, right_motor_port, desc=None, motor_class=LargeMotor):
-        motor_specs = {
-        left_motor_port : motor_class,
-        right_motor_port : motor_class,
-        }
-        MotorSet.__init__(self, motor_specs, desc)
-        self.left_motor = self.motors[left_motor_port]
-        self.right_motor = self.motors[right_motor_port]
-        self.max_speed = self.left_motor.max_speed
-
-    def on(self, left_speed):
-        if not isinstance(left_speed, SpeedValue):
-            if -100 <= left_speed <= 100:
-                left_speed_obj = SpeedPercent(left_speed)
-                left_speed_var = int(round(left_speed_obj.to_native_units(self.left_motor)))
-            else:
-                raise Exception("Invalid Speed Percentage. Speed must be between -100 and 100)")
-        else:
-            left_speed_var = int(round(left_speed.to_native_units(self.left_motor)))
-
-        self.left_motor.speed_sp = left_speed_var
-        self.right_motor.speed_sp = left_speed_var
-        self.left_motor.run_forever()
-        self.right_motor.run_forever()
-'''
