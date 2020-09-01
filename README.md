@@ -1,6 +1,6 @@
 Gears_pybricks
 ===
-Generic Educational Robotics Simulator - Pybricks - work in progress
+Generic Educational Robotics Simulator using Pybricks - work in progress
 
 This simulator was created to allow anyone to experiment with robotics without owning a robot.
 
