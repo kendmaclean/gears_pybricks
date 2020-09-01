@@ -94,7 +94,7 @@ class DriveBase:
         check_turn_acceleration()               
 
     def straight(self, distance):
-        def getSpeedDPSObj(): # Speed in degrees-per-second
+        def getSpeedDPSObj(): # straight_speed in degrees-per-second
             rotations = self.straight_speed / self.wheel_circumference
             degrees = rotations * 360
             return SpeedDPS(degrees)
@@ -157,7 +157,6 @@ class DriveBase:
 
         steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
         steering=100
-        # turn rate is still in percentages!!!
         steering_drive.on_for_degrees(steering, getSpeedDPSObj(), getTurnInDegrees(), brake=True, block=True)
 
     ###########################################################################
