@@ -760,6 +760,8 @@ class MoveTank(MotorSet):
     else:
       left_speed_var = int(round(left_speed.to_native_units(self.left_motor)))
 
+    print ("on_for_degrees:" + str(left_speed_var)) 
+
     if not isinstance(right_speed, SpeedValue):
       if -100 <= right_speed <= 100:
         right_speed_obj = SpeedPercent(right_speed)
