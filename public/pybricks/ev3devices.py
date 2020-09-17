@@ -20,6 +20,7 @@ class MotorP:
 
         self.motor = LargeMotor(port)
         self.wheelDiameter = self.motor.wheel.wheelDiameter()
+        self.wheelRadius = self.motor.wheel.wheelRadius()        
         self.axleTrack = self.motor.wheel.axleTrack()
 
     def __str__(self):

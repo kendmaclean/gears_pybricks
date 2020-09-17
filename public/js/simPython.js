@@ -110,10 +110,12 @@ var $builtinmodule = function(name) {
       return robot.options.wheelDiameter * 10;
     });   
 
+    // returns axleTrack in millimetres    
     $loc.wheelRadius = new Sk.builtin.func(function(self) {
-      return robot.options.wheelDiameter / 2;
+      return robot.options.wheelDiameter / 2 * 10;
     });   
 
+    // !!!!!! makes no sense for this to be here...
     // returns axleTrack in millimetres
     $loc.axleTrack = new Sk.builtin.func(function(self) {
       var wheelMidpoint = robot.options.wheelWidth  / 2;
