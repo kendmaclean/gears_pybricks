@@ -108,47 +108,47 @@ class DriveBase:
         speedDPS_obj = getSpeedDPSObj()
         tank_drive.on_for_degrees(speedDPS_obj, speedDPS_obj, getDistanceInDegrees(), brake=True, block=True)
 
-    '''
-        Robot:
-        b = robotWheelbase
-        Cturn = (b * pi) = circumferenceOfTurn
-        dCT = distanceAlongTurn
-        theta = desired robot angle of rotation
-
-        Wheel:
-        dw = wheel diameter
-        Cwheel = (dw * pi) = wheelCircumference
-        alpha = motor angle of rotation
-
-        goal: get robot to turn a set number of degrees (theta) by turning the power wheels
-            in opposite directions
-
-        relations:
-        robot:
-            theta / 360degrees = dCT / Cturn
-
-            solve for dCT:
-
-            dCT = (theta / 360degrees) / Cturn
-
-        wheels:
-        dCT is the distance the wheels must rotate along Cturn
-
-        therefore:
-
-            motorRotationsInDegrees = 360degrees * (dCT / Cturn)
-
-        replace dCT with above formula:
-
-            motorRotationsInDegrees = 360degrees * (theta / 360degrees) / Cturn) / Cwheel
-
-        reduce:
-
-            motorRotationsInDegrees =  theta * (Cturn / Cwheel)     
-
-        # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
-    '''
     def turn(self, angle): # pivot turn
+        '''
+            Robot:
+            b = robotWheelbase
+            Cturn = (b * pi) = circumferenceOfTurn
+            dCT = distanceAlongTurn
+            theta = desired robot angle of rotation
+
+            Wheel:
+            dw = wheel diameter
+            Cwheel = (dw * pi) = wheelCircumference
+            alpha = motor angle of rotation
+
+            goal: get robot to turn a set number of degrees (theta) by turning the power wheels
+                in opposite directions
+
+            relations:
+            robot:
+                theta / 360degrees = dCT / Cturn
+
+                solve for dCT:
+
+                dCT = (theta / 360degrees) / Cturn
+
+            wheels:
+            dCT is the distance the wheels must rotate along Cturn
+
+            therefore:
+
+                motorRotationsInDegrees = 360degrees * (dCT / Cturn)
+
+            replace dCT with above formula:
+
+                motorRotationsInDegrees = 360degrees * (theta / 360degrees) / Cturn) / Cwheel
+
+            reduce:
+
+                motorRotationsInDegrees =  theta * (Cturn / Cwheel)     
+
+            # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
+        '''        
         def getSpeedDPSObj(): # turn_rate (speed) in degrees-per-second
             rotations = self.turn_rate / self.wheel_circumference
             degrees = rotations * 360
@@ -162,145 +162,146 @@ class DriveBase:
 
     ###########################################################################
 
-    '''
-    So this method converts the Pybricks drive() command to the on() method of 
-    the EV3DEV2 MoveTank class, whose speed parameters can be instantiated as 
-    a SpeedDPS (Degrees per Second) class.  This translates the robot drive command into wheel speeds.
 
-    Pybricks drive command parameters:
-        drive_speed: millimetres-per-second
-        turn_rate: rotational speed in deg/s
-    Gears uses the EV3DEV2 class MoveTank() on() methods, with the parameters:
-        left_speed
-        right_speed
-    which are instances of the SpeedValue base class, which can be instantiated as a
-    SpeedDPS class, with the parameter:
-        degrees_per_second
-
-    Background:
-
-    We are using two models:
-        unicycle model - which is a simplified view that assumes the robot
-            only has one wheel, 
-        differential drive model - which models the rotation of the two wheels 
-            of the robot
-
-    We are taking the simplfied view of the unicycle model and translating it to
-    the implementation view of differential drive model.
-
-    A. Unicycle Model
-
-    The robot's motion is described using a Unicycle Model where a robot is defined 
-    using 3 states:
-        x-position on the x-axis (in millimetres)
-        y-position on the y-axis (in millimetres)
-        phi - angle of the unicycle, counter clockwise from the x-axis (in radians)
-
-    There are 2 unicycle inputs that affect these 3 states:
-        v = forward velocity (in metres per second)
-        w = angular velocity (in radians per second)
-
-    B. Differential drive model
-
-    The 2 unicycle inputs need to be converted into differential drive inputs 
-    in order for the robot to move:
-        v_r = clockwise angular velocity of right wheel (in radians per sec)
-        v_l = counter-clockwise angular velocity of left wheel (in radians per sec)
-
-    C. Equations
-
-    Required constants in order to make calculations:
-        L = wheelbase (in metres per radian; where radian corresponds to radius of robot turning circle with one fixed wheel)
-        R = wheel radius (in metres per radian of wheel)
-
-    Therefore, we can use the kinematics for a unicycle model and kinematics 
-    for a differential drive model to come up with the following equations to 
-    convert unicycle v and w inputs into v_r and v_l differential drive inputs 
-    for our robot:
-        v_r = ((2 * v) + (w * L)) / (2 * R)
-        v_l = ((2 * v) - (w * L)) / (2 * R)
-
-    where v_r and v_l are in radians per second
-
-    (see footnote 1)
-
-    D. Radians
-
-    Why use radians?
-        easier to work with radians in trig calculations
-
-    A radian is the arc length that corresponds to length of radius; therefore:
-        radius = wheel_diameter / 2
-        radian = radius 
-
-    There are two different radian measures: 
-        1. Wheelbase radians
-            Is the radius of the circular motion of the robot turning circle with
-            one fixed wheel - so basically the radius of this circle corresponds to
-            the wheelbase or axle length, in metres.
-
-        2. Wheel radians
-            Is the radius of the actual wheel, since a wheel forms a circle, in metres.
-
-    Conversions
-        degrees = radian * (180 / pi)
-        radians = degrees * (pi / 180)
-        
-    E. Example
-
-    Problem stattement
-        We have a robot with an wheel base (axle width) of 119mm and a wheel diameter of 94.2mm.
-        We want our robot to perform a continuous turn of 30 degrees/sec while 
-        travelling at a speed of 200 mm/sec. 
-
-    Unit conversions
-        wheelbase = 110mm = 0.11metres; which is the radius of a robot turn with one wheel fixed; therefore 
-        wheelbase_radian = 0.11metres
- 
-        wheel_radius = 94.2mm / 2 = 47.1mm = 0.0471metres; therefore 
-        wheel_radians = 0.0471metres
-
-        v = 200 mm/sec = 0.2 metres per sec
-        w = 30 deg/sec = 0.5236 radians per sec
-        L = .011 metres per radian
-        R = 0.0471 metres per radian
-            
-    Solve equations
-
-    right wheel velocity
-        v_r = ((2 * v) + (w * L)) / (2 * R)
-
-        v_r = ((2 * 0.2 m/sec) + (0.5236 rad/sec * 0.11 m/rad)) / (2 * 0.0471 m/rad)
-
-        multiply and cancel out rads
-            v_r = ((0.4 m/sec) + (0.90514 m/sec)) / (0.056 m/rad)
-        invert fraction in denominator and multiply
-            v_r = ((0.4  m/sec) + (0.057596 m/sec)) * (rad / 0.056m)
-        distributive multiply and cancel out m:
-            v_r = (0.4  / 0.056 rad/sec) + (0.057596 / 0.056 rad/sec)
-        divisions:
-            v_r = (4.2463 rad/sec) + (0.6114 rad/sec)
-        addition:
-            v_r = 4.8577 rad/sec
-
-    left wheel velocity
-
-        v_l = ((2 * 0.2 m/sec) - (0.5236 rad/sec * 0.11 m/rad)) / (2 * 0.0471 m/rad)
-        ...
-
-        v_l = (4.2463 rad/sec) - (0.6114 rad/sec)
-        v_l = 3.6349 rad/sec
-
-    Convert these to degrees per second so can be used by on() method of the 
-    EV3DEV2 MoveTank class
-        v_r = 4.8577 rad/sec * (180 / pi) = 278.3260 degrees/sec
-        v_l = 3.6349 rad/sec * (180 / pi) = 208.2623 degrees/sec
-
-    footnotes/references:
-        1. hackernoon: https://hackernoon.com/unicycle-to-differential-drive-courseras-control-of-mobile-robots-with-ros-and-rosbots-part-2-6d27d15f2010
-        2. mouhknowsbest: https://www.youtube.com/watch?v=aE7RQNhwnPQ&list=PLp8ijpvp8iCvFDYdcXqqYU5Ibl_aOqwjr&index=10
-    '''
     def drive(self, drive_speed, turn_rate):
+        '''
+            So this method converts the Pybricks drive() command to the on() method of 
+            the EV3DEV2 MoveTank class, whose speed parameters can be instantiated as 
+            a SpeedDPS (Degrees per Second) class.  This translates the robot drive command into wheel speeds.
+
+            Pybricks drive command parameters:
+                drive_speed: millimetres-per-second
+                turn_rate: rotational speed in deg/s
+            Gears uses the EV3DEV2 class MoveTank() on() methods, with the parameters:
+                left_speed
+                right_speed
+            which are instances of the SpeedValue base class, which can be instantiated as a
+            SpeedDPS class, with the parameter:
+                degrees_per_second
+
+            Background:
+
+            We are using two models:
+                unicycle model - which is a simplified view that assumes the robot
+                    only has one wheel, 
+                differential drive model - which models the rotation of the two wheels 
+                    of the robot
+
+            We are taking the simplfied view of the unicycle model and translating it to
+            the implementation view of differential drive model.
+
+            A. Unicycle Model
+
+            The robot's motion is described using a Unicycle Model where a robot is defined 
+            using 3 states:
+                x-position on the x-axis (in millimetres)
+                y-position on the y-axis (in millimetres)
+                phi - angle of the unicycle, counter clockwise from the x-axis (in radians)
+
+            There are 2 unicycle inputs that affect these 3 states:
+                v = forward velocity (in metres per second)
+                w = angular velocity (in radians per second)
+
+            B. Differential drive model
+
+            The 2 unicycle inputs need to be converted into differential drive inputs 
+            in order for the robot to move:
+                v_r = clockwise angular velocity of right wheel (in radians per sec)
+                v_l = counter-clockwise angular velocity of left wheel (in radians per sec)
+
+            C. Equations
+
+            Required constants in order to make calculations:
+                L = wheelbase (in metres per radian; where radian corresponds to radius of robot turning circle with one fixed wheel)
+                R = wheel radius (in metres per radian of wheel)
+
+            Therefore, we can use the kinematics for a unicycle model and kinematics 
+            for a differential drive model to come up with the following equations to 
+            convert unicycle v and w inputs into v_r and v_l differential drive inputs 
+            for our robot:
+                v_r = ((2 * v) + (w * L)) / (2 * R)
+                v_l = ((2 * v) - (w * L)) / (2 * R)
+
+            where v_r and v_l are in radians per second
+
+            (see footnote 1)
+
+            D. Radians
+
+            Why use radians?
+                easier to work with radians in trig calculations
+
+            A radian is the arc length that corresponds to length of radius; therefore:
+                radius = wheel_diameter / 2
+                radian = radius 
+
+            There are two different radian measures: 
+                1. Wheelbase radians
+                    Is the radius of the circular motion of the robot turning circle with
+                    one fixed wheel - so basically the radius of this circle corresponds to
+                    the wheelbase or axle length, in metres.
+
+                2. Wheel radians
+                    Is the radius of the actual wheel, since a wheel forms a circle, in metres.
+
+            Conversions
+                degrees = radian * (180 / pi)
+                radians = degrees * (pi / 180)
+                
+            E. Example
+
+            Problem stattement
+                We have a robot with an wheel base (axle width) of 119mm and a wheel diameter of 94.2mm.
+                We want our robot to perform a continuous turn of 30 degrees/sec while 
+                travelling at a speed of 200 mm/sec. 
+
+            Unit conversions
+                wheelbase = 110mm = 0.11metres; which is the radius of a robot turn with one wheel fixed; therefore 
+                wheelbase_radian = 0.11metres
+        
+                wheel_radius = 94.2mm / 2 = 47.1mm = 0.0471metres; therefore 
+                wheel_radians = 0.0471metres
+
+                v = 200 mm/sec = 0.2 metres per sec
+                w = 30 deg/sec = 0.5236 radians per sec
+                L = .011 metres per radian
+                R = 0.0471 metres per radian
+                    
+            Solve equations
+
+            right wheel velocity
+                v_r = ((2 * v) + (w * L)) / (2 * R)
+
+                v_r = ((2 * 0.2 m/sec) + (0.5236 rad/sec * 0.11 m/rad)) / (2 * 0.0471 m/rad)
+
+                multiply and cancel out rads
+                    v_r = ((0.4 m/sec) + (0.90514 m/sec)) / (0.056 m/rad)
+                invert fraction in denominator and multiply
+                    v_r = ((0.4  m/sec) + (0.057596 m/sec)) * (rad / 0.056m)
+                distributive multiply and cancel out m:
+                    v_r = (0.4  / 0.056 rad/sec) + (0.057596 / 0.056 rad/sec)
+                divisions:
+                    v_r = (4.2463 rad/sec) + (0.6114 rad/sec)
+                addition:
+                    v_r = 4.8577 rad/sec
+
+            left wheel velocity
+
+                v_l = ((2 * 0.2 m/sec) - (0.5236 rad/sec * 0.11 m/rad)) / (2 * 0.0471 m/rad)
+                ...
+
+                v_l = (4.2463 rad/sec) - (0.6114 rad/sec)
+                v_l = 3.6349 rad/sec
+
+            Convert these to degrees per second so can be used by on() method of the 
+            EV3DEV2 MoveTank class
+                v_r = 4.8577 rad/sec * (180 / pi) = 278.3260 degrees/sec
+                v_l = 3.6349 rad/sec * (180 / pi) = 208.2623 degrees/sec
+
+            footnotes/references:
+                1. hackernoon: https://hackernoon.com/unicycle-to-differential-drive-courseras-control-of-mobile-robots-with-ros-and-rosbots-part-2-6d27d15f2010
+                2. mouhknowsbest: https://www.youtube.com/watch?v=aE7RQNhwnPQ&list=PLp8ijpvp8iCvFDYdcXqqYU5Ibl_aOqwjr&index=10
+        '''
         def getDriveSpeedDPSObj(): # convert drive_speed from millimetres-per-second to degrees-per-second
             rotations = drive_speed / self.wheel_circumference
             degrees = rotations * 360
