@@ -4,8 +4,9 @@ var pybricks_generator = new function() {
   // Load Python generators
   this.load = function() {
     Blockly.Python['when_started'] = self.when_started;
-    Blockly.Python['move_straight'] = self.move_straight; // !!!!!!
-    Blockly.Python['move_turn'] = self.move_turn; // !!!!!!    
+    Blockly.Python['py_straight'] = self.py_straight; // !!!!!!
+    Blockly.Python['py_turn'] = self.py_turn; // !!!!!!    
+    Blockly.Python['py_drive'] = self.py_drive; // !!!!!!        
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
     Blockly.Python['move_steering'] = self.move_steering;
@@ -108,7 +109,7 @@ var pybricks_generator = new function() {
 
   // !!!!!!
   // move straight
-  this.move_straight = function(block) {
+  this.py_straight = function(block) {
     var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     if (speed === undefined) { speed = 0;  }
 
@@ -118,14 +119,27 @@ var pybricks_generator = new function() {
   }
 
  // move turn
- this.move_turn = function(block) {
-  var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
-  if (angle === undefined) { angle = 0;  }
+  this.py_turn = function(block) {
+    var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
+    if (angle === undefined) { angle = 0;  }
 
-  var code = 'robot.turn(' + angle + ')\n';
+    var code = 'robot.turn(' + angle + ')\n';
 
-  return code;    
-}  
+    return code;    
+  }  
+
+  // drive
+  this.py_drive = function(block) {
+    var drive_speed = Blockly.Python.valueToCode(block, 'drive_speed', Blockly.Python.ORDER_ATOMIC);
+    var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);  
+    if (drive_speed === undefined) { drive_speed = 0;  }
+    if (turn_rate === undefined) { turn_rate = 0;  }
+
+    var code = 'robot.drive(' + drive_speed + ', ' + turn_rate + ')\n';
+
+    return code;    
+  }  
+
   // !!!!!!
   
   // move tank

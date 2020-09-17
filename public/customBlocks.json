@@ -8,7 +8,7 @@
 },
 
 {
-  "type": "move_straight",
+  "type": "py_straight",
   "message0": "move straight for distance of %1 millimetres, then stop",
   "args0": [
     {
@@ -26,7 +26,7 @@
 },
 
 {
-  "type": "move_turn",
+  "type": "py_turn",
   "message0": "turn in place by %1 degrees, then stop",
   "args0": [
     {
@@ -34,6 +34,29 @@
       "name": "angle",
       "check": "Number"
     }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "this is tool tip",
+  "helpUrl": "helpPage.html"
+},
+
+{
+  "type": "py_drive",
+  "message0": "drive at speed %1 and turn rate of %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "drive_speed",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "turn_rate",
+      "check": "Number"
+    }    
   ],
   "inputsInline": true,
   "previousStatement": null,

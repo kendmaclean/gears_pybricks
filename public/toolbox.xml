@@ -70,23 +70,38 @@
   </category>
 
  <category name="Pybrick" colour="#5b67a5">
-    <block type="move_straight">
-      <field name="units">Millimetres</field>
-      <value name="left">
+    <block type="py_straight">
+      <field name="units">MILLIMETRES</field>
+      <value name="speed">
         <shadow type="math_number">
-          <field name="NUM">20</field>
+          <field name="NUM">200</field>
         </shadow>
       </value>
     </block>
-    <block type="move_turn">
+    <block type="py_turn">
       <field name="units">DEGREES</field>
-      <value name="left">
+      <value name="angle">
         <shadow type="math_number">
-          <field name="NUM">20</field>
+          <field name="NUM">0</field>
         </shadow>
       </value>
     </block>
-     <block type="stop">
+   <block type="py_drive">
+      <field name="units">MILLIMETRES</field>
+      <value name="drive_speed">
+        <shadow type="math_number">
+          <field name="NUM">200</field>
+        </shadow>
+      </value>
+     <value name="turn_rate">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>      
+    </block>
+
+
+    <block type="stop">
       <field name="stop_action">HOLD</field>
     </block>
   </category>
