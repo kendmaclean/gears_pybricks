@@ -65,7 +65,7 @@ class DriveBase:
         check_wheel_diameter()
         self.wheel_circumference = self.wheel_diameter * math.pi   # in millimetres          
         check_axle_track()
-        
+        self.tank_drive = MoveTank(left_motor.port, right_motor.port)  
         self.settings()
 
     def settings(self, straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100):
@@ -105,9 +105,8 @@ class DriveBase:
             dist_in_rotations = distance / self.wheel_circumference
             return dist_in_rotations * 360
 
-        tank_drive = MoveTank(self.left_motor.port, self.right_motor.port)
         speedDPS_obj = getSpeedDPSObj()
-        tank_drive.on_for_degrees(speedDPS_obj, speedDPS_obj, getDistanceInDegrees(), brake=True, block=True)
+        self.tank_drive.on_for_degrees(speedDPS_obj, speedDPS_obj, getDistanceInDegrees(), brake=True, block=True)
 
     def turn(self, angle): # pivot turn
         '''
@@ -150,6 +149,30 @@ class DriveBase:
 
             # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
         '''        
+        def get_speed_steering(steering, speed):
+            if steering > 100 or steering < -100:
+                raise ValueError("Invalid Steering Value. Between -100 and 100 (inclusive).")
+
+            # Assumes left motor's speed stats are the same as the right motor's
+            if not isinstance(speed, SpeedValue):
+                if -100 <= speed <= 100:
+                    speed_obj = SpeedPercent(speed)
+                    speed_var = speed_obj.to_native_units(self.tank_drive.left_motor)
+                else:
+                    raise Exception("Invalid Speed Percentage. Speed must be between -100 and 100)")
+            else:
+                speed_var = speed.to_native_units(self.tank_drive.left_motor)
+
+            left_speed = speed_var
+            right_speed = speed_var
+            speed_factor = (50 - abs(float(steering))) / 50.0
+
+            if steering >= 0:
+                right_speed *= speed_factor
+            else:
+                left_speed *= speed_factor
+
+            return(left_speed, right_speed)        
         def getSpeedDPSObj(): # turn_rate (speed) in degrees-per-second
             rotations = self.turn_rate / self.wheel_circumference
             degrees = rotations * 360
@@ -158,13 +181,15 @@ class DriveBase:
             robot_circumference_of_turn = self.axle_track * math.pi
             return angle * (robot_circumference_of_turn / self.wheel_circumference)
 
-        steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
-        steering_drive.on_for_degrees(steering=100, speed=getSpeedDPSObj(), degrees=getTurnInDegrees(), brake=True, block=True)
+        #steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
+        #steering_drive.on_for_degrees(steering=100, speed=getSpeedDPSObj(), degrees=getTurnInDegrees(), brake=True, block=True)
 
+        (left_speed, right_speed) = get_speed_steering(steering=100, speed=getSpeedDPSObj())
+        self.tank_drive.on_for_degrees(SpeedNativeUnits(left_speed), SpeedNativeUnits(right_speed), degrees=getTurnInDegrees(), brake=True, block=True)
 
     def drive(self, drive_speed, turn_rate):
         '''
-            So this method converts the Pybricks drive() command to the on() method of 
+            This method converts the Pybricks drive() command to the on() method of 
             the EV3DEV2 MoveTank class, whose speed parameters can be instantiated as 
             a SpeedDPS (Degrees per Second) class.  This translates the robot drive 
             command into wheel speeds.
@@ -212,8 +237,8 @@ class DriveBase:
             C. Equations
 
             Required constants in order to make calculations:
-                L = wheelbase (in metres per radian; where radian corresponds to radius of 
-                    robot turning circle with one fixed wheel)
+                L = wheelbase (in metres per radian of one_wheel robot turn; where radian corresponds to radius of 
+                    robot turning in a circle with one fixed wheel)
                 R = wheel radius (in metres per radian of wheel)
 
             Therefore, we can use the kinematics for a unicycle model and kinematics 
@@ -236,16 +261,16 @@ class DriveBase:
                 radius = wheel_diameter / 2
                 radian = radius 
 
-            There are two different radian measures: 
+            In this case, there are two different radian measures: 
                 1. Wheelbase radians
-                    Is the radius of the circular motion of the robot turning circle with
+                    Is the radius of the circular motion of the robot turning a circle with
                     one fixed wheel - so basically the radius of this circle corresponds to
                     the wheelbase or axle length, in metres.
 
                 2. Wheel radians
                     Is the radius of the actual wheel, since a wheel forms a circle, in metres.
 
-            Conversions
+            Conversions:
                 degrees = radian * (180 / pi)
                 radians = degrees * (pi / 180)
                 
@@ -258,10 +283,10 @@ class DriveBase:
 
             Unit conversions
                 wheelbase = 110mm = 0.11metres; which is the radius of a robot turn with one 
-                                                wheel fixed; therefore:
+                                                wheel fixed.
                 wheelbase_radian = 0.11metres
         
-                wheel_radius = 94.2mm / 2 = 47.1mm = 0.0471metres; therefore 
+                wheel_radius = 94.2mm / 2 = 47.1mm = 0.0471metres
                 wheel_radians = 0.0471metres
 
                 v = 200 mm/sec = 0.2 metres per sec
@@ -304,51 +329,48 @@ class DriveBase:
                 1. hackernoon: https://hackernoon.com/unicycle-to-differential-drive-courseras-control-of-mobile-robots-with-ros-and-rosbots-part-2-6d27d15f2010
                 2. mouhknowsbest: https://www.youtube.com/watch?v=aE7RQNhwnPQ&list=PLp8ijpvp8iCvFDYdcXqqYU5Ibl_aOqwjr&index=10
         '''
-
         def getDriveSpeedDPSObj(): # convert drive_speed from millimetres-per-second to degrees-per-second
             rotations = drive_speed / self.wheel_circumference
             degrees = rotations * 360
             return SpeedDPS(degrees)
 
-        v = drive_speed/1000 # forward velocity or speed (metres per sec)
-        w = math.radians(turn_rate) # angular velocity or turn rate (radians per sec)
-        #  self.left_motor.axleTrack and self.wheel_radius in centimetres
-        L = self.left_motor.axleTrack / 1000 # wheelbase (metres per robot_turn radian)
+        v = drive_speed/1000 # forward velocity (metres per sec)
+        w = math.radians(turn_rate) # angular velocity (radians per sec)
+        # !!!!!! makes no sense for axleTrack to be attached to motor property
+        L = self.left_motor.axleTrack / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
         R = self.wheel_radius / 1000 # radius (metres per wheel radian)
-        print("axleTrack: " + str(self.left_motor.axleTrack) + "mm") # should not be a motor property; should be a robot property
-        print("wheel_radius: " + str(self.wheel_radius) + "mm")           
-        print("v: " + str(v))
-        print("w: " + str(w))        
-        print("L: " + str(L))
-        print("R: " + str(R))            
+        '''
+            print("axleTrack: " + str(self.left_motor.axleTrack) + "mm") # should not be a motor property; should be a robot property
+            print("wheel_radius: " + str(self.wheel_radius) + "mm")           
+            print("v: " + str(v))
+            print("w: " + str(w))        
+            print("L: " + str(L))
+            print("R: " + str(R)) 
+        '''           
         def getLeftSpeedDPSObj(): 
-            v_r = ((2 * v) + (w * L)) / (2 * R)
+            v_r = ((2 * v) + (w * L)) / (2 * R) # in radians
             degrees = v_r * (180 / math.pi) # convert to degrees
-            print("left: " + str(degrees))
+            #print("left: " + str(degrees))
             return SpeedDPS(degrees)            
         def getRightSpeedDPSObj(): 
-            v_l = ((2 * v) - (w * L)) / (2 * R)
+            v_l = ((2 * v) - (w * L)) / (2 * R) # in radians
             degrees = v_l * (180 / math.pi) # convert to degrees
-            print("right: " + str(degrees))            
+            #print("right: " + str(degrees))            
             return SpeedDPS(degrees)    
 
-        tank_drive = MoveTank(self.left_motor.port, self.right_motor.port)
         if turn_rate == 0:
             speedDPS_obj = getDriveSpeedDPSObj()
-            tank_drive.on(left_speed=speedDPS_obj, right_speed=speedDPS_obj)  
+            self.tank_drive.on(left_speed=speedDPS_obj, right_speed=speedDPS_obj)  
         else:
-            tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())  
-
-
-
-
-    ###########################################################################
+            self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())  
 
 
 
 
     def stop(self):
         print("not implemented")
+
+    ###########################################################################
 
     def distance(self):
         print("not implemented")       
