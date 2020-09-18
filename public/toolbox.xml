@@ -101,7 +101,7 @@
     </block>
 
 
-    <block type="stop">
+    <block type="py_stop">
       <field name="stop_action">HOLD</field>
     </block>
   </category>

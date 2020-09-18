@@ -364,11 +364,8 @@ class DriveBase:
         else:
             self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())  
 
-
-
-
-    def stop(self):
-        print("not implemented")
+    def off(self, motors=None, brake=True):
+        self.tank_drive.off(motors, brake)
 
     ###########################################################################
 
