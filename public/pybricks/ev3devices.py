@@ -22,6 +22,7 @@ class MotorP:
         self.wheelDiameter = self.motor.wheel.wheelDiameter()
         self.wheelRadius = self.motor.wheel.wheelRadius()        
         self.axleTrack = self.motor.wheel.axleTrack()
+        self.wheel = self.motor.wheel
 
     def __str__(self):
         return "Port: " + str(self.port) + ";\n robotTemplates.js wheelDiameter: " + str(self.wheelDiameter) + ";\n robotTemplates.js axleTrack: " + str(self.axleTrack) 

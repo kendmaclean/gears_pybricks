@@ -735,9 +735,9 @@ class MoveTank(MotorSet):
     self.right_motor = self.motors[right_motor_port]
     self.max_speed = self.left_motor.max_speed
 
-    # !!!!!!
-    self.wheel_diameter = self.left_motor.wheel.wheelDiameter()
-    self.axle_track = self.left_motor.wheel.axleTrack()    
+    # !!!!!! TODO is this still required???
+    #self.wheel_diameter = self.left_motor.wheel.wheelDiameter()
+    #self.axle_track = self.left_motor.wheel.axleTrack()    
        
     # !!!!!!
 
@@ -877,7 +877,6 @@ class MoveTank(MotorSet):
     self.right_motor.speed_sp = right_speed_var
     self.left_motor.run_forever()
     self.right_motor.run_forever()
-
 
 class MoveSteering(MoveTank):
   def get_speed_steering(self, steering, speed):

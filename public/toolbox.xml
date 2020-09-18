@@ -86,7 +86,7 @@
         </shadow>
       </value>
     </block>
-   <block type="py_drive">
+    <block type="py_drive">
       <field name="units">MILLIMETRES</field>
       <value name="drive_speed">
         <shadow type="math_number">
@@ -99,11 +99,12 @@
         </shadow>
       </value>      
     </block>
-
-
     <block type="py_stop">
-      <field name="stop_action">HOLD</field>
-    </block>
+        <field name="stop_action">HOLD</field>
+      </block>
+    <block type="py_distance">
+      <field name="port">A</field>
+    </block>  
   </category>
 
 

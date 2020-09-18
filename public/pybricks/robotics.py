@@ -62,10 +62,10 @@ class DriveBase:
                 str(DriveBase.SMALLEST_AXLE_TRACK) + "mm and " + str(DriveBase.LARGEST_AXLE_TRACK) + "mm")       
        
         check_motors()
+        self.tank_drive = MoveTank(left_motor.port, right_motor.port)          
         check_wheel_diameter()
         self.wheel_circumference = self.wheel_diameter * math.pi   # in millimetres          
         check_axle_track()
-        self.tank_drive = MoveTank(left_motor.port, right_motor.port)  
         self.settings()
 
     def settings(self, straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100):
@@ -355,7 +355,6 @@ class DriveBase:
         def getRightSpeedDPSObj(): 
             v_l = ((2 * v) - (w * L)) / (2 * R) # in radians
             degrees = v_l * (180 / math.pi) # convert to degrees
-            #print("right: " + str(degrees))            
             return SpeedDPS(degrees)    
 
         if turn_rate == 0:
@@ -364,14 +363,20 @@ class DriveBase:
         else:
             self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())  
 
+    # rename to stop
     def off(self, motors=None, brake=True):
         self.tank_drive.off(motors, brake)
 
-    ###########################################################################
-
     def distance(self):
-        print("not implemented")       
-        return self.distance
+        average_wheel_position = (self.left_motor.wheel.position() + self.left_motor.wheel.position()) / 2
+        int_rotations = average_wheel_position // 360
+        remainder_degrees = average_wheel_position % 360
+        remainder_rotations = remainder_degrees / 360
+        distance_rotations = int_rotations + remainder_rotations
+        distance_mm =distance_rotations * self.wheel_circumference
+        return distance_mm
+
+    ###########################################################################
 
     def angle(self):
         print("not implemented")      
@@ -382,6 +387,5 @@ class DriveBase:
         return (self.distance, self.drive_speed, self.angle, self.turn_rate)
 
     def reset(self):
-        self.distance = 0
-        self.angle = 0    
+        print("not implemented") 
 
