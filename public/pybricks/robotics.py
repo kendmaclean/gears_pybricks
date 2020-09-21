@@ -363,17 +363,16 @@ class DriveBase:
         else:
             self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())  
 
-    # rename to stop
     def stop(self):
         self.tank_drive.off(motors=None, brake=True)
 
     def distance(self):
         time.sleep(SENSOR_DELAY)
         average_wheel_position = (self.left_motor.wheel.position() + self.left_motor.wheel.position()) / 2
-        int_rotations = average_wheel_position // 360
+        quotient_rotations = average_wheel_position // 360
         remainder_degrees = average_wheel_position % 360
         remainder_rotations = remainder_degrees / 360
-        distance_rotations = int_rotations + remainder_rotations
+        distance_rotations = quotient_rotations + remainder_rotations
         distance_mm = distance_rotations * self.wheel_circumference
         return distance_mm
 
