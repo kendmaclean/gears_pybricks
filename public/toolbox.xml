@@ -100,18 +100,10 @@
       </value>      
     </block>
     <block type="py_stop">
-        <field name="stop_action">HOLD</field>
-    </block>
+    </block>  
     <block type="py_distance">
     </block>  
   </category>
-
-
-
-# !!!!!!fix stop  parameters in blockly
-
-
-
 
   <category name="Motor" colour="#5b67a5">
     <block type="run_motor">

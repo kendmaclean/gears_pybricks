@@ -48,7 +48,6 @@ function Wheel(scene, options) {
   // Accessed by through Python
   //
   this.runForever = function() {
-    console.log("runForever");    
     self.mode = self.modes.RUN;
   };
 

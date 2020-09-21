@@ -8,8 +8,8 @@ var pybricks_generator = new function() {
     Blockly.Python['py_straight'] = self.py_straight; // !!!!!!
     Blockly.Python['py_turn'] = self.py_turn; // !!!!!!    
     Blockly.Python['py_drive'] = self.py_drive; // !!!!!!        
-    Blockly.Python['py_stop'] = self.py_stop; // !!!!!!   
     Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
+    Blockly.Python['py_stop'] = self.py_stop; // !!!!!!       
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -146,18 +146,7 @@ var pybricks_generator = new function() {
 
   // stop
   this.py_stop = function(block) {
-    var dropdown_stop_action = block.getFieldValue('stop_action');
-
-    if (dropdown_stop_action == 'BRAKE') {
-      var brake = 'True';
-    } else if (dropdown_stop_action == 'COAST') {
-      var brake = 'False';
-    } else if (dropdown_stop_action == 'HOLD') {
-      var brake = 'True';
-    }
-
-    var code = 'robot.off(brake=' + brake + ')\n';
-
+    var code = 'robot.stop()';
     return code;
   };
 
