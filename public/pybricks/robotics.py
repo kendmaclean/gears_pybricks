@@ -237,8 +237,8 @@ class DriveBase:
             C. Equations
 
             Required constants in order to make calculations:
-                L = wheelbase (in metres per radian of one_wheel robot turn; where radian corresponds to radius of 
-                    robot turning in a circle with one fixed wheel)
+                L = wheelbase (in metres per radian of a robot swing turn), where radian
+                    corresponds to radius of robot turning in a circle with one fixed wheel)
                 R = wheel radius (in metres per radian of wheel)
 
             Therefore, we can use the kinematics for a unicycle model and kinematics 
