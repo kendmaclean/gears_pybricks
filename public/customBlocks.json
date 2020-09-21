@@ -90,57 +90,10 @@
   "helpUrl": ""
 },
 { "type": "py_distance",
-  "message0": "position of motor on port %1 in degrees",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "port",
-      "options": [
-        [
-          "A",
-          "A"
-        ],
-        [
-          "B",
-          "B"
-        ],
-        [
-          "C",
-          "C"
-        ],
-        [
-          "D",
-          "D"
-        ],
-        [
-          "E",
-          "E"
-        ],
-        [
-          "F",
-          "F"
-        ],
-        [
-          "G",
-          "G"
-        ],
-        [
-          "H",
-          "H"
-        ],
-        [
-          "I",
-          "I"
-        ],
-        [
-          "J",
-          "J"
-        ]
-      ]
-    }
-  ],
+  "message0": "distance",
+  "inputsInline": false,
   "output": "Number",
-  "colour": 230,
+  "colour": 225,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -828,8 +781,7 @@
   "tooltip": "",
   "helpUrl": ""
 },
-{
-  "type": "gyro_sensor",
+{ "type": "gyro_sensor",
   "message0": "gyro %1 on port %2",
   "args0": [
     {
@@ -899,8 +851,7 @@
   "tooltip": "",
   "helpUrl": ""
 },
-{
-  "type": "reset_gyro",
+{ "type": "reset_gyro",
   "message0": "reset gyro on port %1",
   "args0": [
     {
@@ -957,8 +908,7 @@
   "tooltip": "",
   "helpUrl": ""
 },
-{
-  "type": "run_motor",
+{ "type": "run_motor",
   "message0": "run motor on port %1 at %2 %3",
   "args0": [
     {
@@ -1037,8 +987,7 @@
   "tooltip": "motor will continue running until given a different command",
   "helpUrl": ""
 },
-{
-  "type": "run_motor_for",
+{ "type": "run_motor_for",
   "message0": "run motor on port %1 at %2 %3 %4 for %5 %6",
   "args0": [
     {
@@ -1147,8 +1096,7 @@
   "tooltip": "motor will continue running until given a different command",
   "helpUrl": ""
 },
-{
-  "type": "run_motor_to",
+{ "type": "run_motor_to",
   "message0": "run motor on port %1 at %2 %3 %4 to position %5 degrees",
   "args0": [
     {
@@ -1235,8 +1183,7 @@
   "tooltip": "motor will continue running until given a different command",
   "helpUrl": ""
 },
-{
-  "type": "say",
+{ "type": "say",
   "message0": "say %1 %2",
   "args0": [
     {
@@ -1264,8 +1211,7 @@
   "tooltip": "Speak the string using text-to-speech",
   "helpUrl": ""
 },
-{
-  "type": "beep",
+{ "type": "beep",
   "message0": "beep %1",
   "args0": [
     {
@@ -1289,8 +1235,7 @@
   "tooltip": "",
   "helpUrl": ""
 },
-{
-  "type": "play_tone",
+{ "type": "play_tone",
   "message0": "play tone at %1 Hz for %2 seconds %3",
   "args0": [
     {
@@ -1324,16 +1269,14 @@
   "tooltip": "",
   "helpUrl": ""
 },
-{
-  "type": "time",
+{ "type": "time",
   "message0": "time",
   "output": null,
   "colour": 65,
   "tooltip": "Current Unix time in seconds",
   "helpUrl": ""
 },
-{
-  "type": "gps_sensor",
+{ "type": "gps_sensor",
   "message0": "gps %1 on port %2",
   "args0": [
     {

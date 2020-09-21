@@ -101,11 +101,15 @@
     </block>
     <block type="py_stop">
         <field name="stop_action">HOLD</field>
-      </block>
+    </block>
     <block type="py_distance">
-      <field name="port">A</field>
     </block>  
   </category>
+
+
+
+# !!!!!!fix stop  parameters in blockly
+
 
 
 

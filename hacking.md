@@ -41,6 +41,8 @@ This is a fork of quirkycorts excellent EV3 virtual environment ([Gears](https:/
 
 ## Howto create new command in its own Python file
 
+(See also: https://blockly-demo.appspot.com/static/demos/blockfactory/index.html)
+
 * update Toolbox.xml
 ```
  <category name="Pybrick" colour="#5b67a5">

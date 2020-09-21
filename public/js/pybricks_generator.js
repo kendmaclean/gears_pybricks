@@ -163,12 +163,8 @@ var pybricks_generator = new function() {
 
   // distance
   this.py_distance = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-
-    //var code = 'motor' + dropdown_port + '.position';
-    //return [code, Blockly.Python.ORDER_ATOMIC];
-    var code = 'robot.distance()\n';
-    return code;
+    var code = 'robot.distance()';
+    return [code, Blockly.Python.ORDER_NONE];
   };
   // !!!!!!
 
