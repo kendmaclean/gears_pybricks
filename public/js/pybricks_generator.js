@@ -8,8 +8,9 @@ var pybricks_generator = new function() {
     Blockly.Python['py_straight'] = self.py_straight; // !!!!!!
     Blockly.Python['py_turn'] = self.py_turn; // !!!!!!    
     Blockly.Python['py_drive'] = self.py_drive; // !!!!!!        
-    Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
     Blockly.Python['py_stop'] = self.py_stop; // !!!!!!       
+    Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
+    Blockly.Python['py_angle'] = self.py_angle; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -48,9 +49,9 @@ var pybricks_generator = new function() {
       'from pybricks.parameters import *\n' +    
       'from pybricks.robotics import *\n' + 
       '\n' +
-      'leftP_motor = MotorP(PortP.A)\n' +          
-      'rightP_motor = MotorP(PortP.B)\n' +      
-      'robot = DriveBase(leftP_motor, rightP_motor, wheel_diameter=56, axle_track=152)\n' +   
+      'left_motor = MotorP(PortP.A)\n' +          
+      'right_motor = MotorP(PortP.B)\n' +      
+      'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
       '\n';
 
@@ -155,6 +156,12 @@ var pybricks_generator = new function() {
     var code = 'robot.distance()';
     return [code, Blockly.Python.ORDER_NONE];
   };
+
+  // angle
+  this.py_angle = function(block) {
+    var code = 'robot.angle()';
+    return [code, Blockly.Python.ORDER_NONE];
+  };  
   // !!!!!!
 
   // move tank

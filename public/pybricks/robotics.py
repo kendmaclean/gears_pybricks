@@ -224,8 +224,8 @@ class DriveBase:
                 phi - angle of the unicycle, counter clockwise from the x-axis (in radians)
 
             There are 2 unicycle inputs that affect these 3 states:
-                v = forward velocity (in metres per second)
-                w = angular velocity (in radians per second)
+                v = robot forward velocity (in metres per second)
+                w = robot angular velocity (in radians per second)
 
             B. Differential drive model
 
@@ -276,7 +276,7 @@ class DriveBase:
                 
             E. Example
 
-            Problem stattement
+            Problem statement
                 We have a robot with an wheel base (axle width) of 119mm and a wheel diameter 
                 of 94.2mm. We want our robot to perform a continuous turn of 30 degrees/sec 
                 while travelling at a speed of 200 mm/sec. 
@@ -336,7 +336,7 @@ class DriveBase:
 
         v = drive_speed/1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
-        # !!!!!! makes no sense for axleTrack to be attached to motor property
+        # !!!!!! makes no sense for axleTrack to be attached to motor property; should be robot attribute
         L = self.left_motor.axleTrack / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
         R = self.wheel_radius / 1000 # radius (metres per wheel radian)
         '''
@@ -371,17 +371,94 @@ class DriveBase:
         average_wheel_position = (self.left_motor.wheel.position() + self.left_motor.wheel.position()) / 2
         quotient_rotations = average_wheel_position // 360
         remainder_degrees = average_wheel_position % 360
-        remainder_rotations = remainder_degrees / 360
-        distance_rotations = quotient_rotations + remainder_rotations
+        fractionOfrotations = remainder_degrees / 360
+        distance_rotations = quotient_rotations + fractionOfrotations
         distance_mm = distance_rotations * self.wheel_circumference
         return distance_mm
 
+    def angle(self):
+        '''
+            A. Variables
+
+                v = robot forward velocity (in metres per second)
+                w = robot angular velocity (in radians per second)
+                L = wheelbase (in metres per radian of a robot swing turn), where radian
+                    corresponds to radius of robot turning in a circle with one fixed wheel)
+                R = wheel radius (in metres per radian of wheel)
+
+                v_r = clockwise angular velocity of right wheel (in radians per sec)
+                v_l = counter-clockwise angular velocity of left wheel (in radians per sec)
+
+            B. Derive Formula
+                Given
+
+                    v_r = ((2 * v) + (w * L)) / (2 * R)
+                    v_l = ((2 * v) - (w * L)) / (2 * R)
+
+                Solve for w
+
+                    v_r = ((2 * v) + (w * L)) / (2 * R)
+                    (2 * v) + (w * L) = v_r * (2 * R)
+                    w * L = v_r * (2 * R) - (2 * v)   
+
+                    w = (v_r * (2 * R) - (2 * v)) / L
+
+            C. Equations
+
+                radian * (180 / pi)
+                turn_rate = w * time
+
+            D. Example
+
+                Problem statement
+                    We have a robot with an wheel base (axle width) of 119mm and a wheel diameter 
+                    of 94.2mm. We want our robot to measure its turn angle as it moves for 1.5 seconds,
+                    at a turn rate of 280 degrees/sec
+
+                Unit conversions
+                    wheelbase = 110mm = 0.11metres; which is the radius of a robot turn with one 
+                                                    wheel fixed.
+                    wheelbase_radian = 0.11metres
+            
+                    wheel_radius = 94.2mm / 2 = 47.1mm = 0.0471metres
+                    wheel_radians = 0.0471metres
+
+                    v = 200 mm/sec = 0.2 metres per sec
+                    L = .011 metres per radian
+                    R = 0.0471 metres per radian
+                    v_r = 280 degrees/sec = 280 * (pi / 180) = 4.89 radian/sec
+
+                Solve equations
+                    w = (v_r * (2 * R) - (2 * v)) / L
+                    w = ((4.89 rad/sec * (2 * 0.0471 m/rad) - (2 * 0.2 m/sec)) / .011 m/rad
+                    w = (0.460638 m/sec - 0.4 m/sec) / .011 m/rad
+                    w = 0.060638 m/sec / .011 m/rad
+                    w = 0.551 m/sec * rad/m
+                    w = 0.551 rad/sec       
+
+                    theta = 0.551 rad/sec (180 / pi) = 31.56 deg/sec * 1.5 seconds = 47.35 degrees
+        '''
+        time.sleep(0.01)
+
+        # TODO need drive speed from settings and from drive()
+
+        #v = drive_speed/1000 # forward velocity (metres per sec)
+        L = self.left_motor.axleTrack / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
+        R = self.wheel_radius / 1000 # radius (metres per wheel radian)     
+
+        # TODO how to calculate v_r
+        #w = (v_r * (2 * R) - (2 * v)) / L
+
+        print("motor position " + str(self.left_motor.wheel.position) )
+        print("motor speed " + str(self.left_motor.wheel.speed()) )
+        print("motor speed_sp " + str(self.left_motor.wheel.speed_sp()) )        
+
+
+        return 0
+
     ###########################################################################
 
-    def angle(self):
-        print("not implemented")      
-        return self.angle        
-      
+
     def state(self):
         print("not implemented")       
         return (self.distance, self.drive_speed, self.angle, self.turn_rate)

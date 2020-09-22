@@ -62,15 +62,6 @@
   "helpUrl": "helpPage.html"
 },
 
-{ "type": "py_distance",
-  "message0": "Distance",
-  "inputsInline": false,
-  "output": "Number",
-  "colour": 225,
-  "tooltip": "Robot distance travelled",
-  "helpUrl": ""
-},
-
 { "type": "py_stop",
   "message0": "Stop",
   "inputsInline": false,
@@ -79,6 +70,24 @@
   "colour": 225,
   "tooltip": "stop robot",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.stop"
+},
+
+{ "type": "py_distance",
+  "message0": "Distance",
+  "inputsInline": false,
+  "output": "Number",
+  "colour": 225,
+  "tooltip": "Robot distance travelled",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.distance"
+},
+
+{ "type": "py_angle",
+  "message0": "angle",
+  "inputsInline": false,
+  "output": "Number",
+  "colour": 225,
+  "tooltip": "Estimated rotation angle of robot drive base",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.angle"
 },
 
 { "type": "sleep",

@@ -21,19 +21,17 @@ class MotorP:
         self.motor = LargeMotor(port)
         self.wheelDiameter = self.motor.wheel.wheelDiameter()
         self.wheelRadius = self.motor.wheel.wheelRadius()        
-        self.axleTrack = self.motor.wheel.axleTrack()
+        self.axleTrack = self.motor.wheel.axleTrack() 
+
+        # TODO access to this should be through MotorP methods
         self.wheel = self.motor.wheel
 
     def __str__(self):
         return "Port: " + str(self.port) + ";\n robotTemplates.js wheelDiameter: " + str(self.wheelDiameter) + ";\n robotTemplates.js axleTrack: " + str(self.axleTrack) 
 
     # Measuring
-    def speed(self):
-        print("speed not implemented")
-        if (self.speed is not None):
-            return self.speed
-        else:
-            raise ValueError("speed not implemented")
+    #def speed(self):
+    #    return self.motor.wheel.axleTrack() 
 
     def angle(self):
         if (self.angle is not None):
@@ -42,7 +40,7 @@ class MotorP:
             raise ValueError("angle not implemented")
 
     def reset_angle(self, angle):
-        self.angle = angle
+        print("not implemented")
 
     # Stopping
     def stop(self):

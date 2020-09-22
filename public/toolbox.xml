@@ -103,6 +103,8 @@
     </block>  
     <block type="py_distance">
     </block>  
+    <block type="py_angle">
+    </block>      
   </category>
 
   <category name="Motor" colour="#5b67a5">
