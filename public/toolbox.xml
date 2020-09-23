@@ -105,6 +105,9 @@
     </block>  
     <block type="py_angle">
     </block>      
+    <block type="py_gyro">
+      <field name="type">ANGLE</field>
+    </block>      
   </category>
 
   <category name="Motor" colour="#5b67a5">

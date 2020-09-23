@@ -90,6 +90,31 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.angle"
 },
 
+{ "type": "py_gyro",
+  "message0": "gyro %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "angle",
+          "ANGLE"
+        ],
+        [
+          "speed",
+          "SPEED"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
 { "type": "sleep",
   "message0": "sleep for %1 %2",
   "args0": [

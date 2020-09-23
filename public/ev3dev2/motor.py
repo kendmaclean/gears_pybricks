@@ -162,7 +162,7 @@ class SpeedDPS(SpeedValue):
     if abs(self.degrees_per_second) <= motor.max_dps:
       return self.degrees_per_second/motor.max_dps * motor.max_speed
     else:
-      raise ValueError("DPS Value must be <= motor.max_dps")
+      raise ValueError("DPS Value " + str(abs(self.degrees_per_second)) + "must be <= motor.max_dps " + str(motor.max_dps))
 
 
 class SpeedDPM(SpeedValue):

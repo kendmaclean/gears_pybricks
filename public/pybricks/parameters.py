@@ -2,11 +2,13 @@
 SENSOR_DELAY = 0.001
 
 class PortP:
+    # motor ports
     A = 'outA'
     B = 'outB'
     C = 'outC'
     D = 'outD'
 
+    # sensor ports
     S1 = 'inS1'
     S2 = 'inS2'
     S3 = 'inS3'

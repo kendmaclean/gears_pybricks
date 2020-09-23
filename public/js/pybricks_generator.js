@@ -11,6 +11,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_stop'] = self.py_stop; // !!!!!!       
     Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
     Blockly.Python['py_angle'] = self.py_angle; // !!!!!!   
+    Blockly.Python['py_gyro'] = self.py_gyro; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -53,6 +54,8 @@ var pybricks_generator = new function() {
       'right_motor = MotorP(PortP.B)\n' +      
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
+      '\n' +
+      'gyro_sensor = GyroSensorP(PortP.S2)\n' +         
       '\n';
 
     var sensorsCode = '';
@@ -72,6 +75,9 @@ var pybricks_generator = new function() {
       i++;
     }
     */ 
+
+    // !!!!!!
+
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var motorsCode = '';
@@ -161,6 +167,20 @@ var pybricks_generator = new function() {
   this.py_angle = function(block) {
     var code = 'robot.angle()';
     return [code, Blockly.Python.ORDER_NONE];
+  };  
+
+  // gyro
+  this.py_gyro = function(block) {
+    var dropdown_type = block.getFieldValue('type');
+
+    if (dropdown_type == 'ANGLE') {
+      var typeStr = 'angle';
+    } else if (dropdown_type == 'SPEED') {
+      var typeStr = 'speed';
+    }
+    var code = 'gyro_sensor' + '.' + typeStr + '()';
+
+    return [code, Blockly.Python.ORDER_ATOMIC];
   };  
   // !!!!!!
 

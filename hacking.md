@@ -43,7 +43,7 @@ This is a fork of quirkycorts excellent EV3 virtual environment ([Gears](https:/
 
 (See also: https://blockly-demo.appspot.com/static/demos/blockfactory/index.html)
 
-* update Toolbox.xml
+* update toolbox.xml
 ```
  <category name="Pybrick" colour="#5b67a5">
     <block type="move_straight">

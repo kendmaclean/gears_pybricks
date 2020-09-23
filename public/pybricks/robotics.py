@@ -62,7 +62,8 @@ class DriveBase:
                 str(DriveBase.SMALLEST_AXLE_TRACK) + "mm and " + str(DriveBase.LARGEST_AXLE_TRACK) + "mm")       
        
         check_motors()
-        self.tank_drive = MoveTank(left_motor.port, right_motor.port)          
+        self.tank_drive = MoveTank(left_motor.port, right_motor.port) 
+
         check_wheel_diameter()
         self.wheel_circumference = self.wheel_diameter * math.pi   # in millimetres          
         check_axle_track()
@@ -302,22 +303,18 @@ class DriveBase:
                 v_r = ((2 * 0.2 m/sec) + (0.5236 rad/sec * 0.11 m/rad)) / (2 * 0.0471 m/rad)
 
                 multiply and cancel out rads
-                    v_r = ((0.4 m/sec) + (0.90514 m/sec)) / (0.056 m/rad)
-                invert fraction in denominator and multiply
-                    v_r = ((0.4  m/sec) + (0.057596 m/sec)) * (rad / 0.056m)
-                distributive multiply and cancel out m:
-                    v_r = (0.4  / 0.056 rad/sec) + (0.057596 / 0.056 rad/sec)
-                divisions:
-                    v_r = (4.2463 rad/sec) + (0.6114 rad/sec)
-                addition:
+                    v_r = ((0.4 m/sec) + (0.057596 m/sec)) / (0.0942 m/rad)
+                add, invert fraction in denominator and multiply
+                    v_r = ((0.457596 m/sec)) * (rad / 0.0942 m)
+                divide and cancel out m:
                     v_r = 4.8577 rad/sec
 
             left wheel velocity
 
-                v_l = ((2 * 0.2 m/sec) - (0.5236 rad/sec * 0.11 m/rad)) / (2 * 0.0471 m/rad)
+                v_l = (0.4 m/sec) - (0.057596 m/sec)) / (0.0942 m/rad)
                 ...
 
-                v_l = (4.2463 rad/sec) - (0.6114 rad/sec)
+                v_l = (0.342404 m/sec) * (rad / 0.0942 m)
                 v_l = 3.6349 rad/sec
 
             Convert these to degrees per second so can be used by on() method of the 
@@ -332,36 +329,32 @@ class DriveBase:
         def getDriveSpeedDPSObj(): # convert drive_speed from millimetres-per-second to degrees-per-second
             rotations = drive_speed / self.wheel_circumference
             degrees = rotations * 360
+            print("mm/sec " + str(drive_speed) + "degrees/sec " + str(degrees))            
             return SpeedDPS(degrees)
 
-        v = drive_speed/1000 # forward velocity (metres per sec)
+        v = drive_speed / 1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
         # !!!!!! makes no sense for axleTrack to be attached to motor property; should be robot attribute
         L = self.left_motor.axleTrack / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
         R = self.wheel_radius / 1000 # radius (metres per wheel radian)
-        '''
-            print("axleTrack: " + str(self.left_motor.axleTrack) + "mm") # should not be a motor property; should be a robot property
-            print("wheel_radius: " + str(self.wheel_radius) + "mm")           
-            print("v: " + str(v))
-            print("w: " + str(w))        
-            print("L: " + str(L))
-            print("R: " + str(R)) 
-        '''           
+     
         def getLeftSpeedDPSObj(): 
             v_r = ((2 * v) + (w * L)) / (2 * R) # in radians
             degrees = v_r * (180 / math.pi) # convert to degrees
-            #print("left: " + str(degrees))
+            print("left degrees/sec " + str(degrees))
             return SpeedDPS(degrees)            
         def getRightSpeedDPSObj(): 
             v_l = ((2 * v) - (w * L)) / (2 * R) # in radians
             degrees = v_l * (180 / math.pi) # convert to degrees
+            print("right degrees/sec " + str(degrees))       
             return SpeedDPS(degrees)    
 
-        if turn_rate == 0:
-            speedDPS_obj = getDriveSpeedDPSObj()
-            self.tank_drive.on(left_speed=speedDPS_obj, right_speed=speedDPS_obj)  
-        else:
-            self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())  
+        #if turn_rate == 0:
+        #    speedDPS_obj = getDriveSpeedDPSObj()
+        #    self.tank_drive.on(left_speed=speedDPS_obj, right_speed=speedDPS_obj)  
+        #else:
+        #   self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())  
+        self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())        
 
     def stop(self):
         self.tank_drive.off(motors=None, brake=True)
@@ -377,12 +370,13 @@ class DriveBase:
         return distance_mm
 
     def angle(self):
+        # TODO NOT FINISHED
         '''
             A. Variables
 
                 v = robot forward velocity (in metres per second)
                 w = robot angular velocity (in radians per second)
-                L = wheelbase (in metres per radian of a robot swing turn), where radian
+                L = wheelbase (in metres per radian of a robot swing turn; where radian
                     corresponds to radius of robot turning in a circle with one fixed wheel)
                 R = wheel radius (in metres per radian of wheel)
 
@@ -401,7 +395,8 @@ class DriveBase:
                     (2 * v) + (w * L) = v_r * (2 * R)
                     w * L = v_r * (2 * R) - (2 * v)   
 
-                    w = (v_r * (2 * R) - (2 * v)) / L
+                    w_r = (v_r * (2 * R) - (2 * v)) / L
+                    w_l = (v_l * (2 * R) - (2 * v)) / -1 * L                    
 
             C. Equations
 
@@ -416,16 +411,14 @@ class DriveBase:
                     at a turn rate of 280 degrees/sec
 
                 Unit conversions
-                    wheelbase = 110mm = 0.11metres; which is the radius of a robot turn with one 
-                                                    wheel fixed.
+                    wheelbase = 110mm = 0.11metres; which is the radius of a robot turn with one wheel fixed.
                     wheelbase_radian = 0.11metres
-            
                     wheel_radius = 94.2mm / 2 = 47.1mm = 0.0471metres
                     wheel_radians = 0.0471metres
-
-                    v = 200 mm/sec = 0.2 metres per sec
                     L = .011 metres per radian
                     R = 0.0471 metres per radian
+
+                    v = 200 mm/sec = 0.2 metres per sec                    
                     v_r = 280 degrees/sec = 280 * (pi / 180) = 4.89 radian/sec
 
                 Solve equations
@@ -437,27 +430,60 @@ class DriveBase:
                     w = 0.551 rad/sec       
 
                     theta = 0.551 rad/sec (180 / pi) = 31.56 deg/sec * 1.5 seconds = 47.35 degrees
+
+            E. Converting to correct units
+
+                to calculate v:
+                    need to convert motor speed from deg/sec to mm/sec
+                given:
+                    r = rotations (in deg/sec)
+                    c = wheel circumference (in mm)
+                    s = drive speed (in mm/sec)
+
+                    tank_drive.left_motor.speed is in dps (degrees per second)
+                and:
+                    r = (s * 360) / c
+                therefore:
+                    s = (r * c) / 360 # in mm/sec
+                    v = s / 1000 # in metres per sec
+
+                to calculate v_r:
+                    need to convert motor speed from deg/sec to rad/sec
+                given:
+                    v_r = clockwise angular velocity of right wheel (in radians per sec)
+                    degrees = radian * (180 / pi)
+                    radians = degrees * (pi / 180)                
+                therefore:
+                    v_r = self.tank_drive.left_motor.speed * (pi / 180) 
         '''
-        time.sleep(0.01)
 
-        # TODO need drive speed from settings and from drive()
+        # TODO this is still not working... might need to use pose calculations....
 
-        #v = drive_speed/1000 # forward velocity (metres per sec)
+        
+        time.sleep(SENSOR_DELAY)
+
         L = self.left_motor.axleTrack / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
-        R = self.wheel_radius / 1000 # radius (metres per wheel radian)     
+        R = self.wheel_radius / 1000 # radius (metres per wheel radian)  
+        s = (self.tank_drive.left_motor.speed * self.wheel_circumference) / 360 # speed (in mm per sec)
+        v = s / 1000 # forward velocity (metres per sec)
+        v_r = math.radians(self.tank_drive.right_motor.speed ) # (radians per second)
+        v_l = math.radians(self.tank_drive.left_motor.speed ) # (radians per second)
 
-        # TODO how to calculate v_r
-        #w = (v_r * (2 * R) - (2 * v)) / L
-
-        print("motor position " + str(self.left_motor.wheel.position) )
-        print("motor speed " + str(self.left_motor.wheel.speed()) )
-        print("motor speed_sp " + str(self.left_motor.wheel.speed_sp()) )        
-
-
+        w_r = (v_r * (2 * R) - (2 * v)) / L
+        w_l = (v_l * (2 * R) - (2 * v)) / -1 * L     
+        '''
+                print("=========" ) 
+                print("L " + str(L) )
+                print("R " + str(R) )
+                print("s " + str(s) )
+                print("v " + str(v) )      
+                print("w_r " + str(w_r) )     
+                print("w_l " + str(w_l) )                    
+        '''
+        print("Warning angle not implemented")
         return 0
 
     ###########################################################################
-
 
     def state(self):
         print("not implemented")       
