@@ -139,6 +139,8 @@ class UltrasonicSensorP:
 # TODO how to test to see if Gyro actually in the port selected???
 class GyroSensorP:
     def __init__(self, port, positive_direction=DirectionP.CLOCKWISE):
+        if positive_direction is not DirectionP.CLOCKWISE:
+            print("ERROR: cannot set positive_direction in this virtual environment")        
         self.port = port
         self.positive_direction = positive_direction 
         self.sensor = simPython.GyroSensor(port)
@@ -164,6 +166,6 @@ class GyroSensorP:
 
     def reset_angle(self, angle):
         if angle is not None:
-            print("ERROR: cannot set Gyro to specified angle in this virutal environment")
+            print("ERROR: cannot set Gyro to specified angle in this virtual environment")
         self.sensor.reset()
         return  
