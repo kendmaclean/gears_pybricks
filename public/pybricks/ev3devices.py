@@ -114,12 +114,18 @@ class TouchSensorP:
         print("TouchSensor not implemented")
 
 class UltrasonicSensorP:
-    def __init__(self, port):
-        self.port = port
+    def __init__(self, address=None):
+        self.sensor = simPython.UltrasonicSensor(address)
 
-    def distance(self, silent=False):
-        print("ColorSensor not implemented")       
+    def distance(self): # in cm not mm
+        time.sleep(SENSOR_DELAY)
+        print("note: fails silently if you put wrong port; robot 1 uses port 2!")
+        return float(self.sensor.dist())
 
+    @property
+    def presence(self):
+        print("Error UltrasonicSensor presence not implemented")
+        return False
 
 class ColorSensorP:
     def __init__(self, address=None):

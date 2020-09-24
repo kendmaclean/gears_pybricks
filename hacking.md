@@ -19,10 +19,11 @@ This is a fork of quirkycorts excellent EV3 virtual environment ([Gears](https:/
 * pythonPanel.js - tab to access Python code editor
 * ace.js - embeddable code editor written in JavaScript
 
+## Python Interpreter
+  * skultp.js - Skulpt is a Javascript implementation of Python 2.x. - Python that runs in your browser.
+
 ## 3D Simulator
 * simPanel.js - tab to access 3D virtual environment
-* Python Interpreter
-  * skultp.js - Skulpt is a Javascript implementation of Python 2.x. - Python that runs in your browser.
   * Python robotics support library (in public/js/pybricks folder - formerly ev3dev2 folder)
     * motor.py
     * sound.py

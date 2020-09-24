@@ -323,7 +323,7 @@ var $builtinmodule = function(name) {
     });
 
     $loc.dist = new Sk.builtin.func(function(self) {
-      return self.sensor.getDistance();
+      return Sk.ffi.basicwrap(self.sensor.getDistance());
     });
 
   }, 'UltrasonicSensor', []);

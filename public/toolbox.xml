@@ -111,6 +111,9 @@
     <block type="py_color">
       <field name="type">INTENSITY</field>
       <field name="port">1</field>
+    </block>    
+    <block type="py_ultrasonic">
+      <field name="port">4</field>
     </block>     
   </category>
 

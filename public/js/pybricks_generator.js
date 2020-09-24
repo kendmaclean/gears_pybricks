@@ -13,6 +13,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_angle'] = self.py_angle; // !!!!!!   
     Blockly.Python['py_gyro'] = self.py_gyro; // !!!!!!   
     Blockly.Python['py_color'] = self.py_color; // !!!!!!   
+    Blockly.Python['py_ultrasonic'] = self.py_ultrasonic; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -56,16 +57,17 @@ var pybricks_generator = new function() {
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
       '\n' +
-      'gyro_sensor = GyroSensorP(PortP.S3)\n' +       
       'color_sensor_in1 = ColorSensorP(PortP.S1)\n' +        
       'color_sensor_in2 = ColorSensorP(PortP.S2)\n' +              
+      'gyro_sensor = GyroSensorP(PortP.S3)\n' +     
+      'obstacle_sensor = UltrasonicSensorP(PortP.S4)\n' +          
       '\n';
-
+      
     var sensorsCode = '';
     var i = 1;
     var sensor = null;
     /*
-    # TODO: this does not seem to work... it just says they all exist
+    # TODO: this does not seem to work... it just prints them all, assuming they all exist
 
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
@@ -124,7 +126,6 @@ var pybricks_generator = new function() {
   };
 
   // !!!!!!
-  // move straight
   this.py_straight = function(block) {
     var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     if (speed === undefined) { speed = 0;  }
@@ -134,7 +135,6 @@ var pybricks_generator = new function() {
     return code;    
   }
 
- // move turn
   this.py_turn = function(block) {
     var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
     if (angle === undefined) { angle = 0;  }
@@ -144,7 +144,6 @@ var pybricks_generator = new function() {
     return code;    
   }  
 
-  // drive
   this.py_drive = function(block) {
     var drive_speed = Blockly.Python.valueToCode(block, 'drive_speed', Blockly.Python.ORDER_ATOMIC);
     var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);  
@@ -156,26 +155,22 @@ var pybricks_generator = new function() {
     return code;    
   }  
 
-  // stop
   this.py_stop = function(block) {
     var code = 'robot.stop()';
     return code;
   };
 
-  // distance
   this.py_distance = function(block) {
     var code = 'robot.distance()';
     return [code, Blockly.Python.ORDER_NONE];
   };
 
-  // angle
   this.py_angle = function(block) {
     var code = 'robot.angle()';
     return [code, Blockly.Python.ORDER_NONE];
   };  
 
-  // gyro
-  this.py_gyro = function(block) {
+   this.py_gyro = function(block) {
     var dropdown_type = block.getFieldValue('type');
 
     if (dropdown_type == 'ANGLE') {
@@ -188,7 +183,6 @@ var pybricks_generator = new function() {
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
 
-  // color sensor value
   this.py_color = function(block) {
     var dropdown_type = block.getFieldValue('type');
     var dropdown_port = block.getFieldValue('port');
@@ -205,6 +199,13 @@ var pybricks_generator = new function() {
     var code = 'color_sensor_in' + dropdown_port + '.' + methodStr;
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
+
+ this.py_ultrasonic = function(block) {
+  var dropdown_port = block.getFieldValue('port');
+
+  var code = 'obstacle_sensor.distance()';
+  return [code, Blockly.Python.ORDER_NONE];
+};  
   // !!!!!!
 
   // move tank

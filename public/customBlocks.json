@@ -168,6 +168,38 @@
   "tooltip": "",
   "helpUrl": ""
 },
+{ "type": "py_ultrasonic",
+  "message0": "ultrasonic distance on port %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
 { "type": "sleep",
   "message0": "sleep for %1 %2",
   "args0": [
