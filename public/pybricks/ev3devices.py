@@ -113,28 +113,62 @@ class TouchSensorP:
     def pressed(self):
         print("TouchSensor not implemented")
 
-class ColorSensorP:
-    def __init__(self, port):
-        self.port = port
-
-    def color(self):
-        print("ColorSensor not implemented")       
-
-    def ambient(self):
-        print("ColorSensor not implemented") 
-
-    def reflection(self):
-        print("ColorSensor not implemented")               
-
-    def rgb(self):
-        print("ColorSensor not implemented")
-
 class UltrasonicSensorP:
     def __init__(self, port):
         self.port = port
 
     def distance(self, silent=False):
         print("ColorSensor not implemented")       
+
+
+class ColorSensorP:
+    def __init__(self, address=None):
+        self.sensor = simPython.ColorSensor(address)
+
+    def reflection(self):
+        time.sleep(SENSOR_DELAY)
+        return int(list(self.sensor.value())[0] / 2.55)
+
+    def color(self):
+        time.sleep(SENSOR_DELAY)
+        hsv = self.hsv
+
+        if hsv[1] < 20:
+            if hsv[2] < 30:
+                return ColorP.BLACK
+            else:
+                return ColorP.WHITE
+
+        elif hsv[0] < 30:
+            return ColorP.RED
+
+        elif hsv[0] < 90:
+            return ColorP.YELLOW
+
+        elif hsv[0] < 163:
+            return ColorP.GREEN
+
+        elif hsv[0] < 283:
+            return ColorP.BLUE
+
+        else:
+            return ColorP.RED
+
+    def rgb(self):
+        time.sleep(SENSOR_DELAY)
+        rgb = list(self.sensor.value())
+        for i in range(3):
+            rgb[i] = int(rgb[i])
+        return rgb
+
+    @property
+    def hsv(self):
+        time.sleep(SENSOR_DELAY)
+        hsv = list(self.sensor.valueHSV())
+        for i in range(3):
+            hsv[i] = int(hsv[i])
+        return hsv
+
 
 # TODO how to test to see if Gyro actually in the port selected???
 class GyroSensorP:
@@ -169,3 +203,36 @@ class GyroSensorP:
             print("ERROR: cannot set Gyro to specified angle in this virtual environment")
         self.sensor.reset()
         return  
+
+
+
+'''
+class GyroSensorP:
+  def __init__(self, address=None):
+    self.sensor = simPython.GyroSensor(address)
+
+  @property
+  def angle(self):
+    # The number of degrees that the sensor has been rotated since it was put into this mode.
+    time.sleep(SENSOR_DELAY)
+    return self.angle_and_rate[0]
+
+  @property
+  def rate(self):
+    # The rate at which the sensor is rotating, in degrees/second.
+    time.sleep(SENSOR_DELAY)
+    return self.angle_and_rate[1]
+
+  @property
+  def angle_and_rate(self):
+    time.sleep(SENSOR_DELAY)
+    angle_and_rate = list(self.sensor.angleAndRate())
+    for i in range(2):
+      angle_and_rate[i] = int(angle_and_rate[i])
+    return angle_and_rate
+
+  def reset(self):
+    self.sensor.reset()
+    return
+
+'''        

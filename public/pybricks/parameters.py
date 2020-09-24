@@ -25,15 +25,14 @@ class StopP:
     HOLD = 'HOLD'
 
 class ColorP:
-    BLACK = 'BLACK'
-    BLUE = 'BLUE'
-    GREEN = 'GREEN'
-    YELLOW = 'YELLOW'
-    RED = 'RED'
-    WHITE = 'WHITE'    
-    BROWN = 'BROWN'
-    ORANGE = 'ORANGE'
-    PURPLE = 'PURPLE'    
+    # COLOR_NOCOLOR = 0 # HSV values from https://lego.fandom.com/wiki/Colour_Palette
+    BLACK = 1   # 0, 0, 0
+    BLUE = 2    # 207, 64, 78
+    GREEN = 3   # 120, 100, 60
+    YELLOW = 4  # 60, 100, 100
+    RED = 5     # 0, 100, 100
+    WHITE = 6   # 0, 0, 100
+    BROWN = 7   # 24, 79, 25
 
 #class ButtonP:
 #   print("Button not implemented") 

@@ -12,6 +12,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
     Blockly.Python['py_angle'] = self.py_angle; // !!!!!!   
     Blockly.Python['py_gyro'] = self.py_gyro; // !!!!!!   
+    Blockly.Python['py_color'] = self.py_color; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -55,13 +56,17 @@ var pybricks_generator = new function() {
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
       '\n' +
-      'gyro_sensor = GyroSensorP(PortP.S3)\n' +         
+      'gyro_sensor = GyroSensorP(PortP.S3)\n' +       
+      'color_sensor_in1 = ColorSensorP(PortP.S1)\n' +        
+      'color_sensor_in2 = ColorSensorP(PortP.S2)\n' +              
       '\n';
 
     var sensorsCode = '';
     var i = 1;
     var sensor = null;
     /*
+    # TODO: this does not seem to work... it just says they all exist
+
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
         sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n';
@@ -180,6 +185,24 @@ var pybricks_generator = new function() {
     }
     var code = 'gyro_sensor' + '.' + typeStr + '()';
 
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };  
+
+  // color sensor value
+  this.py_color = function(block) {
+    var dropdown_type = block.getFieldValue('type');
+    var dropdown_port = block.getFieldValue('port');
+    var methodStr = '';
+
+    if (dropdown_type == 'COLOR') {
+      methodStr = 'color()';
+    } else if (dropdown_type == 'REFLECTION') {
+      methodStr = 'reflection()';
+    } else if (dropdown_type == 'RGB') {
+      methodStr = 'rgb()';
+    }
+
+    var code = 'color_sensor_in' + dropdown_port + '.' + methodStr;
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
   // !!!!!!

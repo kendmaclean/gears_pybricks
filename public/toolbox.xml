@@ -107,7 +107,11 @@
     </block>      
     <block type="py_gyro">
       <field name="type">ANGLE</field>
-    </block>      
+    </block>     
+    <block type="py_color">
+      <field name="type">INTENSITY</field>
+      <field name="port">1</field>
+    </block>     
   </category>
 
   <category name="Motor" colour="#5b67a5">
