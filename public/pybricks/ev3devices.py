@@ -5,8 +5,13 @@ SENSOR_DELAY = 0.001
 import simPython, time
 import math
 from ev3dev2.motor import *
-
 from pybricks.parameters import *
+
+from ev3dev2.motor import *
+from ev3dev2.sound import Sound
+from ev3dev2.sensor import *
+from ev3dev2.sensor.lego import *
+from ev3dev2.sensor.virtual import *
 
 class MotorP:
     MAX_SPEED = 300    
@@ -131,16 +136,34 @@ class UltrasonicSensorP:
     def distance(self, silent=False):
         print("ColorSensor not implemented")       
 
+# TODO how to test to see if Gyro actually in the port selected???
 class GyroSensorP:
     def __init__(self, port, positive_direction=DirectionP.CLOCKWISE):
         self.port = port
-        self.positive_direction = positive_direction        
+        self.positive_direction = positive_direction 
+        self.sensor = simPython.GyroSensor(port)
 
     def speed(self):
-        print("GyroSensor not implemented")            
+        # rate is actually: angularVelocity
+        time.sleep(SENSOR_DELAY)
+        rate = self.angle_and_rate()
+        return rate[1]
 
     def angle(self):
-        print("GyroSensor not implemented")       
+        # angle() is in degrees
+        time.sleep(SENSOR_DELAY)        
+        angle = self.angle_and_rate()
+        return angle[0]   
 
-    def reset_angle(self):
-        print("GyroSensornot implemented")     
+    def angle_and_rate(self):
+        time.sleep(SENSOR_DELAY)
+        angle_and_rate = list(self.sensor.angleAndRate())
+        for i in range(2):
+            angle_and_rate[i] = int(angle_and_rate[i])
+        return angle_and_rate
+
+    def reset_angle(self, angle):
+        if angle is not None:
+            print("ERROR: cannot set Gyro to specified angle in this virutal environment")
+        self.sensor.reset()
+        return  

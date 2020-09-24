@@ -1,6 +1,5 @@
 var robotTemplates = [
-  {
-    name: 'singleFollower',
+  { name: 'singleFollower',
     shortDescription: 'Single Sensor Line Follower',
     longDescription:
       '<p>This robot is equipped with a single color sensor for line following.</p>' +
@@ -77,8 +76,7 @@ var robotTemplates = [
       }
     ]
   },
-  {
-    name: 'doubleFollower',
+  { name: 'doubleFollower',
     shortDescription: 'Double Sensor Line Follower',
     longDescription:
       '<p>This robot is equipped with two color sensor for line following.</p>' +

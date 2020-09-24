@@ -341,12 +341,10 @@ class DriveBase:
         def getLeftSpeedDPSObj(): 
             v_r = ((2 * v) + (w * L)) / (2 * R) # in radians
             degrees = v_r * (180 / math.pi) # convert to degrees
-            print("left degrees/sec " + str(degrees))
             return SpeedDPS(degrees)            
         def getRightSpeedDPSObj(): 
             v_l = ((2 * v) - (w * L)) / (2 * R) # in radians
             degrees = v_l * (180 / math.pi) # convert to degrees
-            print("right degrees/sec " + str(degrees))       
             return SpeedDPS(degrees)    
 
         #if turn_rate == 0:
@@ -458,7 +456,7 @@ class DriveBase:
         '''
 
         # TODO this is still not working... might need to use pose calculations....
-
+        # wrong formulas????
         
         time.sleep(SENSOR_DELAY)
 
@@ -479,6 +477,8 @@ class DriveBase:
                 print("v " + str(v) )      
                 print("w_r " + str(w_r) )     
                 print("w_l " + str(w_l) )                    
+
+                #print(format(432.456, ".2f")) # trim off digits
         '''
         print("Warning angle not implemented")
         return 0

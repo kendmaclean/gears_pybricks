@@ -146,11 +146,13 @@ class GyroSensor:
 
   @property
   def angle(self):
+    # The number of degrees that the sensor has been rotated since it was put into this mode.
     time.sleep(SENSOR_DELAY)
     return self.angle_and_rate[0]
 
   @property
   def rate(self):
+    # The rate at which the sensor is rotating, in degrees/second.
     time.sleep(SENSOR_DELAY)
     return self.angle_and_rate[1]
 

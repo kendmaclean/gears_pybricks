@@ -9,10 +9,11 @@ class PortP:
     D = 'outD'
 
     # sensor ports
-    S1 = 'inS1'
-    S2 = 'inS2'
-    S3 = 'inS3'
-    S4 = 'inS4'
+    S1 = 'in1'
+    S2 = 'in2'
+    S3 = 'in3'
+    S4 = 'in4'
+    S5 = 'in5'
 
 class DirectionP:
     CLOCKWISE = 1

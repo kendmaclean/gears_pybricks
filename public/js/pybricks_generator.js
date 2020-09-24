@@ -55,7 +55,7 @@ var pybricks_generator = new function() {
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
       '\n' +
-      'gyro_sensor = GyroSensorP(PortP.S2)\n' +         
+      'gyro_sensor = GyroSensorP(PortP.S3)\n' +         
       '\n';
 
     var sensorsCode = '';
