@@ -204,9 +204,10 @@ class GyroSensorP:
             angle_and_rate[i] = int(angle_and_rate[i])
         return angle_and_rate
 
-    def reset_angle(self, angle):
-        if angle is not None:
-            print("ERROR: cannot set Gyro to specified angle in this virtual environment")
+    #def reset_angle(self, angle):
+    #    if angle is not None:
+    #        print("ERROR: cannot set Gyro to specified angle in this virtual environment")
+    def reset_angle(self):            
         self.sensor.reset()
         return  
 

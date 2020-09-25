@@ -114,6 +114,16 @@
   "tooltip": "returns the speed (angular velocity) of the sensor or accumulated angle of the sensor",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#gyroscopic-sensor"
 },
+{ "type": "py_reset_gyro",
+  "message0": "reset gyro",
+  "inputsInline": false,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
 { "type": "py_color",
   "message0": "color sensor %1 on port %2",
   "args0": [

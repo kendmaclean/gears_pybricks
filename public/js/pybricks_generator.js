@@ -12,6 +12,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
     Blockly.Python['py_angle'] = self.py_angle; // !!!!!!   
     Blockly.Python['py_gyro'] = self.py_gyro; // !!!!!!   
+    Blockly.Python['py_reset_gyro'] = self.py_reset_gyro; // !!!!!!       
     Blockly.Python['py_color'] = self.py_color; // !!!!!!   
     Blockly.Python['py_ultrasonic'] = self.py_ultrasonic; // !!!!!!   
     Blockly.Python['py_wait'] = self.py_wait; // !!!!!!   
@@ -163,7 +164,7 @@ var pybricks_generator = new function() {
     return [code, Blockly.Python.ORDER_NONE];
   };  
 
-   this.py_gyro = function(block) {
+  this.py_gyro = function(block) {
     var dropdown_type = block.getFieldValue('type');
 
     if (dropdown_type == 'ANGLE') {
@@ -175,6 +176,15 @@ var pybricks_generator = new function() {
 
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
+
+  // gyro reset
+  this.py_reset_gyro = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    // should be able to reset to a given angle... not implemented yet
+    var code = 'gyro_sensor.reset_angle()\n';
+    return code;
+  };
+
 
   this.py_color = function(block) {
     var dropdown_type = block.getFieldValue('type');
@@ -193,11 +203,11 @@ var pybricks_generator = new function() {
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
 
- this.py_ultrasonic = function(block) {
+  this.py_ultrasonic = function(block) {
 
-  var code = 'obstacle_sensor.distance()';
-  return [code, Blockly.Python.ORDER_NONE];
-};  
+    var code = 'obstacle_sensor.distance()';
+    return [code, Blockly.Python.ORDER_NONE];
+  };  
 
   this.py_wait = function(block) {
     var value_milliseconds = Blockly.Python.valueToCode(block, 'milliseconds', Blockly.Python.ORDER_ATOMIC);
@@ -206,6 +216,9 @@ var pybricks_generator = new function() {
 
     return code;
   };
+
+
+
   // !!!!!!
 
   // move tank
