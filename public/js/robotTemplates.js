@@ -159,8 +159,7 @@ var robotTemplates = [
       }
     ]
   },
-  {
-    name: 'paintball',
+  { name: 'paintball',
     shortDescription: 'Paintball Launcher',
     longDescription:
       '<p>This robot is similar to the double sensor line follower, but with the addition of a paintball launcher mounted on an motorized arm. ' +
@@ -265,8 +264,7 @@ var robotTemplates = [
       }
     ]
   },
-  {
-    name: 'maze',
+  { name: 'maze',
     shortDescription: 'Maze Runner',
     longDescription:
       '<p>This robot is equipped with three ultrasonic sensor to facilitate maze navigation, and a color sensor to detect the end point.</p>' +
@@ -370,8 +368,7 @@ var robotTemplates = [
       }
     ]
   },
-  {
-    name: 'maze2',
+  { name: 'maze2',
     shortDescription: 'Maze Runner MkII',
     longDescription:
       '<p>This is an advanced maze runner robot that replaces the original\'s three ultrasonic sensor with a single laser range finder and a foward facing color sensor mounted on a swivel platform.</p>' +
@@ -480,8 +477,7 @@ var robotTemplates = [
       }
     ]
   },
-  {
-    name: 'tow',
+  { name: 'tow',
     shortDescription: 'Tow Truck',
     longDescription:
       '<p>This robot is equipped with an arm mounted magnet.</p>' +
@@ -587,8 +583,7 @@ var robotTemplates = [
       }
     ]
   },
-  {
-    name: 'crane',
+  { name: 'crane',
     shortDescription: 'Crane',
     longDescription:
       '<p>This robot is equipped with an electromagnet at the end of a two segments crane arm.</p>' +

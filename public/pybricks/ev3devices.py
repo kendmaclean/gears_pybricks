@@ -16,7 +16,8 @@ from ev3dev2.sensor.virtual import *
 class MotorP:
     MAX_SPEED = 300    
     MAX_DURATION = 1000    
-
+    # TODO not a ful implementation
+    
     def __init__(self, port, positive_direction=DirectionP.CLOCKWISE, gears=None):
         self.port = port
         self.positive_direction = positive_direction
