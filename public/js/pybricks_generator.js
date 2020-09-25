@@ -14,6 +14,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_gyro'] = self.py_gyro; // !!!!!!   
     Blockly.Python['py_color'] = self.py_color; // !!!!!!   
     Blockly.Python['py_ultrasonic'] = self.py_ultrasonic; // !!!!!!   
+    Blockly.Python['py_wait'] = self.py_wait; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -51,10 +52,12 @@ var pybricks_generator = new function() {
       'from pybricks.ev3devices import *\n' +      
       'from pybricks.parameters import *\n' +    
       'from pybricks.robotics import *\n' + 
+      'from pybricks.tools import wait' +
       '\n' +
       'left_motor = MotorP(PortP.A)\n' +          
       'right_motor = MotorP(PortP.B)\n' +      
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
+      // TODO only required if user using straight or turn commands...
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
       '\n' +
       'color_sensor_in1 = ColorSensorP(PortP.S1)\n' +        
@@ -206,6 +209,14 @@ var pybricks_generator = new function() {
   var code = 'obstacle_sensor.distance()';
   return [code, Blockly.Python.ORDER_NONE];
 };  
+
+  this.py_wait = function(block) {
+    var value_milliseconds = Blockly.Python.valueToCode(block, 'milliseconds', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'wait(' + value_milliseconds + ')\n';
+
+    return code;
+  };
   // !!!!!!
 
   // move tank

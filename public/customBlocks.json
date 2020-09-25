@@ -200,6 +200,27 @@
   "tooltip": "",
   "helpUrl": ""
 },
+{ "type": "py_wait",
+  "message0": "wait for %1 millseconds",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "milliseconds",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 65,
+  "tooltip": "pause program for a specified amount of time.",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/tools.html#pybricks.tools.wait"
+},
+
+
+
+
+
+
 { "type": "sleep",
   "message0": "sleep for %1 %2",
   "args0": [

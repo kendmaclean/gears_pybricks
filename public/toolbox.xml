@@ -1,75 +1,5 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-  <category name="Motion" colour="#5b67a5">
-    <block type="move_tank">
-      <field name="units">PERCENT</field>
-      <value name="left">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-      <value name="right">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="move_tank_for">
-      <field name="units">PERCENT</field>
-      <field name="units2">ROTATIONS</field>
-      <value name="left">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-      <value name="right">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-      <value name="duration">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="move_steering">
-      <field name="units">PERCENT</field>
-      <value name="steering">
-        <shadow type="math_number">
-          <field name="NUM">0</field>
-        </shadow>
-      </value>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="move_steering_for">
-      <field name="units">PERCENT</field>
-      <field name="units2">ROTATIONS</field>
-      <value name="steering">
-        <shadow type="math_number">
-          <field name="NUM">0</field>
-        </shadow>
-      </value>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-      <value name="duration">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="stop">
-      <field name="stop_action">HOLD</field>
-    </block>
-  </category>
-
- <category name="Pybrick" colour="#5b67a5">
+  <category name="Robot" colour="#5b67a5">
     <block type="py_straight">
       <field name="units">MILLIMETRES</field>
       <value name="speed">
@@ -103,8 +33,8 @@
     </block>  
     <block type="py_distance">
     </block>  
-    <block type="py_angle">
-    </block>      
+  </category>
+  <category name="Sensors" colour="#5ba58c">
     <block type="py_gyro">
       <field name="type">ANGLE</field>
     </block>     
@@ -115,119 +45,6 @@
     <block type="py_ultrasonic">
       <field name="port">4</field>
     </block>     
-  </category>
-
-  <category name="Motor" colour="#5b67a5">
-    <block type="run_motor">
-      <field name="port">A</field>
-      <field name="unit">PERCENT</field>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="run_motor_for">
-      <field name="port">A</field>
-      <field name="unit">PERCENT</field>
-      <field name="unit2">ROTATIONS</field>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-      <value name="duration">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="run_motor_to">
-      <field name="port">A</field>
-      <field name="unit">PERCENT</field>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-      <value name="degrees">
-        <shadow type="math_number">
-          <field name="NUM">0</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="stop_motor">
-      <field name="port">A</field>
-      <field name="stop_action">BRAKE</field>
-    </block>
-    <block type="speed">
-      <field name="port">A</field>
-    </block>
-    <block type="position">
-      <field name="port">A</field>
-    </block>
-    <block type="reset_motor">
-      <field name="port">BOTH</field>
-    </block>
-  </category>
-  <category name="Sensors" colour="#5ba58c">
-    <block type="color_sensor">
-      <field name="type">INTENSITY</field>
-      <field name="port">1</field>
-    </block>
-    <block type="ultrasonic_sensor">
-      <field name="port">1</field>
-      <field name="units">CM</field>
-    </block>
-    <block type="gyro_sensor">
-      <field name="type">ANGLE</field>
-      <field name="port">1</field>
-    </block>
-    <block type="reset_gyro">
-      <field name="port">1</field>
-    </block>
-    <block type="gps_sensor">
-      <field name="type">X</field>
-      <field name="port">1</field>
-    </block>
-  </category>
-  <category name="Sound" colour="#a5745b">
-    <block type="say">
-      <field name="block">NO_BLOCK</field>
-      <value name="text">
-        <shadow type="text">
-          <field name="TEXT">Hello world</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="beep">
-      <field name="block">NO_BLOCK</field>
-    </block>
-    <block type="play_tone">
-      <field name="block">NO_BLOCK</field>
-      <value name="frequency">
-        <shadow type="math_number">
-          <field name="NUM">400</field>
-        </shadow>
-      </value>
-      <value name="duration">
-        <shadow type="math_number">
-          <field name="NUM">0.5</field>
-        </shadow>
-      </value>
-    </block>
-  </category>
-  <category name="Control" colour="#9fa55b">
-    <block type="sleep">
-      <field name="units">SECONDS</field>
-      <value name="seconds">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="time"></block>
-    <block type="exit"></block>
   </category>
   <category name="Logic" colour="#5b80a5">
     <block type="controls_if"></block>
@@ -242,7 +59,6 @@
       <field name="BOOL">TRUE</field>
     </block>
     <block type="logic_null"></block>
-    <block type="logic_ternary"></block>
   </category>
   <category name="Loops" colour="#5ba55b">
     <block type="controls_repeat_ext">
@@ -254,30 +70,6 @@
     </block>
     <block type="controls_whileUntil">
       <field name="MODE">WHILE</field>
-    </block>
-    <block type="controls_for">
-      <field name="VAR" id="VcE)ymM,ZOf#f[tO9di}">i</field>
-      <value name="FROM">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-      <value name="TO">
-        <shadow type="math_number">
-          <field name="NUM">10</field>
-        </shadow>
-      </value>
-      <value name="BY">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="controls_forEach">
-      <field name="VAR" id="|nY/=BSo;Ot#QGA[]Lu_">j</field>
-    </block>
-    <block type="controls_flow_statements">
-      <field name="FLOW">BREAK</field>
     </block>
   </category>
   <category name="Math" colour="#5b67a5">
@@ -297,165 +89,10 @@
         </shadow>
       </value>
     </block>
-    <block type="math_single">
-      <field name="OP">ROOT</field>
-      <value name="NUM">
-        <shadow type="math_number">
-          <field name="NUM">9</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_trig">
-      <field name="OP">SIN</field>
-      <value name="NUM">
-        <shadow type="math_number">
-          <field name="NUM">45</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_constant">
-      <field name="CONSTANT">PI</field>
-    </block>
-    <block type="math_number_property">
-      <mutation divisor_input="false"></mutation>
-      <field name="PROPERTY">EVEN</field>
-      <value name="NUMBER_TO_CHECK">
-        <shadow type="math_number">
-          <field name="NUM">0</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_round">
-      <field name="OP">ROUND</field>
-      <value name="NUM">
-        <shadow type="math_number">
-          <field name="NUM">3.1</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_on_list">
-      <mutation op="SUM"></mutation>
-      <field name="OP">SUM</field>
-    </block>
-    <block type="math_modulo">
-      <value name="DIVIDEND">
-        <shadow type="math_number">
-          <field name="NUM">64</field>
-        </shadow>
-      </value>
-      <value name="DIVISOR">
-        <shadow type="math_number">
-          <field name="NUM">10</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_constrain">
-      <value name="VALUE">
-        <shadow type="math_number">
-          <field name="NUM">50</field>
-        </shadow>
-      </value>
-      <value name="LOW">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-      <value name="HIGH">
-        <shadow type="math_number">
-          <field name="NUM">100</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_random_int">
-      <value name="FROM">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-      <value name="TO">
-        <shadow type="math_number">
-          <field name="NUM">100</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_random_float"></block>
-  </category>
+  </category>    
   <category name="Text" colour="#5ba58c">
     <block type="text">
       <field name="TEXT"></field>
-    </block>
-    <block type="text_join">
-      <mutation items="2"></mutation>
-    </block>
-    <block type="text_append">
-      <field name="VAR" id="HG,{uD_;}DEvqopmkKqg">item</field>
-      <value name="TEXT">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-    </block>
-    <block type="text_length">
-      <value name="VALUE">
-        <shadow type="text">
-          <field name="TEXT">abc</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="text_isEmpty">
-      <value name="VALUE">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-    </block>
-    <block type="text_indexOf">
-      <field name="END">FIRST</field>
-      <value name="VALUE">
-        <block type="variables_get">
-          <field name="VAR" id="I6:SnfV,0xRl9{8mi3@s">text</field>
-        </block>
-      </value>
-      <value name="FIND">
-        <shadow type="text">
-          <field name="TEXT">abc</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="text_charAt">
-      <mutation at="true"></mutation>
-      <field name="WHERE">FROM_START</field>
-      <value name="VALUE">
-        <block type="variables_get">
-          <field name="VAR" id="I6:SnfV,0xRl9{8mi3@s">text</field>
-        </block>
-      </value>
-    </block>
-    <block type="text_getSubstring">
-      <mutation at1="true" at2="true"></mutation>
-      <field name="WHERE1">FROM_START</field>
-      <field name="WHERE2">FROM_START</field>
-      <value name="STRING">
-        <block type="variables_get">
-          <field name="VAR" id="I6:SnfV,0xRl9{8mi3@s">text</field>
-        </block>
-      </value>
-    </block>
-    <block type="text_changeCase">
-      <field name="CASE">UPPERCASE</field>
-      <value name="TEXT">
-        <shadow type="text">
-          <field name="TEXT">abc</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="text_trim">
-      <field name="MODE">BOTH</field>
-      <value name="TEXT">
-        <shadow type="text">
-          <field name="TEXT">abc</field>
-        </shadow>
-      </value>
     </block>
     <block type="text_print">
       <value name="TEXT">
@@ -464,84 +101,11 @@
         </shadow>
       </value>
     </block>
-    <block type="text_prompt_ext">
-      <mutation type="TEXT"></mutation>
-      <field name="TYPE">TEXT</field>
-      <value name="TEXT">
-        <shadow type="text">
-          <field name="TEXT">abc</field>
-        </shadow>
-      </value>
-    </block>
   </category>
-  <category name="Lists" colour="#745ba5">
-    <block type="lists_create_with">
-      <mutation items="0"></mutation>
+ <category name="Control" colour="#9fa55b">
+    <block type="py_wait">
     </block>
-    <block type="lists_create_with">
-      <mutation items="3"></mutation>
-    </block>
-    <block type="lists_repeat">
-      <value name="NUM">
-        <shadow type="math_number">
-          <field name="NUM">5</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="lists_length"></block>
-    <block type="lists_isEmpty"></block>
-    <block type="lists_indexOf">
-      <field name="END">FIRST</field>
-      <value name="VALUE">
-        <block type="variables_get">
-          <field name="VAR" id="+UwTmtg43A,{wt)k$X{?">list</field>
-        </block>
-      </value>
-    </block>
-    <block type="lists_getIndex">
-      <mutation statement="false" at="true"></mutation>
-      <field name="MODE">GET</field>
-      <field name="WHERE">FROM_START</field>
-      <value name="VALUE">
-        <block type="variables_get">
-          <field name="VAR" id="+UwTmtg43A,{wt)k$X{?">list</field>
-        </block>
-      </value>
-    </block>
-    <block type="lists_setIndex">
-      <mutation at="true"></mutation>
-      <field name="MODE">SET</field>
-      <field name="WHERE">FROM_START</field>
-      <value name="LIST">
-        <block type="variables_get">
-          <field name="VAR" id="+UwTmtg43A,{wt)k$X{?">list</field>
-        </block>
-      </value>
-    </block>
-    <block type="lists_getSublist">
-      <mutation at1="true" at2="true"></mutation>
-      <field name="WHERE1">FROM_START</field>
-      <field name="WHERE2">FROM_START</field>
-      <value name="LIST">
-        <block type="variables_get">
-          <field name="VAR" id="+UwTmtg43A,{wt)k$X{?">list</field>
-        </block>
-      </value>
-    </block>
-    <block type="lists_split">
-      <mutation mode="SPLIT"></mutation>
-      <field name="MODE">SPLIT</field>
-      <value name="DELIM">
-        <shadow type="text">
-          <field name="TEXT">,</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="lists_sort">
-      <field name="TYPE">NUMERIC</field>
-      <field name="DIRECTION">1</field>
-    </block>
-  </category>
+  </category>  
   <category name="Variables" colour="#a55b80" custom="VARIABLE2"></category>
   <category name="Functions" colour="#995ba5" custom="PROCEDURE2"></category>
 </xml>
