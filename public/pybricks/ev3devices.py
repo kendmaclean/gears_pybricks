@@ -120,7 +120,6 @@ class UltrasonicSensorP:
 
     def distance(self): # in cm not mm
         time.sleep(SENSOR_DELAY)
-        print("note: fails silently if you put wrong port; robot 1 uses port 2!")
         return float(self.sensor.dist())
 
     @property

@@ -59,32 +59,23 @@ var pybricks_generator = new function() {
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       // TODO only required if user using straight or turn commands...
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
-      '\n' +
-      'color_sensor_in1 = ColorSensorP(PortP.S1)\n' +        
-      'color_sensor_in2 = ColorSensorP(PortP.S2)\n' +              
-      'gyro_sensor = GyroSensorP(PortP.S3)\n' +     
-      'obstacle_sensor = UltrasonicSensorP(PortP.S4)\n' +          
       '\n';
       
     var sensorsCode = '';
     var i = 1;
     var sensor = null;
-    /*
-    # TODO: this does not seem to work... it just prints them all, assuming they all exist
 
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
-        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n';
+        sensorsCode += 'color_sensor_in' + i + ' = ColorSensorP(PortP.S' + i + ')\n';
       } else if (sensor.type == 'UltrasonicSensor') {
-        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n';
+        sensorsCode += 'obstacle_sensor = UltrasonicSensorP(PortP.S' + i + ')\n';
       } else if (sensor.type == 'GyroSensor') {
-        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
-      } else if (sensor.type == 'GPSSensor') {
-        sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(INPUT_' + i + ')\n';
-      }
+        sensorsCode += 'gyro_sensor= GyroSensorP(PortP.S' + i + ')\n';
+      } 
       i++;
     }
-    */ 
+
 
     // !!!!!!
 
@@ -107,7 +98,6 @@ var pybricks_generator = new function() {
       i++;
     }
     */
-   
     code += sensorsCode + '\n';
     code += motorsCode + '\n';
 
@@ -204,7 +194,6 @@ var pybricks_generator = new function() {
   };  
 
  this.py_ultrasonic = function(block) {
-  var dropdown_port = block.getFieldValue('port');
 
   var code = 'obstacle_sensor.distance()';
   return [code, Blockly.Python.ORDER_NONE];
