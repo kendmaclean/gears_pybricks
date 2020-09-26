@@ -2,18 +2,10 @@
 SENSOR_DELAY = 0.001
 
 # Import the necessary libraries
-import simPython
+
 import math, time
 from ev3dev2.motor import *
-
 from pybricks.ev3devices import *
-from pybricks.robotics import *
-
-from ev3dev2.motor import *
-from ev3dev2.sound import Sound
-from ev3dev2.sensor import *
-from ev3dev2.sensor.lego import *
-from ev3dev2.sensor.virtual import *
 
 class DriveBase:
     SMALLEST_TIRE_DIAMETER = 10
@@ -70,6 +62,8 @@ class DriveBase:
         self.settings()
 
     def settings(self, straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100):
+        # TODO straight_acceleration and turn_acceleration not implemented
+        # TODO how to get this so that settings is paired with straight or turn; but only once 
         def check_straight_speed():
             if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
                 # straight_speed in mm/s

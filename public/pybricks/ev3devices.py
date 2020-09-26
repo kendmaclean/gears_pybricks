@@ -4,21 +4,16 @@ SENSOR_DELAY = 0.001
 # Import the necessary libraries
 import simPython, time
 import math
-from ev3dev2.motor import *
 from pybricks.parameters import *
-
 from ev3dev2.motor import *
-from ev3dev2.sound import Sound
-from ev3dev2.sensor import *
-from ev3dev2.sensor.lego import *
-from ev3dev2.sensor.virtual import *
+
 
 class MotorP:
     MAX_SPEED = 300    
     MAX_DURATION = 1000    
     # TODO not a ful implementation
     
-    def __init__(self, port, positive_direction=DirectionP.CLOCKWISE, gears=None):
+    def __init__(self, port, positive_direction=Direction.CLOCKWISE, gears=None):
         self.port = port
         self.positive_direction = positive_direction
         if (gears is not None):
@@ -65,7 +60,7 @@ class MotorP:
         else:
             raise ValueError("speed outside allowable bounds")        
 
-    def run_time(self, speed, time, then=StopP.HOLD, wait=True):
+    def run_time(self, speed, time, then=Stop.HOLD, wait=True):
         if -MAX_SPEED <= speed <= MAX_SPEED:
             self.speed = speed
         else:
@@ -78,7 +73,7 @@ class MotorP:
         self.then = then        
         self.wait = wait                    
 
-    def run_angle(self, speed, rotation_angle, then=StopP.HOLD, wait=True):
+    def run_angle(self, speed, rotation_angle, then=Stop.HOLD, wait=True):
         if (-MAX_SPEED <= speed <= MAX_SPEED):
             self.speed = speed
         else:
@@ -88,7 +83,7 @@ class MotorP:
         self.wait = wait            
         print("not implemented")
 
-    def run_target(self, speed, target_angle, then=StopP.HOLD, wait=True):
+    def run_target(self, speed, target_angle, then=Stop.HOLD, wait=True):
         if -MAX_SPEED <= speed <= MAX_SPEED:
             self.speed = speed
         else:
@@ -98,7 +93,7 @@ class MotorP:
         self.wait = wait            
         print("not implemented")
 
-    def run_until_stalled(self, speed, then=StopP.COAST, duty_limit=None):
+    def run_until_stalled(self, speed, then=Stop.COAST, duty_limit=None):
         if -MAX_SPEED <= speed <= MAX_SPEED:
             self.speed = speed
         else:
@@ -107,14 +102,14 @@ class MotorP:
         self.duty_limit = duty_limit   
         print("not implemented")
 
-class TouchSensorP:
+class TouchSensor:
     def __init__(self, port):
         self.port = port
 
     def pressed(self):
         print("TouchSensor not implemented")
 
-class UltrasonicSensorP:
+class UltrasonicSensor:
     def __init__(self, address=None):
         self.sensor = simPython.UltrasonicSensor(address)
 
@@ -127,7 +122,7 @@ class UltrasonicSensorP:
         print("Error UltrasonicSensor presence not implemented")
         return False
 
-class ColorSensorP:
+class ColorSensor:
     def __init__(self, address=None):
         self.sensor = simPython.ColorSensor(address)
 
@@ -141,24 +136,24 @@ class ColorSensorP:
 
         if hsv[1] < 20:
             if hsv[2] < 30:
-                return ColorP.BLACK
+                return Color.BLACK
             else:
-                return ColorP.WHITE
+                return Color.WHITE
 
         elif hsv[0] < 30:
-            return ColorP.RED
+            return Color.RED
 
         elif hsv[0] < 90:
-            return ColorP.YELLOW
+            return Color.YELLOW
 
         elif hsv[0] < 163:
-            return ColorP.GREEN
+            return Color.GREEN
 
         elif hsv[0] < 283:
-            return ColorP.BLUE
+            return Color.BLUE
 
         else:
-            return ColorP.RED
+            return Color.RED
 
     def rgb(self):
         time.sleep(SENSOR_DELAY)
@@ -175,11 +170,10 @@ class ColorSensorP:
             hsv[i] = int(hsv[i])
         return hsv
 
-
 # TODO how to test to see if Gyro actually in the port selected???
-class GyroSensorP:
-    def __init__(self, port, positive_direction=DirectionP.CLOCKWISE):
-        if positive_direction is not DirectionP.CLOCKWISE:
+class GyroSensor:
+    def __init__(self, port, positive_direction=Direction.CLOCKWISE):
+        if positive_direction is not Direction.CLOCKWISE:
             print("ERROR: cannot set positive_direction in this virtual environment")        
         self.port = port
         self.positive_direction = positive_direction 
@@ -210,36 +204,3 @@ class GyroSensorP:
     def reset_angle(self):            
         self.sensor.reset()
         return  
-
-
-
-'''
-class GyroSensorP:
-  def __init__(self, address=None):
-    self.sensor = simPython.GyroSensor(address)
-
-  @property
-  def angle(self):
-    # The number of degrees that the sensor has been rotated since it was put into this mode.
-    time.sleep(SENSOR_DELAY)
-    return self.angle_and_rate[0]
-
-  @property
-  def rate(self):
-    # The rate at which the sensor is rotating, in degrees/second.
-    time.sleep(SENSOR_DELAY)
-    return self.angle_and_rate[1]
-
-  @property
-  def angle_and_rate(self):
-    time.sleep(SENSOR_DELAY)
-    angle_and_rate = list(self.sensor.angleAndRate())
-    for i in range(2):
-      angle_and_rate[i] = int(angle_and_rate[i])
-    return angle_and_rate
-
-  def reset(self):
-    self.sensor.reset()
-    return
-
-'''        

@@ -55,8 +55,8 @@ var pybricks_generator = new function() {
       'from pybricks.robotics import *\n' + 
       'from pybricks.tools import wait' +
       '\n' +
-      'left_motor = MotorP(PortP.A)\n' +          
-      'right_motor = MotorP(PortP.B)\n' +      
+      'left_motor = MotorP(Port.A)\n' +          
+      'right_motor = MotorP(Port.B)\n' +      
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       // TODO only required if user using straight or turn commands...
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
@@ -68,11 +68,11 @@ var pybricks_generator = new function() {
 
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
-        sensorsCode += 'color_sensor_in' + i + ' = ColorSensorP(PortP.S' + i + ')\n';
+        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(Port.S' + i + ')\n';
       } else if (sensor.type == 'UltrasonicSensor') {
-        sensorsCode += 'obstacle_sensor = UltrasonicSensorP(PortP.S' + i + ')\n';
+        sensorsCode += 'obstacle_sensor = UltrasonicSensor(Port.S' + i + ')\n';
       } else if (sensor.type == 'GyroSensor') {
-        sensorsCode += 'gyro_sensor= GyroSensorP(PortP.S' + i + ')\n';
+        sensorsCode += 'gyro_sensor= GyroSensor(Port.S' + i + ')\n';
       } 
       i++;
     }
@@ -177,14 +177,12 @@ var pybricks_generator = new function() {
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
 
-  // gyro reset
   this.py_reset_gyro = function(block) {
     var dropdown_port = block.getFieldValue('port');
     // should be able to reset to a given angle... not implemented yet
     var code = 'gyro_sensor.reset_angle()\n';
     return code;
   };
-
 
   this.py_color = function(block) {
     var dropdown_type = block.getFieldValue('type');

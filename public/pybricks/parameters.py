@@ -1,7 +1,7 @@
 # Needed to prevent loops from locking up the javascript thread
 SENSOR_DELAY = 0.001
 
-class PortP:
+class Port:
     # motor ports
     A = 'outA'
     B = 'outB'
@@ -15,16 +15,16 @@ class PortP:
     S4 = 'in4'
     S5 = 'in5'
 
-class DirectionP:
+class Direction:
     CLOCKWISE = 1
     COUNTERCLOCKWISE = -1
 
-class StopP:
+class Stop:
     COAST = 'COAST'
     BRAKE = 'BRAKE'
     HOLD = 'HOLD'
 
-class ColorP:
+class Color:
     # COLOR_NOCOLOR = 0 # HSV values from https://lego.fandom.com/wiki/Colour_Palette
     BLACK = 1   # 0, 0, 0
     BLUE = 2    # 207, 64, 78
