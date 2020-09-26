@@ -4,7 +4,7 @@ SENSOR_DELAY = 0.001
 # Import the necessary libraries
 
 import math, time
-from ev3dev2.motor import *
+import ev3dev2.motor
 from pybricks.ev3devices import *
 
 class DriveBase:
@@ -19,24 +19,28 @@ class DriveBase:
     def __init__(self, left_motor, right_motor, wheel_diameter, axle_track):
         # TODO are these checks even required since motor.py does them anyway...
         def check_motors():
-            if isinstance(left_motor, MotorP):
+            if isinstance(left_motor, Motor):
                 self.left_motor = left_motor
             else:
-                raise TypeError("left_motor not of type MotorP")
-            if isinstance(right_motor, MotorP):
+                raise TypeError("left_motor not of type Motor")
+
+            if isinstance(right_motor, Motor):
                 self.right_motor = right_motor
             else:
-                raise TypeError("right_motor not of type MotorP")
+                raise TypeError("right_motor not of type Motor")
+
         def check_wheel_diameter():
             if not math.isclose(wheel_diameter, left_motor.wheelDiameter) or not math.isclose(wheel_diameter, right_motor.wheelDiameter):
                 print("DriveBase wheel diameter of " + str(wheel_diameter) + " not the same as described in robotTemples.js: " + 
                 str(left_motor.wheelDiameter) + "overriding robotTemplates.js")
+
             if DriveBase.SMALLEST_TIRE_DIAMETER <= wheel_diameter <= DriveBase.LARGEST_TIRE_DIAMETER:
                 self.wheel_diameter = wheel_diameter # in mm; robotTemplates uses cm
                 self.wheel_radius = left_motor.wheelRadius # in mm; robotTemplates uses cm
             else:
                 raise ValueError("Wheel circumference must be between " + 
                 str(DriveBase.SMALLEST_TIRE_DIAMETER) + "mm and " + str(DriveBase.LARGEST_TIRE_DIAMETER) + "mm")
+
         def check_axle_track():
             # !!!!!! makes no sense for a wheel to have an axletrack property???
             if not math.isclose(axle_track, left_motor.axleTrack) or not math.isclose(axle_track, right_motor.axleTrack):
@@ -54,7 +58,7 @@ class DriveBase:
                 str(DriveBase.SMALLEST_AXLE_TRACK) + "mm and " + str(DriveBase.LARGEST_AXLE_TRACK) + "mm")       
        
         check_motors()
-        self.tank_drive = MoveTank(left_motor.port, right_motor.port) 
+        self.tank_drive = ev3dev2.motor.MoveTank(left_motor.port, right_motor.port) 
 
         check_wheel_diameter()
         self.wheel_circumference = self.wheel_diameter * math.pi   # in millimetres          
@@ -63,13 +67,14 @@ class DriveBase:
 
     def settings(self, straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100):
         # TODO straight_acceleration and turn_acceleration not implemented
-        # TODO how to get this so that settings is paired with straight or turn; but only once 
+        # TODO how to get this so that settings is paired with straight or turn command; but only once 
         def check_straight_speed():
             if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
                 # straight_speed in mm/s
                 self.straight_speed = straight_speed
             else:
                 raise ValueError("straight_speed outside allowable bounds")
+
         def check_straight_acceleration():
             if -DriveBase.MAX_ACCEL <= straight_acceleration <= DriveBase.MAX_ACCEL:
                 self.straight_acceleration = straight_acceleration
@@ -95,7 +100,7 @@ class DriveBase:
         def getSpeedDPSObj(): # straight_speed in degrees-per-second
             rotations = self.straight_speed / self.wheel_circumference
             degrees = rotations * 360
-            return SpeedDPS(degrees)
+            return ev3dev2.motor.SpeedDPS(degrees)
         def getDistanceInDegrees():
             dist_in_rotations = distance / self.wheel_circumference
             return dist_in_rotations * 360
@@ -149,9 +154,9 @@ class DriveBase:
                 raise ValueError("Invalid Steering Value. Between -100 and 100 (inclusive).")
 
             # Assumes left motor's speed stats are the same as the right motor's
-            if not isinstance(speed, SpeedValue):
+            if not isinstance(speed, ev3dev2.motor.SpeedValue):
                 if -100 <= speed <= 100:
-                    speed_obj = SpeedPercent(speed)
+                    speed_obj = ev3dev2.motor.SpeedPercent(speed)
                     speed_var = speed_obj.to_native_units(self.tank_drive.left_motor)
                 else:
                     raise Exception("Invalid Speed Percentage. Speed must be between -100 and 100)")
@@ -171,16 +176,13 @@ class DriveBase:
         def getSpeedDPSObj(): # turn_rate (speed) in degrees-per-second
             rotations = self.turn_rate / self.wheel_circumference
             degrees = rotations * 360
-            return SpeedDPS(degrees)        
+            return ev3dev2.motor.SpeedDPS(degrees)        
         def getTurnInDegrees():
             robot_circumference_of_turn = self.axle_track * math.pi
             return angle * (robot_circumference_of_turn / self.wheel_circumference)
 
-        #steering_drive = MoveSteering(self.left_motor.port, self.right_motor.port)
-        #steering_drive.on_for_degrees(steering=100, speed=getSpeedDPSObj(), degrees=getTurnInDegrees(), brake=True, block=True)
-
         (left_speed, right_speed) = get_speed_steering(steering=100, speed=getSpeedDPSObj())
-        self.tank_drive.on_for_degrees(SpeedNativeUnits(left_speed), SpeedNativeUnits(right_speed), degrees=getTurnInDegrees(), brake=True, block=True)
+        self.tank_drive.on_for_degrees(ev3dev2.motor.SpeedNativeUnits(left_speed), ev3dev2.motor.SpeedNativeUnits(right_speed), degrees=getTurnInDegrees(), brake=True, block=True)
 
     def drive(self, drive_speed, turn_rate):
         '''
@@ -324,7 +326,7 @@ class DriveBase:
             rotations = drive_speed / self.wheel_circumference
             degrees = rotations * 360
             print("mm/sec " + str(drive_speed) + "degrees/sec " + str(degrees))            
-            return SpeedDPS(degrees)
+            return ev3dev2.motor.SpeedDPS(degrees)
 
         v = drive_speed / 1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
@@ -335,17 +337,12 @@ class DriveBase:
         def getLeftSpeedDPSObj(): 
             v_r = ((2 * v) + (w * L)) / (2 * R) # in radians
             degrees = v_r * (180 / math.pi) # convert to degrees
-            return SpeedDPS(degrees)            
+            return ev3dev2.motor.SpeedDPS(degrees)            
         def getRightSpeedDPSObj(): 
             v_l = ((2 * v) - (w * L)) / (2 * R) # in radians
             degrees = v_l * (180 / math.pi) # convert to degrees
-            return SpeedDPS(degrees)    
+            return ev3dev2.motor.SpeedDPS(degrees)    
 
-        #if turn_rate == 0:
-        #    speedDPS_obj = getDriveSpeedDPSObj()
-        #    self.tank_drive.on(left_speed=speedDPS_obj, right_speed=speedDPS_obj)  
-        #else:
-        #   self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())  
         self.tank_drive.on(getLeftSpeedDPSObj(), getRightSpeedDPSObj())        
 
     def stop(self):
@@ -360,6 +357,14 @@ class DriveBase:
         distance_rotations = quotient_rotations + fractionOfrotations
         distance_mm = distance_rotations * self.wheel_circumference
         return distance_mm
+
+
+    # TODO need to reset position
+    def reset(self):
+        self.tank_drive.left_motor.reset() 
+        self.tank_drive.right_motor.reset()         
+
+    ###########################################################################
 
     def angle(self):
         # TODO NOT FINISHED
@@ -477,12 +482,9 @@ class DriveBase:
         print("Warning angle not implemented")
         return 0
 
-    ###########################################################################
-
     def state(self):
         print("not implemented")       
         return (self.distance, self.drive_speed, self.angle, self.turn_rate)
 
-    def reset(self):
-        print("not implemented") 
+
 

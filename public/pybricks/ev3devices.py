@@ -4,11 +4,11 @@ SENSOR_DELAY = 0.001
 # Import the necessary libraries
 import simPython, time
 import math
+import ev3dev2.motor
 from pybricks.parameters import *
-from ev3dev2.motor import *
 
 
-class MotorP:
+class Motor:
     MAX_SPEED = 300    
     MAX_DURATION = 1000    
     # TODO not a ful implementation
@@ -19,12 +19,12 @@ class MotorP:
         if (gears is not None):
             raise ValueError("gears not implemented")
 
-        self.motor = LargeMotor(port)
+        self.motor = ev3dev2.motor.LargeMotor(port)
         self.wheelDiameter = self.motor.wheel.wheelDiameter()
         self.wheelRadius = self.motor.wheel.wheelRadius()        
         self.axleTrack = self.motor.wheel.axleTrack() 
 
-        # TODO access to this should be through MotorP methods
+        # TODO access to this should be through Motor methods
         self.wheel = self.motor.wheel
 
     def __str__(self):

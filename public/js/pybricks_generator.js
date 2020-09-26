@@ -55,8 +55,8 @@ var pybricks_generator = new function() {
       'from pybricks.robotics import *\n' + 
       'from pybricks.tools import wait' +
       '\n' +
-      'left_motor = MotorP(Port.A)\n' +          
-      'right_motor = MotorP(Port.B)\n' +      
+      'left_motor = Motor(Port.A)\n' +          
+      'right_motor = Motor(Port.B)\n' +      
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       // TODO only required if user using straight or turn commands...
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
