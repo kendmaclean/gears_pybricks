@@ -53,8 +53,11 @@ var pybricks_generator = new function() {
       'from pybricks.ev3devices import *\n' +      
       'from pybricks.parameters import *\n' +    
       'from pybricks.robotics import *\n' + 
-      'from pybricks.tools import wait' +
+      'from pybricks.tools import wait\n' +
+      'from pybricks.hubs import EV3Brick\n' +
+
       '\n' +
+      'ev3 = EV3Brick()\n' +
       'left_motor = Motor(Port.A)\n' +          
       'right_motor = Motor(Port.B)\n' +      
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
