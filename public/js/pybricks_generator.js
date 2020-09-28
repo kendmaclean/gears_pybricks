@@ -142,9 +142,16 @@ var pybricks_generator = new function() {
     return code;    
   }  
 
- 
+  this.py_settings = function(block) {
+    var straight_speed = Blockly.Python.valueToCode(block, 'straight_speed', Blockly.Python.ORDER_ATOMIC);
+    if (straight_speed === undefined) { straight_speed = 0;  }
 
+    var code = 'robot.settings(straight_speed=' + straight_speed + ')\n';
 
+    return code;    
+  }
+
+  
   this.py_drive = function(block) {
     var drive_speed = Blockly.Python.valueToCode(block, 'drive_speed', Blockly.Python.ORDER_ATOMIC);
     var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);  

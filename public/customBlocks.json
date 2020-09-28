@@ -40,7 +40,22 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.turn"
 },
 
-
+{ "type": "py_settings",
+  "message0": "Settings: set straight_speed %1 millimetres for straight()",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "straight_speed",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "Settings: configures the speed and acceleration used by straight() and turn().",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.settings"
+},
 
 
 { "type": "py_drive",
