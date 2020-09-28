@@ -41,15 +41,36 @@
 },
 
 { "type": "py_settings",
-  "message0": "Settings: set straight_speed %1 millimetres for straight()",
+  "message0": "Settings: for drive(): %1 straight_speed %2 straight_acceleration %3 for turn(): %4 turn_rate %5 turn_acceleration %6",
   "args0": [
+    {
+      "type": "input_dummy"
+    },    
     {
       "type": "input_value",
       "name": "straight_speed",
       "check": "Number"
-    }
+    },
+    {
+      "type": "input_value",
+      "name": "straight_acceleration",
+      "check": "Number"
+    },
+    {
+      "type": "input_dummy"
+    },    
+    {
+      "type": "input_value",
+      "name": "turn_rate",
+      "check": "Number"
+    },   
+    {
+      "type": "input_value",
+      "name": "turn_acceleration",
+      "check": "Number"
+    }      
   ],
-  "inputsInline": true,
+  "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
@@ -196,6 +217,7 @@
   "tooltip": "color sensor",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.ColorSensor"
 },
+
 { "type": "py_ultrasonic",
   "message0": "ultrasonic distance",
   "inputsInline": false,
@@ -204,6 +226,7 @@
   "tooltip": "measure distance between sensor and object using ultrasonic sound waves",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.UltrasonicSensor"
 },
+
 { "type": "py_wait",
   "message0": "wait for %1 millseconds",
   "args0": [

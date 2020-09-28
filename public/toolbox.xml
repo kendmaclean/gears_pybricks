@@ -17,12 +17,26 @@
       </value>
     </block>
     <block type="py_settings">
-      <field name="units">MILLIMETRES</field>
       <value name="straight_speed">
         <shadow type="math_number">
-          <field name="NUM">200</field>
+          <field name="NUM">100</field>
         </shadow>
       </value>
+      <value name="straight_acceleration">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>      
+      <value name="turn_rate">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>     
+      <value name="turn_acceleration">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>            
     </block>    
     <block type="py_drive">
       <field name="units">MILLIMETRES</field>

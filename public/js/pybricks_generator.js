@@ -145,8 +145,15 @@ var pybricks_generator = new function() {
   this.py_settings = function(block) {
     var straight_speed = Blockly.Python.valueToCode(block, 'straight_speed', Blockly.Python.ORDER_ATOMIC);
     if (straight_speed === undefined) { straight_speed = 0;  }
+    var straight_acceleration = Blockly.Python.valueToCode(block, 'straight_acceleration', Blockly.Python.ORDER_ATOMIC);
+    if (straight_acceleration === undefined) { straight_acceleration = 0;  }
 
-    var code = 'robot.settings(straight_speed=' + straight_speed + ')\n';
+    var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);
+    if (turn_rate === undefined) { turn_rate = 0;  }
+    var turn_acceleration = Blockly.Python.valueToCode(block, 'turn_acceleration', Blockly.Python.ORDER_ATOMIC);
+    if (turn_acceleration === undefined) { turn_acceleration = 0;  }
+
+    var code = 'robot.settings(straight_speed=' + straight_speed + ', straight_acceleration=' + straight_acceleration + ', turn_rate=' + turn_rate + ', turn_acceleration=' + turn_acceleration + ')\n';
 
     return code;    
   }
