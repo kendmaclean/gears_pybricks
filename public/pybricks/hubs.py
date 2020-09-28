@@ -36,7 +36,7 @@ class Speaker():
         print("play_file " + file_name)
 
     def say(self, text):
-        print("text " + text)
+        print("say " + text)
 
     def set_speech_options(self, language=None, voice=None, speed=None, pitch=None):
         print("set_speech_options " + language)
@@ -53,6 +53,7 @@ class Screen():
 
     def print(self, *args, sep=' ', end='\n'):
         output = ''
+
         for textobj in args:
             output = output + sep + textobj
         output = output + end    
@@ -81,20 +82,22 @@ class Screen():
         print("draw_circle")          
 
     def width(self):
+        print("width")            
         return 0             
 
     def height(self):
+        print("height")               
         return 0      
 
     def save(self, filename):
          print("save " + filename)                    
 
-    def height(self):
-        return 0      
 
 class Battery():
     def voltage(self):
-         print("voltage")     
+        print("voltage")     
+        return 0
 
     def current(self):
-         print("current")                    
+        print("current")      
+        return 0
