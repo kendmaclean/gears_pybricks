@@ -7,7 +7,8 @@ var pybricks_generator = new function() {
 
     Blockly.Python['py_straight'] = self.py_straight; // !!!!!!
     Blockly.Python['py_turn'] = self.py_turn; // !!!!!!    
-    Blockly.Python['py_drive'] = self.py_drive; // !!!!!!        
+    Blockly.Python['py_drive'] = self.py_drive; // !!!!!!      
+    Blockly.Python['py_settings'] = self.py_settings; // !!!!!!          
     Blockly.Python['py_stop'] = self.py_stop; // !!!!!!       
     Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
     Blockly.Python['py_angle'] = self.py_angle; // !!!!!!   
@@ -141,6 +142,9 @@ var pybricks_generator = new function() {
     return code;    
   }  
 
+ 
+
+
   this.py_drive = function(block) {
     var drive_speed = Blockly.Python.valueToCode(block, 'drive_speed', Blockly.Python.ORDER_ATOMIC);
     var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);  
@@ -211,7 +215,7 @@ var pybricks_generator = new function() {
   };  
 
   this.py_wait = function(block) {
-    var value_milliseconds = Blockly.Python.valueToCode(block, 'milliseconds', Blockly.Python.ORDER_ATOMIC);
+    var value_milliseconds = Blockly.Python.valueToCode(block, 'wait_time', Blockly.Python.ORDER_ATOMIC);
 
     var code = 'wait(' + value_milliseconds + ')\n';
 

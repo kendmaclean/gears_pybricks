@@ -40,6 +40,9 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.turn"
 },
 
+
+
+
 { "type": "py_drive",
   "message0": "drive at speed %1 and turn rate of %2",
   "args0": [
@@ -191,14 +194,14 @@
   "args0": [
     {
       "type": "input_value",
-      "name": "milliseconds",
+      "name": "wait_time",
       "check": "Number"
     }
   ],
   "previousStatement": null,
   "nextStatement": null,
   "colour": 65,
-  "tooltip": "pause program for a specified amount of time.",
+  "tooltip": "pause program for a specified amount of time",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/tools.html#pybricks.tools.wait"
 },
 
