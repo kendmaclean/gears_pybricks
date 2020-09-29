@@ -19,12 +19,14 @@ class Motor:
             raise ValueError("gears not implemented")
 
         self.motor = ev3dev2.motor.LargeMotor(port)
-        self.wheelDiameter = self.motor.wheel.wheelDiameter()
-        self.wheelRadius = self.motor.wheel.wheelRadius()        
-        self.axleTrack = self.motor.wheel.axleTrack() 
+        self.wheel = self.motor.wheel
+
+        self.wheelDiameter = self.wheel.wheelDiameter()
+        self.wheelRadius = self.wheel.wheelRadius()        
+        self.axleTrack = self.wheel.axleTrack() 
 
         # TODO access to this should be through Motor methods
-        self.wheel = self.motor.wheel
+
 
     def __str__(self):
         return "Port: " + str(self.port) + ";\n robotTemplates.js wheelDiameter: " + str(self.wheelDiameter) + ";\n robotTemplates.js axleTrack: " + str(self.axleTrack) 

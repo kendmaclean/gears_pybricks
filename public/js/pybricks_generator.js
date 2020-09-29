@@ -126,10 +126,10 @@ var pybricks_generator = new function() {
 
   // !!!!!!
   this.py_straight = function(block) {
-    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    if (speed === undefined) { speed = 0;  }
+    var distance = Blockly.Python.valueToCode(block, 'distance', Blockly.Python.ORDER_ATOMIC);
+    if (distance === undefined) { distance = 0;  }
 
-    var code = 'robot.straight(' + speed + ')\n';
+    var code = 'robot.straight(' + distance + ')\n';
 
     return code;    
   }
