@@ -484,8 +484,8 @@ class DriveBase:
         return 0
 
     def state(self):
-        print("not implemented")       
-        return (self.distance, self.drive_speed, self.angle, self.turn_rate)
+        print("not completed")       
+        return ([self.distance])
 
 
 

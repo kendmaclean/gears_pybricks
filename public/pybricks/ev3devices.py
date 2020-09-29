@@ -54,18 +54,18 @@ class Motor:
 
     # Action
     def run(self, speed):
-        if (-MAX_SPEED <= speed <= MAX_SPEED):
+        if (-Motor.MAX_SPEED <= speed <= Motor.MAX_SPEED):
             self.speed = speed
         else:
             raise ValueError("speed outside allowable bounds")        
 
     def run_time(self, speed, time, then=Stop.HOLD, wait=True):
-        if -MAX_SPEED <= speed <= MAX_SPEED:
+        if -Motor.MAX_SPEED <= speed <= Motor.MAX_SPEED:
             self.speed = speed
         else:
             raise ValueError("speed outside allowable bounds")          
         self.time = time
-        if 0 <= time <= MAX_DURATION:
+        if 0 <= time <= Motor.MAX_DURATION:
             self.time = time
         else:
             raise ValueError("speed outside allowable bounds")              
@@ -73,7 +73,7 @@ class Motor:
         self.wait = wait                    
 
     def run_angle(self, speed, rotation_angle, then=Stop.HOLD, wait=True):
-        if (-MAX_SPEED <= speed <= MAX_SPEED):
+        if (-Motor.MAX_SPEED <= speed <= Motor.MAX_SPEED):
             self.speed = speed
         else:
             raise ValueError("speed outside allowable bounds")          
@@ -83,7 +83,7 @@ class Motor:
         print("not implemented")
 
     def run_target(self, speed, target_angle, then=Stop.HOLD, wait=True):
-        if -MAX_SPEED <= speed <= MAX_SPEED:
+        if -Motor.MAX_SPEED <= speed <= Motor.MAX_SPEED:
             self.speed = speed
         else:
             raise ValueError("speed outside allowable bounds")          
@@ -93,7 +93,7 @@ class Motor:
         print("not implemented")
 
     def run_until_stalled(self, speed, then=Stop.COAST, duty_limit=None):
-        if -MAX_SPEED <= speed <= MAX_SPEED:
+        if -Motor.MAX_SPEED <= speed <= Motor.MAX_SPEED:
             self.speed = speed
         else:
             raise ValueError("speed outside allowable bounds")        
