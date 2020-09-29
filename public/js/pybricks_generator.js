@@ -135,7 +135,7 @@ var pybricks_generator = new function() {
 
   this.py_turn = function(block) {
     var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
-    if (angle === undefined) { angle = 0;  }
+    if (angle === undefined) { angle = 0; }
 
     var code = 'robot.turn(' + angle + ')\n';
 

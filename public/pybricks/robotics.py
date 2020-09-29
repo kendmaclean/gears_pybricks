@@ -74,7 +74,6 @@ class DriveBase:
                 self.straight_speed = straight_speed
             else:
                 raise ValueError("straight_speed outside allowable bounds")
-
         def check_straight_acceleration():
             if -DriveBase.MAX_ACCEL <= straight_acceleration <= DriveBase.MAX_ACCEL:
                 self.straight_acceleration = straight_acceleration
@@ -97,11 +96,14 @@ class DriveBase:
         check_turn_acceleration()               
 
     def straight(self, distance):
-        def getSpeedDPSObj(): # straight_speed in degrees-per-second
+        def getSpeedDPSObj(): 
+            # straight_speed in degrees-per-second
+            # TODO does this make sense????
             rotations = self.straight_speed / self.wheel_circumference
+
             degrees = rotations * 360
-            return ev3dev2.motor.SpeedDPS(degrees)
-        def getDistanceInDegrees():
+            return ev3dev2.motor.SpeedDPS(degrees) 
+        def getDistanceInDegrees(): # returns degrees/sec
             dist_in_rotations = distance / self.wheel_circumference
             return dist_in_rotations * 360
 
@@ -133,7 +135,8 @@ class DriveBase:
                 dCT = (theta / 360degrees) / Cturn
 
             wheels:
-            dCT is the distance the wheels must rotate along Cturn
+            
+                dCT is the distance the wheels must rotate along Cturn
 
             therefore:
 

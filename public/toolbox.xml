@@ -1,19 +1,17 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
   <category name="Robot" colour="#5b67a5">
     <block type="py_straight">
-      <field name="units">MILLIMETRES</field>
       <value name="speed">
         <shadow type="math_number">
           <field name="NUM">200</field>
         </shadow>
       </value>
-    </block>    
+    </block>
     <block type="py_turn">
-      <field name="units">DEGREES</field>
       <value name="angle">
         <shadow type="math_number">
           <field name="NUM">0</field>
-        </shadow>
+        </shadow>      
       </value>
     </block>
     <block type="py_settings">
@@ -39,7 +37,6 @@
       </value>            
     </block>    
     <block type="py_drive">
-      <field name="units">MILLIMETRES</field>
       <value name="drive_speed">
         <shadow type="math_number">
           <field name="NUM">200</field>
