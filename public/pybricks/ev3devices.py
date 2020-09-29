@@ -7,7 +7,6 @@ import math
 import ev3dev2.motor
 from pybricks.parameters import *
 
-
 class Motor:
     MAX_SPEED = 300    
     MAX_DURATION = 1000    

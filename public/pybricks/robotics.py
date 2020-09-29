@@ -361,8 +361,6 @@ class DriveBase:
         distance_mm = distance_rotations * self.wheel_circumference
         return distance_mm
 
-
-    # TODO need to reset position
     def reset(self):
         self.tank_drive.left_motor.reset() 
         self.tank_drive.right_motor.reset()         
