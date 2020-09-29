@@ -17,6 +17,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_color'] = self.py_color; // !!!!!!   
     Blockly.Python['py_ultrasonic'] = self.py_ultrasonic; // !!!!!!   
     Blockly.Python['py_wait'] = self.py_wait; // !!!!!!   
+    Blockly.Python['py_reset_robot'] = self.py_reset_robot; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -158,7 +159,6 @@ var pybricks_generator = new function() {
     return code;    
   }
 
-  
   this.py_drive = function(block) {
     var drive_speed = Blockly.Python.valueToCode(block, 'drive_speed', Blockly.Python.ORDER_ATOMIC);
     var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);  
@@ -171,7 +171,7 @@ var pybricks_generator = new function() {
   }  
 
   this.py_stop = function(block) {
-    var code = 'robot.stop()';
+    var code = 'robot.stop()\n';
     return code;
   };
 
@@ -184,6 +184,11 @@ var pybricks_generator = new function() {
     var code = 'robot.angle()';
     return [code, Blockly.Python.ORDER_NONE];
   };  
+
+  this.py_reset_robot = function(block) {
+    var code = 'robot.reset()\n';
+    return code;
+  };
 
   this.py_gyro = function(block) {
     var dropdown_type = block.getFieldValue('type');

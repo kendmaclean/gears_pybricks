@@ -52,6 +52,8 @@
     </block>  
     <block type="py_distance">
     </block>  
+    <block type="py_reset_robot">
+    </block>      
   </category>
   <category name="Sensors" colour="#5ba58c">
     <block type="py_gyro">

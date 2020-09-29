@@ -115,17 +115,27 @@
   "inputsInline": false,
   "output": "Number",
   "colour": 225,
-  "tooltip": "estimated driven distance.",
+  "tooltip": "estimated driven distance",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.distance"
 },
 
 { "type": "py_angle",
-  "message0": "angle",
+  "message0": "Angle",
   "inputsInline": false,
   "output": "Number",
   "colour": 225,
   "tooltip": "estimated rotation angle of robot drive base",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.angle"
+},
+
+{ "type": "py_reset_robot",
+  "message0": "Reset",
+  "inputsInline": false,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 225,
+  "tooltip": "reset estimated driven distance and angle to 0",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.reset"
 },
 
 { "type": "py_gyro",
