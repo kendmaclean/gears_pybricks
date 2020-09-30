@@ -133,13 +133,36 @@ class Motor:
             self.wait_until('running', timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
             self.wait_until_not_moving(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
 
+    def _set_rel_position_degrees_and_speed_sp(self, degrees, speed):
+        degrees = degrees if speed >= 0 else -degrees
+        speed = abs(speed)
+
+        position_delta = int(round((degrees * self.motor.count_per_rot)/360))
+        speed_sp = int(round(speed))
+
+        self.wheel.position_sp(position_delta)
+        self.wheel.speed_sp(speed_sp)        
+
     def run_angle(self, speed, rotation_angle, then=Stop.HOLD, wait=True):
-    
-        print("not implemented")
+        speedValue = ev3dev2.motor.SpeedDPS(speed)   
+        speed_sp = int(round(speedValue.to_native_units(self.motor))) 
+
+        self._set_rel_position_degrees_and_speed_sp(rotation_angle, speed_sp)
+
+        if then == Stop.HOLD:
+            self.wheel.stop_action = ev3dev2.motor.Motor.STOP_ACTION_HOLD
+        else:
+            self.wheel.stop_action = ev3dev2.motor.Motor.STOP_ACTION_COAST             
+            
+        self.wheel.command('run-to-rel-pos')
+
+        if wait:
+            self.wait_until('running', timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
+            self.wait_until_not_moving(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
 
     def run_target(self, speed, target_angle, then=Stop.HOLD, wait=True):
        
-        print("not implemented")
+        print("run_angle not implemented")
 
     def run_until_stalled(self, speed, then=Stop.COAST, duty_limit=None):
 
