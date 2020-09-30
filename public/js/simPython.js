@@ -23,7 +23,9 @@ var $builtinmodule = function(name) {
 
     $loc.command = new Sk.builtin.func(function(self, command) {
       if (command.v == 'run-timed') {
-        self.motor.time_target = Date.now() + self.motor.time_sp * 1000;
+        //self.motor.time_target = Date.now() + self.motor.time_sp * 1000;
+        self.motor.time_target = Date.now() + self.motor.time_sp; // already in milliseconds
+
         self.motor.runTimed();
 
       } else if (command.v == 'run-to-rel-pos') {

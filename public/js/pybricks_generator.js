@@ -18,7 +18,8 @@ var pybricks_generator = new function() {
     Blockly.Python['py_ultrasonic'] = self.py_ultrasonic; // !!!!!!   
     Blockly.Python['py_wait'] = self.py_wait; // !!!!!!   
     Blockly.Python['py_reset_robot'] = self.py_reset_robot; // !!!!!!   
-    Blockly.Python['py_run_motor'] = self.py_run_motor; // !!!!!!   
+    Blockly.Python['py_motor_run'] = self.py_motor_run; // !!!!!!   
+    Blockly.Python['py_motor_run_time'] = self.py_motor_run_time; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -247,24 +248,25 @@ var pybricks_generator = new function() {
 
     return code;
   };
-  
-  this.py_run_motor = function(block) {
+
+  this.py_motor_run = function(block) {
     var dropdown_port = block.getFieldValue('port');
-    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_unit = block.getFieldValue('unit');
+    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
 
-    if (dropdown_unit == 'PERCENT') {
-      var speedStr = value_speed;
-    } else if (dropdown_unit == 'DEGREES') {
-      var speedStr = 'SpeedDPS(' + value_speed + ')';
-    } else if (dropdown_unit == 'ROTATIONS') {
-      var speedStr = 'SpeedRPS(' + value_speed + ')';
-    }
-
-    var code = 'motor' + dropdown_port + '.run(' + speedStr + ')\n';
+    var code = 'motor' + dropdown_port + '.run(' + speed + ')\n';
 
     return code;
   }
+
+  this.py_motor_run_time = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+    var time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'motor' + dropdown_port + '.run_time(' + speed + ',' + time + ')\n';
+
+    return code;
+  }  
   // !!!!!!
 
   // move tank

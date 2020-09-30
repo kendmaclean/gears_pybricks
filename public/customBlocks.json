@@ -155,8 +155,46 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.run"
 },
 
-{ "type": "py_run_motor",
-  "message0": "run motor on port %1 at a constant speed: %2 %3",
+{ "type": "py_motor_run",
+  "message0": "run motor on port %1 at a constant speed: %2 deg/s",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    }
+   ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "runs motor at a constant speed (in degrees per second) for a given amount of time (in milliseconds)",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.run_time"
+},
+
+{ "type": "py_motor_run_time",
+  "message0": "run motor on port %1 at a constant speed: %2 deg/s for %3 ms",
   "args0": [
     {
       "type": "field_dropdown",
@@ -186,29 +224,16 @@
       "check": "Number"
     },
     {
-      "type": "field_dropdown",
-      "name": "unit",
-      "options": [
-        [
-          "%",
-          "PERCENT"
-        ],
-        [
-          "degrees / s",
-          "DEGREES"
-        ],
-        [
-          "rotations / s",
-          "ROTATIONS"
-        ]
-      ]
-    }
-  ],
+      "type": "input_value",
+      "name": "time",
+      "check": "Number"
+    }    
+   ],
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "motor accelerates to the given speed and keeps running at this speed until you give a new command",
-  "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.run"
+  "tooltip": "runs motor at a constant speed (in degrees per second) for a given amount of time (in milliseconds)",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.run_time"
 },
 
 { "type": "py_gyro",

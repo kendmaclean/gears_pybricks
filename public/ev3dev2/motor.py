@@ -469,7 +469,7 @@ class Motor:
     overloaded and stalled
     """
     if timeout != None:
-      timeout = time.clock() + timeout / 1000.0
+      timeout = time. clock() + timeout / 1000.0
     while True:
       time.sleep(0.01)
       if cond(str(self.wheel.state())):
