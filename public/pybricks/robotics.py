@@ -91,9 +91,9 @@ class DriveBase:
                 raise ValueError("turn_acceleration outside allowable bounds")        
 
         check_straight_speed()
-        check_straight_acceleration()        
-        check_turn_rate()    
-        check_turn_acceleration()               
+        check_straight_acceleration()
+        check_turn_rate()
+        check_turn_acceleration()
 
     def straight(self, distance):
         def getSpeedDPSObj(): 
@@ -333,7 +333,7 @@ class DriveBase:
 
         v = drive_speed / 1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
-        # !!!!!! makes no sense for axleTrack to be attached to motor property; should be robot attribute
+        # TODO makes no sense for axleTrack to be attached to motor property; should be robot attribute
         L = self.left_motor.axleTrack / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
         R = self.wheel_radius / 1000 # radius (metres per wheel radian)
      

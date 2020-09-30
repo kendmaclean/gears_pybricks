@@ -18,6 +18,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_ultrasonic'] = self.py_ultrasonic; // !!!!!!   
     Blockly.Python['py_wait'] = self.py_wait; // !!!!!!   
     Blockly.Python['py_reset_robot'] = self.py_reset_robot; // !!!!!!   
+    Blockly.Python['py_run_motor'] = self.py_run_motor; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -60,8 +61,11 @@ var pybricks_generator = new function() {
 
       '\n' +
       'ev3 = EV3Brick()\n' +
-      'left_motor = Motor(Port.A)\n' +          
-      'right_motor = Motor(Port.B)\n' +      
+      'motorA = Motor(Port.A)\n' +          
+      'motorB = Motor(Port.B)\n' +      
+      'left_motor = motorA\n' + 
+      'right_motor = motorB\n' + 
+       
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       // TODO only required if user using straight or turn commands...
       'robot.settings(straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100)\n' +                  
@@ -82,28 +86,23 @@ var pybricks_generator = new function() {
       i++;
     }
 
-
-    // !!!!!!
-
-
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var motorsCode = '';
     i = 3;
     var motor = null;
-    /*
+
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Magnet\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Magnet\n';
       } else if (motor.type == 'ArmActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Arm\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Arm\n';
       } else if (motor.type == 'SwivelActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Swivel\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Swivel\n';
       } else if (motor.type == 'PaintballLauncherActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Paintball Launcher\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Paintball Launcher\n';
       }
       i++;
     }
-    */
     code += sensorsCode + '\n';
     code += motorsCode + '\n';
 
@@ -241,8 +240,31 @@ var pybricks_generator = new function() {
     return code;
   };
 
+  this.py_run = function(block) {
+    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
 
+    var code = 'medium_motor.run(' + speed + ')\n';
 
+    return code;
+  };
+  
+  this.py_run_motor = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+    var dropdown_unit = block.getFieldValue('unit');
+
+    if (dropdown_unit == 'PERCENT') {
+      var speedStr = value_speed;
+    } else if (dropdown_unit == 'DEGREES') {
+      var speedStr = 'SpeedDPS(' + value_speed + ')';
+    } else if (dropdown_unit == 'ROTATIONS') {
+      var speedStr = 'SpeedRPS(' + value_speed + ')';
+    }
+
+    var code = 'motor' + dropdown_port + '.run(' + speedStr + ')\n';
+
+    return code;
+  }
   // !!!!!!
 
   // move tank

@@ -21,6 +21,7 @@ class Motor:
         self.motor = ev3dev2.motor.LargeMotor(port)
         self.wheel = self.motor.wheel
 
+        # TODO these are robot attributes, not wheel attributes
         self.wheelDiameter = self.wheel.wheelDiameter()
         self.wheelRadius = self.wheel.wheelRadius()        
         self.axleTrack = self.wheel.axleTrack() 
@@ -42,7 +43,7 @@ class Motor:
             raise ValueError("angle not implemented")
 
     def reset_angle(self, angle):
-        print("not implemented")
+        print("reset_angle not implemented")
 
     # Stopping
     def stop(self):
@@ -59,7 +60,8 @@ class Motor:
         if (-Motor.MAX_SPEED <= speed <= Motor.MAX_SPEED):
             self.speed = speed
         else:
-            raise ValueError("speed outside allowable bounds")        
+            raise ValueError("speed outside allowable bounds")   
+
 
     def run_time(self, speed, time, then=Stop.HOLD, wait=True):
         if -Motor.MAX_SPEED <= speed <= Motor.MAX_SPEED:

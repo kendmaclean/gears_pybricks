@@ -55,7 +55,17 @@
     <block type="py_reset_robot">
     </block>      
   </category>
-
+  <category name="Motor" colour="#5b67a5">  
+    <block type="py_run_motor">
+      <field name="port">A</field>
+      <field name="unit">PERCENT</field>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">20</field>
+        </shadow>
+      </value>
+    </block>    
+  </category>
   <category name="Sensors" colour="#5ba58c">
     <block type="py_gyro">
       <field name="type">ANGLE</field>
