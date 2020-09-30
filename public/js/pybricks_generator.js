@@ -262,8 +262,10 @@ var pybricks_generator = new function() {
     var dropdown_port = block.getFieldValue('port');
     var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     var time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+    var then = block.getFieldValue('then');    
+    var wait = Blockly.Python.valueToCode(block, 'wait', Blockly.Python.ORDER_ATOMIC);
 
-    var code = 'motor' + dropdown_port + '.run_time(' + speed + ',' + time + ')\n';
+    var code = 'motor' + dropdown_port + '.run_time(' + speed + ', ' + time + ', then=' + then + ', wait=' + wait +  ')\n';
 
     return code;
   }  

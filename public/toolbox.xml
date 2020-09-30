@@ -76,8 +76,17 @@
           <field name="NUM">1000</field>
         </shadow>
       </value>      
+      <field name="then">HOLD</field>    
+      <value name="wait">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>      
+      </value> 
     </block>        
   </category>
+
+
+
   <category name="Sensors" colour="#5ba58c">
     <block type="py_gyro">
       <field name="type">ANGLE</field>

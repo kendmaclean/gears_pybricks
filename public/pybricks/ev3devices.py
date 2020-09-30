@@ -1,8 +1,6 @@
 # Needed to prevent loops from locking up the javascript thread
 SENSOR_DELAY = 0.001
 
-WAIT_RUNNING_TIMEOUT = 100
-
 # Import the necessary libraries
 import simPython, time
 import math
@@ -59,13 +57,10 @@ class Motor:
 
     # speed (rotational speed: deg/s) – Speed of the motor.
     def run(self, speed):
-        print("======== run")
         speedValue = ev3dev2.motor.SpeedDPS(speed)   
         speed_sp = int(round(speedValue.to_native_units(self.motor)))             
         self.wheel.speed_sp(speed_sp)
         self.wheel.command('run-forever')
-
-        print("======== run done")
 
     def wait(self, cond, timeout=None):
         """
@@ -83,7 +78,6 @@ class Motor:
             timeout = time.clock() + timeout
         while True:
             time.sleep(0.01)
-            print("state " + str(self.wheel.state()) + " clock_gettime " + str(time.clock()) + " timeout " + str(timeout) )
             if cond(str(self.wheel.state())):
                 return True
             if timeout != None and time.clock() >= timeout:
@@ -120,12 +114,9 @@ class Motor:
 
                 m.wait_until_not_moving()
         """
-        print("STATE_RUNNING" + ev3dev2.motor.Motor.STATE_RUNNING)
-        print("STATE_STALLED" + ev3dev2.motor.Motor.STATE_STALLED)
         return self.wait(lambda state: ev3dev2.motor.Motor.STATE_RUNNING not in state or ev3dev2.motor.Motor.STATE_STALLED in state, timeout)
 
     def run_time(self, speed, time, then=Stop.HOLD, wait=True):
-        print("======== run_time")
         speedValue = ev3dev2.motor.SpeedDPS(speed)   
         speed_sp = int(round(speedValue.to_native_units(self.motor)))             
         self.wheel.speed_sp(speed_sp)
@@ -139,10 +130,8 @@ class Motor:
         self.wheel.command('run-timed')
 
         if wait:
-            self.wait_until('running', timeout=WAIT_RUNNING_TIMEOUT)
-            self.wait_until_not_moving(timeout=WAIT_RUNNING_TIMEOUT)
-
-        print("======== run_time done")                
+            self.wait_until('running', timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
+            self.wait_until_not_moving(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
 
     def run_angle(self, speed, rotation_angle, then=Stop.HOLD, wait=True):
     

@@ -194,9 +194,9 @@
 },
 
 { "type": "py_motor_run_time",
-  "message0": "run motor on port %1 at a constant speed: %2 deg/s for %3 ms",
+  "message0": "run motor on port %1 at a constant speed: %2 deg/s for %3 ms; then %4 wait %5",
   "args0": [
-    {
+    { 
       "type": "field_dropdown",
       "name": "port",
       "options": [
@@ -227,8 +227,32 @@
       "type": "input_value",
       "name": "time",
       "check": "Number"
-    }    
+    },
+    {
+      "type": "field_dropdown",
+      "name": "then",
+      "options": [
+        [
+          "COAST",
+          "Stop.COAST"
+        ],
+        [
+          "BRAKE",
+          "Stop.BRAKE"
+        ],
+        [
+          "HOLD",
+          "Stop.HOLD"
+        ]
+      ]
+    },    
+    {
+      "type": "input_value",
+      "name": "wait",
+      "check": "Boolean"
+    }        
    ],
+  "inputsInline": true,   
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
