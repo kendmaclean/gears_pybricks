@@ -323,8 +323,75 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "Runs the motor at a constant speed (in degrees per second) by a given angle (in degrees)",
+  "tooltip": "run motor at a constant speed (in degrees per second) by a given angle (in degrees)",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.run_angle"
+},
+
+{ "type": "py_motor_run_target",
+  "message0": "run motor on port %1 at a constant speed: %2 deg/s to target angle %3 degrees; then %4 wait %5",
+  "args0": [
+    { 
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "target_angle",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "then",
+      "options": [
+        [
+          "COAST",
+          "Stop.COAST"
+        ],
+        [
+          "BRAKE",
+          "Stop.BRAKE"
+        ],
+        [
+          "HOLD",
+          "Stop.HOLD"
+        ]
+      ]
+    },    
+    {
+      "type": "input_value",
+      "name": "wait",
+      "check": "Boolean"
+    }        
+   ],
+  "inputsInline": true,   
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "run motor at a constant speed (in degrees per second) towards a given target angle (in degrees)",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.run_target"
 },
 
 { "type": "py_gyro",

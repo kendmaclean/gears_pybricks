@@ -160,9 +160,30 @@ class Motor:
             self.wait_until('running', timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
             self.wait_until_not_moving(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
 
+    '''
+        position_sp¶
+        - Writing specifies the target position for the run-to-abs-pos and run-to-rel-pos 
+        commands. Reading returns the current value. 
+        - Units are in tacho counts, *BUT* EV3 tacho counts = degrees, so no conversions required
+        on EV3!
+    '''
     def run_target(self, speed, target_angle, then=Stop.HOLD, wait=True):
-       
-        print("run_angle not implemented")
+        speedValue = ev3dev2.motor.SpeedDPS(speed)   
+        speed_sp = int(round(speedValue.to_native_units(self.motor))) 
+        self.wheel.speed_sp(speed_sp)     
+        self.wheel.position_sp(target_angle)
+
+        if then == Stop.HOLD:
+            self.wheel.stop_action = ev3dev2.motor.Motor.STOP_ACTION_HOLD
+        else:
+            self.wheel.stop_action = ev3dev2.motor.Motor.STOP_ACTION_COAST             
+            
+        self.wheel.command('run-to-abs-pos')
+
+        if wait:
+            self.wait_until('running', timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
+            self.wait_until_not_moving(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
+
 
     def run_until_stalled(self, speed, then=Stop.COAST, duty_limit=None):
 
