@@ -24,3 +24,18 @@ robot.drive(200, 15)
 while True:
   print(color_sensor_in1.reflection())
   time.sleep(0.25)
+
+
+=======================
+
+robot.drive(200, 0)
+while True:
+  print('=======')
+  print(motorA.speed())
+  print(motorA.angle())
+  rotations = motorA.angle() / 360
+  print(rotations)
+  if rotations > 2:
+    motorA.reset_angle(0)
+    rotations = 0
+  wait(250)

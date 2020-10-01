@@ -21,29 +21,27 @@ class Motor:
         self.motor = ev3dev2.motor.Motor(address=port)
         self.wheel = self.motor.wheel
 
-        # TODO these are robot attributes, not wheel attributes
+        # TODO should these be robot attributes, not wheel attributes?
         self.wheelDiameter = self.wheel.wheelDiameter()
         self.wheelRadius = self.wheel.wheelRadius()        
         self.axleTrack = self.wheel.axleTrack() 
-
-        # TODO access to this should be through Motor methods
-
 
     def __str__(self):
         return "Port: " + str(self.port) + ";\n robotTemplates.js wheelDiameter: " + str(self.wheelDiameter) + ";\n robotTemplates.js axleTrack: " + str(self.axleTrack) 
 
     # Measuring
-    #def speed(self):
-    #    return self.motor.wheel.axleTrack() 
+    def speed(self):
+        time.sleep(SENSOR_DELAY)
+        return int(self.wheel.speed())
 
+    # position is same as angle for EV3
     def angle(self):
-        if (self.angle is not None):
-            return self.angle
-        else:
-            raise ValueError("angle not implemented")
+        time.sleep(SENSOR_DELAY)
+        return int(self.wheel.position())
 
     def reset_angle(self, angle):
-        print("reset_angle not implemented")
+        time.sleep(SENSOR_DELAY)        
+        self.wheel.position(int(angle))
 
     # Stopping
     def stop(self):
@@ -163,11 +161,13 @@ class Motor:
     def run_target(self, speed, target_angle, then=Stop.HOLD, wait=True):
         '''
             when running run-to-abs-pos, note that the robot is reset with each run of the 
-            simulator, thereby reseting the absolute location of the angle
+            simulator, thereby resetting the absolute location of the motor angle each time 
+            it is reset
 
-            it will run to absolute position only within a given run
+            It will run to absolute position only within a given run when you give multiple
+            run_target commands in the same run
 
-            
+
             position_sp¶
             - Writing specifies the target position for the run-to-abs-pos and run-to-rel-pos 
             commands. Reading returns the current value. 

@@ -495,6 +495,106 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.dc"
 },
 
+{ "type": "py_speed",
+  "message0": "speed of motor on port %1 in degrees / s",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ]
+      ]
+    }
+  ],
+  "output": "Number",
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{ "type": "py_angle",
+  "message0": "angle of motor on port %1 in degrees",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ]
+      ]
+    }
+  ],
+  "output": "Number",
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{ "type": "py_reset_angle",
+  "message0": "reset motor angle on port  %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "angle",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
 { "type": "py_gyro",
   "message0": "gyro %1",
   "args0": [
@@ -609,8 +709,6 @@
   "tooltip": "pause program for a specified amount of time",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/tools.html#pybricks.tools.wait"
 },
-
-
 
 
 
