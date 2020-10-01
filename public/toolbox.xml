@@ -153,7 +153,15 @@
           <field name="NUM">0</field>
         </shadow>
       </value>
-    </block>              
+    </block>   
+    <block type="py_motor_dc">
+      <field name="port">A</field>
+      <value name="power">
+        <shadow type="math_number">
+          <field name="NUM">200</field>
+        </shadow>
+      </value>
+    </block>                  
   </category>
 
 

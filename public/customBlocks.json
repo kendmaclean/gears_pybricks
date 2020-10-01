@@ -455,6 +455,46 @@
   "tooltip": "Runs the motor at a constant speed (in degrees per second) until it stalls",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.run_until_stalled"
 },
+
+{ "type": "py_motor_dc",
+  "message0": "run motor on port %1 at a power: %2",
+  "args0": [
+    { 
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "power",
+      "check": "Number"
+    }
+   ],
+  "inputsInline": true,   
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "Rotates motor at a given duty cycle (-100.0 to 100).); also known as “power”",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.dc"
+},
+
 { "type": "py_gyro",
   "message0": "gyro %1",
   "args0": [

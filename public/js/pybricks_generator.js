@@ -23,7 +23,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_motor_run_angle'] = self.py_motor_run_angle; // !!!!!!   
     Blockly.Python['py_motor_run_target'] = self.py_motor_run_target; // !!!!!!   
     Blockly.Python['py_motor_run_until_stalled'] = self.py_motor_run_until_stalled; // !!!!!!   
-
+    Blockly.Python['py_motor_dc'] = self.py_motor_dc; // !!!!!!   
     
 
     Blockly.Python['move_tank'] = self.move_tank;
@@ -312,6 +312,22 @@ var pybricks_generator = new function() {
     return code;
   }  
 
+  this.py_motor_dc = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var power = Blockly.Python.valueToCode(block, 'power', Blockly.Python.ORDER_ATOMIC);
+
+    if (power > Math.abs(100)) {
+      console.log("Warning: py_motor_dc dc power outside range -100.0 to 100")
+      if (power > 100) {
+        power = 100
+      } else if (power < -100) {
+        power = -100
+      } 
+    }
+    var code = 'motor' + dropdown_port + '.dc(' + power + ')\n';  
+
+    return code;
+  }  
 
   // !!!!!!
 

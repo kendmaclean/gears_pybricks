@@ -219,6 +219,16 @@ class Motor:
         self.wheel.command('run-forever')
         self.wait_until_stalled(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)        
 
+    def dc(self, power):
+        if -100 <= power <= 100:
+            speedValue = ev3dev2.motor.SpeedPercent(power)
+            speed_sp = int(round(speedValue.to_native_units(self.motor)))       
+        else:
+            raise Exception("Invalid Speed Percentage. Duty (power) must be between -100 and 100)")      
+          
+        self.wheel.speed_sp(speed_sp)
+        self.wheel.command('run-forever')
+
 class TouchSensor:
     def __init__(self, port):
         self.port = port
