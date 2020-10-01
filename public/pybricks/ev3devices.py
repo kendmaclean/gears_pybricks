@@ -160,14 +160,14 @@ class Motor:
             self.wait_until('running', timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
             self.wait_until_not_moving(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
 
-    '''
-        position_sp¶
-        - Writing specifies the target position for the run-to-abs-pos and run-to-rel-pos 
-        commands. Reading returns the current value. 
-        - Units are in tacho counts, *BUT* EV3 tacho counts = degrees, so no conversions required
-        on EV3!
-    '''
     def run_target(self, speed, target_angle, then=Stop.HOLD, wait=True):
+        '''
+            position_sp¶
+            - Writing specifies the target position for the run-to-abs-pos and run-to-rel-pos 
+            commands. Reading returns the current value. 
+            - Units are in tacho counts, *BUT* EV3 tacho counts = degrees, so no conversions required
+            on EV3!
+        '''        
         speedValue = ev3dev2.motor.SpeedDPS(speed)   
         speed_sp = int(round(speedValue.to_native_units(self.motor))) 
         self.wheel.speed_sp(speed_sp)     
@@ -184,10 +184,40 @@ class Motor:
             self.wait_until('running', timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
             self.wait_until_not_moving(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)
 
+    def wait_until_stalled(self, timeout=None):
+        """
+            Blocks until one of the following conditions are met:
+            - ``stalled`` is in ``self.state``
+            The condition is checked when there is an I/O event related to
+            the ``state`` attribute.  Exits early when ``timeout`` (in
+            milliseconds) is reached.
+
+            Returns ``True`` if the condition is met, and ``False`` if the timeout
+            is reached.
+
+        """
+        return self.wait(lambda state:  ev3dev2.motor.Motor.STATE_STALLED in state, timeout)
 
     def run_until_stalled(self, speed, then=Stop.COAST, duty_limit=None):
+        '''
+            not sure how to test this...
+            not implemented: 
+                return angle
+                duty_limit
+            runs as a blocking command... not sue if it is supposed to be non-blocking
+            so can run on two motors for example
+        '''        
+        speedValue = ev3dev2.motor.SpeedDPS(speed)   
+        speed_sp = int(round(speedValue.to_native_units(self.motor)))             
+        self.wheel.speed_sp(speed_sp)
 
-        print("not implemented")
+        if then == Stop.HOLD:
+            self.wheel.stop_action = ev3dev2.motor.Motor.STOP_ACTION_HOLD
+        else:
+            self.wheel.stop_action = ev3dev2.motor.Motor.STOP_ACTION_COAST             
+
+        self.wheel.command('run-forever')
+        self.wait_until_stalled(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)        
 
 class TouchSensor:
     def __init__(self, port):

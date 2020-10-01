@@ -22,6 +22,9 @@ var pybricks_generator = new function() {
     Blockly.Python['py_motor_run_time'] = self.py_motor_run_time; // !!!!!!   
     Blockly.Python['py_motor_run_angle'] = self.py_motor_run_angle; // !!!!!!   
     Blockly.Python['py_motor_run_target'] = self.py_motor_run_target; // !!!!!!   
+    Blockly.Python['py_motor_run_until_stalled'] = self.py_motor_run_until_stalled; // !!!!!!   
+
+    
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -297,9 +300,17 @@ var pybricks_generator = new function() {
     return code;
   }  
 
+  this.py_motor_run_until_stalled = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+    var then = block.getFieldValue('then');    
+    var duty_limit = Blockly.Python.valueToCode(block, 'duty_limit', Blockly.Python.ORDER_ATOMIC);
 
+    var code = 'motor' + dropdown_port + '.run_until_stalled(' + speed + 
+               ', then=' + then + ', duty_limit=' + duty_limit + ')\n';  
 
-
+    return code;
+  }  
 
 
   // !!!!!!
