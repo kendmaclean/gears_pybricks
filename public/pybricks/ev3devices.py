@@ -45,13 +45,21 @@ class Motor:
 
     # Stopping
     def stop(self):
-        print("stop not implemented")
+        """
+            Stop any of the run commands before they are complete using the
+            action specified by stop_action.
+        
+        """
+        self.wheel.stop_action(ev3dev2.motor.Motor.STOP_ACTION_COAST)
+        self.wheel.command('')
 
     def brake(self):
-        print("brake not implemented")
+        self.wheel.stop_action(ev3dev2.motor.Motor.STOP_ACTION_BRAKE)
+        self.wheel.command('')
 
     def hold(self):
-        print("hold not implemented")
+        self.wheel.stop_action(ev3dev2.motor.Motor.STOP_ACTION_HOLD)
+        self.wheel.command('')
 
     # speed (rotational speed: deg/s) – Speed of the motor.
     def run(self, speed):

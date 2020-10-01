@@ -156,7 +156,11 @@
           <field name="NUM">0</field>
         </shadow>
       </value>      
-    </block>                   
+    </block>   
+    <block type="py_motor_stop">
+      <field name="port">A</field>
+      <field name="stop_action">BRAKE</field>
+    </block>                    
   </category>
 
 

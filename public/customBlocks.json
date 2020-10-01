@@ -558,7 +558,7 @@
   "helpUrl": ""
 },
 { "type": "py_reset_angle",
-  "message0": "reset motor angle on port  %1",
+  "message0": "reset motor angle on port %1 to %2 degrees",
   "args0": [
     {
       "type": "field_dropdown",
@@ -593,6 +593,58 @@
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
+},
+
+{
+  "type": "py_motor_stop",
+  "message0": "stop motor on port %1 block and %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "stop_action",
+      "options": [
+        [
+          "Brake",
+          "BRAKE"
+        ],
+        [
+          "Coast",
+          "COAST"
+        ],
+        [
+          "Hold",
+          "HOLD"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "Stop(): Stops the motor and lets it spin freely. Brake() Passively brakes the motor. Hold(): Stops the motor and actively holds it at its current angle.",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.stop"
 },
 
 { "type": "py_gyro",

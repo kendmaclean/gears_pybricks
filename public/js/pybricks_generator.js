@@ -27,6 +27,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_speed'] = self.py_speed;// !!!!!!  
     Blockly.Python['py_angle'] = self.py_angle;// !!!!!!  
     Blockly.Python['py_reset_angle'] = self.py_reset_angle;    // !!!!!!  
+    Blockly.Python['py_motor_stop'] = self.py_motor_stop; // !!!!!!   
 
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -355,6 +356,25 @@ this.py_reset_angle = function(block) {
 
   return code;
 };
+
+this.py_motor_stop = function(block) {
+  var dropdown_port = block.getFieldValue('port');
+  var dropdown_stop_action = block.getFieldValue('stop_action');
+
+  if (dropdown_stop_action == 'BRAKE') {
+    var stop_action = 'brake';
+  } else if (dropdown_stop_action == 'COAST') {
+    var stop_action = 'stop';
+  } else if (dropdown_stop_action == 'HOLD') {
+    var stop_action = 'hold';
+  }
+
+  var code = 'motor' + dropdown_port + '.' + stop_action + '()\n';
+
+  return code;
+};
+
+
 
   // !!!!!!
 
