@@ -249,14 +249,6 @@ var pybricks_generator = new function() {
     return code;
   };
 
-  this.py_run = function(block) {
-    var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-
-    var code = 'medium_motor.run(' + speed + ')\n';
-
-    return code;
-  };
-
   this.py_motor_run = function(block) {
     var dropdown_port = block.getFieldValue('port');
     var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
