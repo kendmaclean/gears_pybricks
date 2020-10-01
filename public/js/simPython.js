@@ -22,6 +22,11 @@ var $builtinmodule = function(name) {
     });
 
     $loc.command = new Sk.builtin.func(function(self, command) {
+      console.log("==========")
+      console.log("command.v: [" +  command.v + "]")
+      console.log("motor.position: [" +  self.motor.position + "]")
+      console.log("motor.position_sp [" +  self.motor.position_sp + "]")      
+            
       if (command.v == 'run-timed') {
         //self.motor.time_target = Date.now() + self.motor.time_sp * 1000;
         self.motor.time_target = Date.now() + self.motor.time_sp; // already in milliseconds
@@ -30,10 +35,12 @@ var $builtinmodule = function(name) {
 
       } else if (command.v == 'run-to-rel-pos') {
         self.motor.position_target = self.motor.position + self.motor.position_sp;
+        console.log("run-to-rel-pos motor.position_target [" +  self.motor.position_target + "]")             
         self.motor.runToPosition();
 
       } else if (command.v == 'run-to-abs-pos') {
         self.motor.position_target = self.motor.position_sp;
+        console.log("run-to-abs-pos motor.position_target [" +  self.motor.position_target + "]")       
         self.motor.runToPosition();
 
       } else if (command.v == 'run-forever') {

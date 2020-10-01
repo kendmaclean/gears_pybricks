@@ -92,7 +92,7 @@
       </value>
       <value name="rotation_angle">
         <shadow type="math_number">
-          <field name="NUM">360</field>
+          <field name="NUM">45</field>
         </shadow>
       </value>      
       <field name="then">HOLD</field>    
@@ -120,26 +120,7 @@
           <field name="BOOL">TRUE</field>
         </shadow>      
       </value> 
-    </block>       
-    <block type="py_motor_run_angle">
-      <field name="port">A</field>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">200</field>
-        </shadow>
-      </value>
-      <value name="rotation_angle">
-        <shadow type="math_number">
-          <field name="NUM">360</field>
-        </shadow>
-      </value>      
-      <field name="then">HOLD</field>    
-      <value name="wait">
-        <shadow type="logic_boolean">
-          <field name="BOOL">TRUE</field>
-        </shadow>      
-      </value> 
-    </block>           
+    </block>              
     <block type="py_motor_run_until_stalled">
       <field name="port">A</field>
       <value name="speed">

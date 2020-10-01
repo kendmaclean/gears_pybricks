@@ -162,6 +162,12 @@ class Motor:
 
     def run_target(self, speed, target_angle, then=Stop.HOLD, wait=True):
         '''
+            when running run-to-abs-pos, note that the robot is reset with each run of the 
+            simulator, thereby reseting the absolute location of the angle
+
+            it will run to absolute position only within a given run
+
+            
             position_sp¶
             - Writing specifies the target position for the run-to-abs-pos and run-to-rel-pos 
             commands. Reading returns the current value. 
