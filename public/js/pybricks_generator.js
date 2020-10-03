@@ -11,13 +11,14 @@ var pybricks_generator = new function() {
     Blockly.Python['py_settings'] = self.py_settings; // !!!!!!          
     Blockly.Python['py_stop'] = self.py_stop; // !!!!!!       
     Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
-    Blockly.Python['py_angle'] = self.py_angle; // !!!!!!   
+    Blockly.Python['py_angle'] = self.py_angle; // !!!!!!
+    Blockly.Python['py_state'] = self.py_state; // !!!!!!         
     Blockly.Python['py_gyro'] = self.py_gyro; // !!!!!!   
     Blockly.Python['py_reset_gyro'] = self.py_reset_gyro; // !!!!!!       
     Blockly.Python['py_color'] = self.py_color; // !!!!!!   
     Blockly.Python['py_ultrasonic'] = self.py_ultrasonic; // !!!!!!   
     Blockly.Python['py_wait'] = self.py_wait; // !!!!!!   
-    Blockly.Python['py_reset_robot'] = self.py_reset_robot; // !!!!!!   
+    Blockly.Python['py_robot_reset'] = self.py_robot_reset; // !!!!!!   
     Blockly.Python['py_motor_run'] = self.py_motor_run; // !!!!!!   
     Blockly.Python['py_motor_run_time'] = self.py_motor_run_time; // !!!!!!   
     Blockly.Python['py_motor_run_angle'] = self.py_motor_run_angle; // !!!!!!   
@@ -193,7 +194,13 @@ var pybricks_generator = new function() {
     return [code, Blockly.Python.ORDER_NONE];
   };  
 
-  this.py_reset_robot = function(block) {
+  this.py_state = function(block) {
+    var code = 'robot.state()';
+    return [code, Blockly.Python.ORDER_NONE];
+  };  
+
+
+  this.py_robot_reset = function(block) {
     var code = 'robot.reset()\n';
     return code;
   };

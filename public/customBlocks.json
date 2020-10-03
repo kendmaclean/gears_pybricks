@@ -79,7 +79,7 @@
 },
 
 { "type": "py_drive",
-  "message0": "drive at speed %1 and turn rate of %2",
+  "message0": "drive at speed %1 mm/s and turn rate of %2 deg/s",
   "args0": [
     {
       "type": "input_value",
@@ -96,7 +96,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "start driving at the specified speed and turn rate - both values are measured at the center point between the wheels of the robot",
+  "tooltip": "start driving at the specified speed (mm/sec) and turn rate (rotational speed: deg/s", 
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.drive"
 },
 
@@ -111,24 +111,33 @@
 },
 
 { "type": "py_distance",
-  "message0": "Distance",
+  "message0": "Distance (ms)",
   "inputsInline": false,
   "output": "Number",
   "colour": 225,
-  "tooltip": "estimated driven distance",
+  "tooltip": "estimated driven distance in milliseconds",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.distance"
 },
 
 { "type": "py_angle",
-  "message0": "Angle",
+  "message0": "Angle (deg)",
   "inputsInline": false,
   "output": "Number",
   "colour": 225,
-  "tooltip": "estimated rotation angle of robot drive base",
+  "tooltip": "estimated rotation angle of robot drive base in degrees",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.angle"
 },
 
-{ "type": "py_reset_robot",
+{ "type": "py_state",
+  "message0": "robot state",
+  "inputsInline": false,
+  "output": "Number",
+  "colour": 225,
+  "tooltip": "returns current distance(), the drive speed, the angle(), and the turn rate.",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.state"
+},
+
+{ "type": "py_robot_reset",
   "message0": "Reset",
   "inputsInline": false,
   "previousStatement": null,
@@ -139,7 +148,7 @@
 },
 
 { "type": "py_motor_run",
-  "message0": "run: port %1 speed %2 deg/sec",
+  "message0": "run: port %1 speed %2 deg/s",
   "args0": [
     {
       "type": "field_dropdown",
@@ -177,7 +186,7 @@
 },
 
 { "type": "py_motor_run_time",
-  "message0": "run_time: port %1 speed %2 deg/sec time %3 ms, then %4 wait %5",
+  "message0": "run_time: port %1 speed %2 deg/s; time %3 ms; then %4 wait %5",
   "args0": [
     { 
       "type": "field_dropdown",
@@ -244,7 +253,7 @@
 },
 
 { "type": "py_motor_run_angle",
-  "message0": "run_angle: port %1 speed %2 deg/sec relative angle %3 degs; then %4 wait %5",
+  "message0": "run_angle: port %1 speed %2 deg/s; relative angle %3 degs; then %4 wait %5",
   "args0": [
     { 
       "type": "field_dropdown",
@@ -311,7 +320,7 @@
 },
 
 { "type": "py_motor_run_target",
-  "message0": "run_target: port %1 speed: %2 deg/sec absolute angle %3 degs; then %4 wait %5",
+  "message0": "run_target: port %1 speed %2 deg/s; absolute angle %3 degs; then %4 wait %5",
   "args0": [
     { 
       "type": "field_dropdown",
@@ -378,7 +387,7 @@
 },
 
 { "type": "py_motor_run_until_stalled",
-  "message0": "run_until_stalled: port %1 speed of %2 deg/sec until stalled; then %3 duty limit %4",
+  "message0": "run_until_stalled: port %1 speed of %2 deg/s; until stalled; then %3 duty limit %4",
   "args0": [
     { 
       "type": "field_dropdown",
@@ -440,7 +449,7 @@
 },
 
 { "type": "py_motor_dc",
-  "message0": "dc: run motor on port %1 at a power: %2",
+  "message0": "dc: run motor on port %1 at a power: %2 %",
   "args0": [
     { 
       "type": "field_dropdown",
@@ -479,7 +488,7 @@
 },
 
 { "type": "py_motor_speed",
-  "message0": "speed: port %1 deg/sec",
+  "message0": "speed: port %1",
   "args0": [
     {
       "type": "field_dropdown",
@@ -511,7 +520,7 @@
 },
 
 { "type": "py_motor_angle",
-  "message0": "angle: port %1 degs",
+  "message0": "angle: port %1",
   "args0": [
     {
       "type": "field_dropdown",
@@ -543,7 +552,7 @@
 },
 
 { "type": "py_motor_reset_angle",
-  "message0": "reset_angle: port %1 to %2 degrees",
+  "message0": "reset_angle: port %1 to %2",
   "args0": [
     {
       "type": "field_dropdown",
@@ -576,12 +585,12 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "sets the accumulated rotation angle of the motor to a desired value",
+  "tooltip": "sets the accumulated rotation angle of the motor to a desired (in degrees)",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.reset_angle"
 },
 
 { "type": "py_motor_stop",
-  "message0": "stop motor on port %1 block and %2",
+  "message0": "stop: port %1 and %2",
   "args0": [
     {
       "type": "field_dropdown",
@@ -627,7 +636,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "Stop(): Stops the motor and lets it spin freely. Brake() Passively brakes the motor. Hold(): Stops the motor and actively holds it at its current angle.",
+  "tooltip": "Stop(): let motor it spin freely. Brake(): passively brake  motor. Hold(): actively hold at current angle.",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.stop"
 },
 

@@ -61,3 +61,12 @@ print("motorSpeed_dps" + str(motorSpeed_dps) )
 rotations = motorA.angle() / 360
 print("rotations" + str(rotations))  
 print("distance" + str(rotations * 56) + "mm")  
+
+=======================
+
+robot.drive(200, 15)
+
+while True:
+  print("distance" + str(robot.distance()))
+  print("angle" + str(robot.angle()))
+  wait(0.25)

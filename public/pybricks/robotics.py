@@ -65,15 +65,23 @@ class DriveBase:
         check_axle_track()
         self.settings()
 
+        self.pivot_turn_angle = 0
+        self.drive_speed = 0 
+        self.straight_speed = 0
+
     def settings(self, straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100):
-        # TODO straight_acceleration and turn_acceleration not implemented
-        # TODO how to get this so that settings is paired with straight or turn command; but only once 
-        # TODO only really need settings delta from the one set up by default in virtual environment - i.e. if
-        # user only changes straight_speed, don't need to reset all other parms - creates too much visual noise
+        '''
+            # TODO straight_acceleration and turn_acceleration not implemented
+            # TODO how to get this so that settings is paired with straight or turn command; but only once 
+            # TODO only really need settings delta from the one set up by default in virtual environment - i.e. if
+            # user only changes straight_speed, don't need to reset all other parms - creates too much visual noise
+        '''
         def check_straight_speed():
             if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
                 # straight_speed in mm/s
                 self.straight_speed = straight_speed
+                self.turn_rate = turn_rate                
+                self.drive_speed = 0
             else:
                 raise ValueError("straight_speed outside allowable bounds")
         def check_straight_acceleration():
@@ -154,6 +162,8 @@ class DriveBase:
 
             # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
         '''        
+        self.pivot_turn_angle = angle
+
         def get_speed_steering(steering, speed):
             if steering > 100 or steering < -100:
                 raise ValueError("Invalid Steering Value. Between -100 and 100 (inclusive).")
@@ -327,6 +337,16 @@ class DriveBase:
                 1. hackernoon: https://hackernoon.com/unicycle-to-differential-drive-courseras-control-of-mobile-robots-with-ros-and-rosbots-part-2-6d27d15f2010
                 2. mouhknowsbest: https://www.youtube.com/watch?v=aE7RQNhwnPQ&list=PLp8ijpvp8iCvFDYdcXqqYU5Ibl_aOqwjr&index=10
         '''
+        self.drive_speed = drive_speed
+        self.turn_rate = turn_rate
+        self.straight_speed = 0
+
+        #def getDriveSpeedDPSObj(): # convert drive_speed from millimetres-per-second to degrees-per-second
+        #    rotations = drive_speed / self.wheel_circumference
+        #    degrees = rotations * 360
+        #    print("mm/sec " + str(drive_speed) + "degrees/sec " + str(degrees))            
+        #    return ev3dev2.motor.SpeedDPS(degrees)
+
         v = drive_speed / 1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
         # TODO makes no sense for axleTrack to be attached to motor property; should be robot attribute
@@ -347,15 +367,34 @@ class DriveBase:
     def stop(self):
         self.tank_drive.off(motors=None, brake=True)
 
-    def distance(self):
+    #def distance(self):
+        #    time.sleep(SENSOR_DELAY)
+        #    average_wheel_position = (self.left_motor.wheel.position() + self.left_motor.wheel.position()) / 2
+        #    quotient_rotations = average_wheel_position // 360
+        #    remainder_degrees = average_wheel_position % 360
+        #    fractionOfrotations = remainder_degrees / 360
+        #    distance_rotations = quotient_rotations + fractionOfrotations
+        #    distance_mm = distance_rotations * self.wheel_circumference
+        #    return distance_mm
+
+    def distanceWheel(self, wheel_position):
         time.sleep(SENSOR_DELAY)
-        average_wheel_position = (self.left_motor.wheel.position() + self.left_motor.wheel.position()) / 2
-        quotient_rotations = average_wheel_position // 360
-        remainder_degrees = average_wheel_position % 360
+
+        quotient_rotations = wheel_position // 360
+        remainder_degrees = wheel_position % 360
         fractionOfrotations = remainder_degrees / 360
         distance_rotations = quotient_rotations + fractionOfrotations
         distance_mm = distance_rotations * self.wheel_circumference
         return distance_mm
+
+    def distanceLeftWheel(self):
+       return self.distanceWheel(self.left_motor.wheel.position())
+
+    def distanceRightWheel(self):
+       return self.distanceWheel(self.right_motor.wheel.position())
+
+    def distance(self):   
+        return ( self.distanceLeftWheel() + self.distanceRightWheel() ) / 2
 
     def reset(self):
         self.tank_drive.left_motor.reset() 
@@ -364,128 +403,66 @@ class DriveBase:
     ###########################################################################
 
     def angle(self):
-        # TODO NOT FINISHED
         '''
             Distances moved by wheels
                 A. Variables
 
-                    dl & dr = distances moved by the left and right weels 
-                    dc = distances moved by centre of robot 
-                    b = base width
-                    π = pi
-                    d = diameter
-                    R = radius of wheel
-                    w1, w2 = revolutions per second after t seconds
-                    t = time in seconds
-
-                B. Equations
-                    di = 2 * π * R * ωi * t, for i = l, r
-                    dc = (dl + dr) / 2
+                    d_l & d_r = distances moved by the left and right weels in mm/sec
+                    dc = distances moved by centre of robot in mm
+                    b = base width in mm
 
             Pose of robot after wheels have moved these distances
-                C. Variables
-                    (x,y) = position (x,y) relative to fixed origin 
-                    φ = direction which robot is pointing
-                    (x, y, φ) = pose of robot (where robot is facing north (φ = π/2) )
+                B. Variables
+                    starting positin:
 
-                    (x', y', φ') = new pose, after turning θ radians
-                    φ' = new heading of robot     
+                        (x,y) = position (x,y) relative to fixed origin 
+                        φ = direction which robot is pointing now
+                        (x, y, φ) = pose of robot (where robot is facing north (φ = π/2) )
 
-                D. Equations
+                    robot moves along an arc:
+
+                        (x', y', φ') = new pose, after turning θ radians
+                        φ' = new heading of robot     
+
+                C. Equations
+
                     φ' = φ + θ
                     θ = (dr − dl)/b
                     (x' , y' , φ') = (−dc sin θ , dc cos θ,φ + θ).
 
+                D. Application
 
-            D. Example
+                    φ' = 0 (zero), since measuring angle of robot relative to starting point; 
+                    therefore  
+                    φ' = θ (theta)
+                    
+                    φ' = (dr − dl)/b
 
-                Problem statement
-                    We have a robot with an wheel base (axle width) of 119mm and a wheel diameter 
-                    of 94.2mm. We want to measure the robot turn angle as it moves for 1.5 seconds,
-                    at a turn rate of 45 degrees/sec, and speed of 200mm/sec
-
-                Unit conversions
-                    b = 110mm = 0.11metres
-                    d = 94.2 = 0.0942metres
-                    R = 94.2mm / 2 = 47.1mm = 0.0471metres
-
-                    wheel_radians = 0.0471metres
-
-                    L = .011 metres per radian
-                    R = 0.0471 metres per radian
-
-                    v = 200 mm/sec = 0.2 metres per sec                    
-                    v_r = 280 degrees/sec = 280 * (pi / 180) = 4.89 radian/sec
-
-                Solve equations
-                    w = (v_r * (2 * R) - (2 * v)) / L
-                    w = ((4.89 rad/sec * (2 * 0.0471 m/rad) - (2 * 0.2 m/sec)) / .011 m/rad
-                    w = (0.460638 m/sec - 0.4 m/sec) / .011 m/rad
-                    w = 0.060638 m/sec / .011 m/rad
-                    w = 0.551 m/sec * rad/m
-                    w = 0.551 rad/sec       
-
-                    theta = 0.551 rad/sec (180 / pi) = 31.56 deg/sec * 1.5 seconds = 47.35 degrees
-
-            E. Converting to correct units
-
-                to calculate v:
-                    need to convert motor speed from deg/sec to mm/sec
-                given:
-                    r = rotations (in deg/sec)
-                    c = wheel circumference (in mm)
-                    s = drive speed (in mm/sec)
-
-                    tank_drive.left_motor.speed is in dps (degrees per second)
-                and:
-                    r = (s * 360) / c
-                therefore:
-                    s = (r * c) / 360 # in mm/sec
-                    v = s / 1000 # in metres per sec
-
-                to calculate v_r:
-                    need to convert motor speed from deg/sec to rad/sec
-                given:
-                    v_r = clockwise angular velocity of right wheel (in radians per sec)
-                    degrees = radian * (180 / pi)
-                    radians = degrees * (pi / 180)                
-                therefore:
-                    v_r = self.tank_drive.left_motor.speed * (pi / 180) 
-
-            see: https://www.researchgate.net/publication/320674818_Robotic_Motion_and_Odometry                    
         '''
-
-        # TODO this is still not working... might need to use pose calculations....
-        # wrong formulas????
-        
         time.sleep(SENSOR_DELAY)
+        d_l = self.distanceLeftWheel() # mm
+        d_r = self.distanceRightWheel() # mm
+        b = self.axle_track # mm
+        #print("=============")
+        #print("d_l" + str(d_l))
+        #print("d_r" + str(d_r))      
+        #print("b" + str(b))             
+        theta = (d_r - d_l) / b
 
-        L = self.left_motor.axleTrack / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
-        R = self.wheel_radius / 1000 # radius (metres per wheel radian)  
-        s = (self.tank_drive.left_motor.speed * self.wheel_circumference) / 360 # speed (in mm per sec)
-        v = s / 1000 # forward velocity (metres per sec)
-        v_r = math.radians(self.tank_drive.right_motor.speed ) # (radians per second)
-        v_l = math.radians(self.tank_drive.left_motor.speed ) # (radians per second)
-
-        w_r = (v_r * (2 * R) - (2 * v)) / L
-        w_l = (v_l * (2 * R) - (2 * v)) / -1 * L     
-        '''
-                print("=========" ) 
-                print("L " + str(L) )
-                print("R " + str(R) )
-                print("s " + str(s) )
-                print("v " + str(v) )      
-                print("w_r " + str(w_r) )     
-                print("w_l " + str(w_l) )                    
-
-                #print(format(432.456, ".2f")) # trim off digits
-        '''
-        print("Warning angle not implemented")
-        return 0
+        return theta
 
     def state(self):
-        print("not completed")       
-        return ([self.distance])
+        # TODO: these are draft values, need to confirm they are working the same in EV3 implementation
+  
+        drive_speed = self.drive_speed or self.straight_speed    
+        if self.pivot_turn_angle > 0:
+            angle = self.pivot_turn_angle 
+        elif self.angle() > 0:
+            angle = self.angle()
+        else:
+            angle = 0
+        turn_rate = ("%.2f" % self.turn_rate)       
+        return ([self.distance(), drive_speed , angle, turn_rate])
 
 
 
