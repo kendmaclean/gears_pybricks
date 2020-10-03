@@ -31,15 +31,74 @@ class Motor:
 
     # Measuring
     def speed(self):
+        # TODO how to convert speed in degrees/sec to equivalent 
+        # robot.drive() drive_speed parameter
+
+        '''
+            Gets the speed of the motor.
+            Return type:	rotational speed: deg/s
+
+            Note: robot.drive() drive_speed parm != motor.speed()
+                robot drive_speed = mm/s # Speed of the robot.
+                motor.speed       = deg/s # wheel rotational speed:
+
+            =============================================================================
+
+            speed¶
+            Returns the current motor speed in tacho counts per second. Note, this is not 
+            necessarily degrees (although it is for LEGO motors). Use the count_per_rot attribute
+            to convert this value to RPM or deg/sec.
+
+            speed_sp
+            Writing sets the target speed in tacho counts per second used for all run-* commands 
+            except run-direct. Reading returns the current value. A negative value causes the motor 
+            to rotate in reverse with the exception of run-to-*-pos commands where the sign is 
+            ignored. Use the count_per_rot attribute to convert RPM or deg/sec to tacho counts per 
+            second. Use the count_per_m attribute to convert m/s to tacho counts per second.
+
+            see: https://ev3dev-lang.readthedocs.io/projects/python-ev3dev/en/stable/motors.html#ev3dev2.motor.Motor.speed
+
+            for EV3:
+                self.count_per_rot = 360 = one rotation of a circle = 360degrees
+            therefore            
+                tacho counts per sec = degrees per sec
+        '''
         time.sleep(SENSOR_DELAY)
-        return int(self.wheel.speed())
+        return int(self.wheel.speed_sp())  # degrees per sec
 
     # position is same as angle for EV3
     def angle(self):
+        '''
+            position
+            Returns the current position of the motor in pulses of the rotary encoder. 
+            When the motor rotates clockwise, the position will increase. Likewise, 
+            rotating counter-clockwise causes the position to decrease. Writing will set 
+            the position to that value.
+
+            position_sp
+            Writing specifies the target position for the run-to-abs-pos and run-to-rel-pos 
+            commands. Reading returns the current value. Units are in tacho counts. 
+            You can use the value returned by count_per_rot to convert tacho counts 
+            to/from rotations or degrees.
+
+            see: https://ev3dev-lang.readthedocs.io/projects/python-ev3dev/en/stable/motors.html#ev3dev2.motor.Motor.position
+
+            tacho counts = degrees
+        '''
         time.sleep(SENSOR_DELAY)
-        return int(self.wheel.position())
+        return int(self.wheel.position()) # in degrees
 
     def reset_angle(self, angle):
+        '''
+            weird behaviour when run this:
+            robot.straight(200)
+            robot.straight(300)  
+            motorA.reset_angle(0)  
+            motorB.reset_angle(0)  
+
+            resetting the motor angle causes the robot to coast, and no longer breaks
+            after robot.straight
+        '''
         time.sleep(SENSOR_DELAY)        
         self.wheel.position(int(angle))
 
@@ -214,12 +273,12 @@ class Motor:
 
     def run_until_stalled(self, speed, then=Stop.COAST, duty_limit=None):
         '''
-            not sure how to test this...
-            not implemented: 
-                return angle
-                duty_limit
-            runs as a blocking command... not sue if it is supposed to be non-blocking
-            so can run on two motors for example
+            TODO run_until_stalled not sure how to test this..
+            TODO run_until_stalled not implemented: return angle, duty_limit
+
+            Notes:
+            runs as a blocking command... this is how Gearsbot implements it, but not sure if EV3 is
+            supposed to be non-blocking, so can run on two motors for example...
         '''        
         speedValue = ev3dev2.motor.SpeedDPS(speed)   
         speed_sp = int(round(speedValue.to_native_units(self.motor)))             
@@ -264,6 +323,10 @@ class UltrasonicSensor:
         return False
 
 class ColorSensor:
+    '''
+    EV3 color detector should optimally be 1.6cm from surface... not sure about this environment
+
+    '''
     def __init__(self, address=None):
         self.sensor = simPython.ColorSensor(address)
 

@@ -32,10 +32,32 @@ robot.drive(200, 0)
 while True:
   print('=======')
   print(motorA.speed())
-  print(motorA.angle())
+  motorSpeed_dps = motorA.speed() 
+  motorMMperSec = (motorSpeed_dps / 360) * 56
+  print("angle" + str(motorA.angle()))
+  print("motorSpeed_dps" + str(motorSpeed_dps) ) 
+  print("motorMMperSec" + str(motorMMperSec)  )
   rotations = motorA.angle() / 360
-  print(rotations)
+
+  print("rotations" + str(rotations))  
   if rotations > 2:
     motorA.reset_angle(0)
     rotations = 0
   wait(250)
+
+
+  ===========================
+
+
+  robot.straight(500)
+
+
+print('=======')
+motorSpeed_dps = motorA.speed() 
+
+print("angle_degrees" + str(motorA.angle()))
+print("motorSpeed_dps" + str(motorSpeed_dps) ) 
+
+rotations = motorA.angle() / 360
+print("rotations" + str(rotations))  
+print("distance" + str(rotations * 56) + "mm")  

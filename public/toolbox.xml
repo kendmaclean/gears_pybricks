@@ -143,13 +143,13 @@
         </shadow>
       </value>
     </block>   
-    <block type="py_speed">
+    <block type="py_motor_speed">
       <field name="port">A</field>
     </block>
-    <block type="py_angle">
+    <block type="py_motor_angle">
       <field name="port">A</field>
     </block>
-    <block type="py_reset_angle">
+    <block type="py_motor_reset_angle">
       <field name="port">A</field>
       <value name="angle">
         <shadow type="math_number">

@@ -68,6 +68,8 @@ class DriveBase:
     def settings(self, straight_speed=200, straight_acceleration=100, turn_rate=100, turn_acceleration=100):
         # TODO straight_acceleration and turn_acceleration not implemented
         # TODO how to get this so that settings is paired with straight or turn command; but only once 
+        # TODO only really need settings delta from the one set up by default in virtual environment - i.e. if
+        # user only changes straight_speed, don't need to reset all other parms - creates too much visual noise
         def check_straight_speed():
             if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
                 # straight_speed in mm/s
@@ -97,10 +99,10 @@ class DriveBase:
 
     def straight(self, distance):
         def getSpeedDPSObj(): 
-            # straight_speed in degrees-per-second
-            # TODO does this make sense????
+            # straight_speed in mm-per-second
+            # this gives rotations per sec
             rotations = self.straight_speed / self.wheel_circumference
-
+            # give degrees per sec
             degrees = rotations * 360
             return ev3dev2.motor.SpeedDPS(degrees) 
         def getDistanceInDegrees(): # returns degrees/sec
@@ -325,12 +327,6 @@ class DriveBase:
                 1. hackernoon: https://hackernoon.com/unicycle-to-differential-drive-courseras-control-of-mobile-robots-with-ros-and-rosbots-part-2-6d27d15f2010
                 2. mouhknowsbest: https://www.youtube.com/watch?v=aE7RQNhwnPQ&list=PLp8ijpvp8iCvFDYdcXqqYU5Ibl_aOqwjr&index=10
         '''
-        def getDriveSpeedDPSObj(): # convert drive_speed from millimetres-per-second to degrees-per-second
-            rotations = drive_speed / self.wheel_circumference
-            degrees = rotations * 360
-            print("mm/sec " + str(drive_speed) + "degrees/sec " + str(degrees))            
-            return ev3dev2.motor.SpeedDPS(degrees)
-
         v = drive_speed / 1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
         # TODO makes no sense for axleTrack to be attached to motor property; should be robot attribute
@@ -370,49 +366,51 @@ class DriveBase:
     def angle(self):
         # TODO NOT FINISHED
         '''
-            A. Variables
+            Distances moved by wheels
+                A. Variables
 
-                v = robot forward velocity (in metres per second)
-                w = robot angular velocity (in radians per second)
-                L = wheelbase (in metres per radian of a robot swing turn; where radian
-                    corresponds to radius of robot turning in a circle with one fixed wheel)
-                R = wheel radius (in metres per radian of wheel)
+                    dl & dr = distances moved by the left and right weels 
+                    dc = distances moved by centre of robot 
+                    b = base width
+                    π = pi
+                    d = diameter
+                    R = radius of wheel
+                    w1, w2 = revolutions per second after t seconds
+                    t = time in seconds
 
-                v_r = clockwise angular velocity of right wheel (in radians per sec)
-                v_l = counter-clockwise angular velocity of left wheel (in radians per sec)
+                B. Equations
+                    di = 2 * π * R * ωi * t, for i = l, r
+                    dc = (dl + dr) / 2
 
-            B. Derive Formula
-                Given
+            Pose of robot after wheels have moved these distances
+                C. Variables
+                    (x,y) = position (x,y) relative to fixed origin 
+                    φ = direction which robot is pointing
+                    (x, y, φ) = pose of robot (where robot is facing north (φ = π/2) )
 
-                    v_r = ((2 * v) + (w * L)) / (2 * R)
-                    v_l = ((2 * v) - (w * L)) / (2 * R)
+                    (x', y', φ') = new pose, after turning θ radians
+                    φ' = new heading of robot     
 
-                Solve for w
+                D. Equations
+                    φ' = φ + θ
+                    θ = (dr − dl)/b
+                    (x' , y' , φ') = (−dc sin θ , dc cos θ,φ + θ).
 
-                    v_r = ((2 * v) + (w * L)) / (2 * R)
-                    (2 * v) + (w * L) = v_r * (2 * R)
-                    w * L = v_r * (2 * R) - (2 * v)   
-
-                    w_r = (v_r * (2 * R) - (2 * v)) / L
-                    w_l = (v_l * (2 * R) - (2 * v)) / -1 * L                    
-
-            C. Equations
-
-                radian * (180 / pi)
-                turn_rate = w * time
 
             D. Example
 
                 Problem statement
                     We have a robot with an wheel base (axle width) of 119mm and a wheel diameter 
-                    of 94.2mm. We want our robot to measure its turn angle as it moves for 1.5 seconds,
-                    at a turn rate of 280 degrees/sec
+                    of 94.2mm. We want to measure the robot turn angle as it moves for 1.5 seconds,
+                    at a turn rate of 45 degrees/sec, and speed of 200mm/sec
 
                 Unit conversions
-                    wheelbase = 110mm = 0.11metres; which is the radius of a robot turn with one wheel fixed.
-                    wheelbase_radian = 0.11metres
-                    wheel_radius = 94.2mm / 2 = 47.1mm = 0.0471metres
+                    b = 110mm = 0.11metres
+                    d = 94.2 = 0.0942metres
+                    R = 94.2mm / 2 = 47.1mm = 0.0471metres
+
                     wheel_radians = 0.0471metres
+
                     L = .011 metres per radian
                     R = 0.0471 metres per radian
 
@@ -453,6 +451,8 @@ class DriveBase:
                     radians = degrees * (pi / 180)                
                 therefore:
                     v_r = self.tank_drive.left_motor.speed * (pi / 180) 
+
+            see: https://www.researchgate.net/publication/320674818_Robotic_Motion_and_Odometry                    
         '''
 
         # TODO this is still not working... might need to use pose calculations....

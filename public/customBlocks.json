@@ -478,7 +478,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.dc"
 },
 
-{ "type": "py_speed",
+{ "type": "py_motor_speed",
   "message0": "speed: port %1 deg/sec",
   "args0": [
     {
@@ -510,7 +510,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.speed"
 },
 
-{ "type": "py_angle",
+{ "type": "py_motor_angle",
   "message0": "angle: port %1 degs",
   "args0": [
     {
@@ -542,7 +542,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.angle"
 },
 
-{ "type": "py_reset_angle",
+{ "type": "py_motor_reset_angle",
   "message0": "reset_angle: port %1 to %2 degrees",
   "args0": [
     {
