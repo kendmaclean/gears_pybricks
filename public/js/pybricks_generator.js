@@ -7,8 +7,11 @@ var pybricks_generator = new function() {
 
     Blockly.Python['py_straight'] = self.py_straight; // !!!!!!
     Blockly.Python['py_turn'] = self.py_turn; // !!!!!!    
+    Blockly.Python['py_settings'] = self.py_settings; // !!!!!!      
+    Blockly.Python['py_straight_combo'] = self.py_straight_combo; // !!!!!!
+    Blockly.Python['py_turn_combo'] = self.py_turn_combo; // !!!!!!        
     Blockly.Python['py_drive'] = self.py_drive; // !!!!!!      
-    Blockly.Python['py_settings'] = self.py_settings; // !!!!!!          
+        
     Blockly.Python['py_stop'] = self.py_stop; // !!!!!!       
     Blockly.Python['py_distance'] = self.py_distance; // !!!!!!   
     Blockly.Python['py_angle'] = self.py_angle; // !!!!!!
@@ -143,11 +146,35 @@ var pybricks_generator = new function() {
     return code;    
   }
 
+  this.py_straight_combo = function(block) {
+    var distance = Blockly.Python.valueToCode(block, 'distance', Blockly.Python.ORDER_ATOMIC);
+    var straight_speed = Blockly.Python.valueToCode(block, 'straight_speed', Blockly.Python.ORDER_ATOMIC);    
+    if (distance === undefined) { distance = 0;  }
+    if (straight_speed === undefined) { straight_speed = 0;  }
+
+    var code = 'robot.settings(straight_speed=' + straight_speed + ')\n';
+    code += 'robot.straight(' + distance + ')\n';
+
+    return code;    
+  }
+
   this.py_turn = function(block) {
     var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
     if (angle === undefined) { angle = 0; }
 
     var code = 'robot.turn(' + angle + ')\n';
+
+    return code;    
+  }  
+
+  this.py_turn_combo= function(block) {
+    var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
+    var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);    
+    if (angle === undefined) { angle = 0; }
+    if (turn_rate === undefined) { turn_rate = 0; }
+
+    var code = 'robot.settings(turn_rate=' + turn_rate + ')\n';
+    code += 'robot.turn(' + angle + ')\n';
 
     return code;    
   }  

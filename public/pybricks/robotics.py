@@ -106,6 +106,7 @@ class DriveBase:
         check_turn_acceleration()
 
     def straight(self, distance):
+        # TODO implement rampup and rampdown
         def getSpeedDPSObj(): 
             # straight_speed in mm-per-second
             # this gives rotations per sec
@@ -194,12 +195,14 @@ class DriveBase:
             return ev3dev2.motor.SpeedDPS(degrees)        
         def getTurnInDegrees():
             robot_circumference_of_turn = self.axle_track * math.pi
-            return angle * (robot_circumference_of_turn / self.wheel_circumference)
+            angleInDegrees = angle * (robot_circumference_of_turn / self.wheel_circumference)
+            return angleInDegrees
 
         (left_speed, right_speed) = get_speed_steering(steering=100, speed=getSpeedDPSObj())
         self.tank_drive.on_for_degrees(ev3dev2.motor.SpeedNativeUnits(left_speed), ev3dev2.motor.SpeedNativeUnits(right_speed), degrees=getTurnInDegrees(), brake=True, block=True)
 
     def drive(self, drive_speed, turn_rate):
+        #TODO implement rampup and rampdown
         '''
             This method converts the Pybricks drive() command to the on() method of 
             the EV3DEV2 MoveTank class, whose speed parameters can be instantiated as 

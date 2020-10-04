@@ -1,5 +1,31 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
   <category name="Robot" colour="#5b67a5">
+    <block type="py_straight_combo">
+      <value name="distance">
+        <shadow type="math_number">
+          <field name="NUM">500</field>
+        </shadow>
+      </value>
+     <value name="straight_speed">
+        <shadow type="math_number">
+          <field name="NUM">200</field>
+        </shadow>
+      </value>   
+    </block>
+    <block type="py_turn_combo">
+      <value name="angle">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>      
+      </value>
+     <value name="turn_rate">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>        
+    </block>
+   </category>
+  <category name="Robot Advanced" colour="#5b67a5">
     <block type="py_straight">
       <value name="distance">
         <shadow type="math_number">
