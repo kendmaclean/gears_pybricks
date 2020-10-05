@@ -87,9 +87,7 @@ var pybricks_generator = new function() {
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       // TODO only required if user using straight or turn commands...
       'robot.settings(straight_speed=' + self.straight_speed + ',' +
-                     'straight_acceleration=' + self.straight_acceleration + ',' +
-                     'turn_rate=' + self.turn_rate + ',' +
-                     'turn_acceleration=' + self.turn_acceleration + ')\n' +                  
+                     'turn_rate=' + self.turn_rate + ')\n' +                  
       '\n';
     
     var sensorsCode = '';
@@ -174,63 +172,17 @@ var pybricks_generator = new function() {
 
     return code;    
   }  
-/*
-  this.py_turn_combo= function(block) {
-    var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
-    var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);    
-    if (angle === undefined) { angle = 0; }
-    if (turn_rate === undefined) { turn_rate = 0; }
 
-    var code = 'robot.settings(turn_rate=' + turn_rate + ')\n';
-    code += 'robot.turn(' + angle + ')\n';
-
-    return code;    
-  }  
-*/
   this.py_settings = function(block) {
     straight_speed = Blockly.Python.valueToCode(block, 'straight_speed', Blockly.Python.ORDER_ATOMIC);
     if (straight_speed === undefined) { straight_speed = 0;  }
-    straight_acceleration = Blockly.Python.valueToCode(block, 'straight_acceleration', Blockly.Python.ORDER_ATOMIC);
-    if (straight_acceleration === undefined) { straight_acceleration = 0;  }
 
     turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);
-    if (self.turn_rate === undefined) { turn_rate = 0;  }
-    turn_acceleration = Blockly.Python.valueToCode(block, 'turn_acceleration', Blockly.Python.ORDER_ATOMIC);
-    if (turn_acceleration === undefined) { turn_acceleration = 0;  }
+    if (turn_rate === undefined) { turn_rate = 0;  }
 
+    var code = 'robot.settings(straight_speed=' + straight_speed + ', turn_rate=' + turn_rate + ')\n';
 
-
-
-
-    // TODO this not working as expected - if you change settings attribute to same Number, it disappears...Number. argh
-    // revert this code...
-
-    changed = false;
-    var code = 'robot.settings('
-    if (straight_speed != self.straight_speed) {
-      code += 'straight_speed=' + straight_speed + ', ';
-      self.straight_speed = straight_speed;
-      changed = true;      
-    } else if (straight_acceleration != self.straight_acceleration ) {
-      code += 'straight_acceleration=' + straight_acceleration + ', '; 
-      self.straight_acceleration = straight_acceleration;
-      changed = true;         
-    } else if (turn_rate != self.turn_rate ) {
-      code += 'turn_rate=' + turn_rate + ', '; 
-      self.turn_rate = turn_rate;
-      changed = true;         
-    } else if (turn_acceleration != self.turn_acceleration ) {
-      code += 'turn_acceleration=' + turn_acceleration + ', '; 
-      self.turn_acceleration = turn_acceleration;
-      changed = true;         
-    }
-    code += ')\n';
-
-    if (changed) {
-      return code;
-    }  else {
-      return "";
-    }  
+    return code;        
   }
 
   this.py_drive = function(block) {
@@ -263,7 +215,6 @@ var pybricks_generator = new function() {
     var code = 'robot.state()';
     return [code, Blockly.Python.ORDER_NONE];
   };  
-
 
   this.py_robot_reset = function(block) {
     var code = 'robot.reset()\n';

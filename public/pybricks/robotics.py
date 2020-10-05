@@ -80,10 +80,17 @@ class DriveBase:
             # TODO how to get this so that settings is paired with straight or turn command; but only once 
             # TODO only really need settings delta from the one set up by default in virtual environment - i.e. if
             # user only changes straight_speed, don't need to reset all other parms - creates too much visual noise
+
+
+            straight_speed (speed: mm/s) – Speed of the robot during straight().
+            straight_acceleration (linear acceleration: mm/s/s) – Acceleration and deceleration 
+                of the robot at the start and end of straight().
+            turn_rate (rotational speed: deg/s) – Turn rate of the robot during turn().
+            turn_acceleration (rotational acceleration: deg/s/s) – Angular acceleration and deceleration 
+                of the robot at the start and end of turn().            
         '''
         def check_straight_speed():
             if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
-                # straight_speed in mm/s
                 self.straight_speed = straight_speed
                 self.turn_rate = turn_rate                
                 self.drive_speed = 0
@@ -111,17 +118,16 @@ class DriveBase:
         check_turn_acceleration()
 
     def straight(self, distance):
-        # TODO implement rampup and rampdown
+        # TODO implement rampup and rampdown; if implement this, cannot use tank_drive, therefore
+        # wait and see if required
         def getSpeedDPSObj(): 
-            # straight_speed in mm-per-second
-            # this gives rotations per sec
-            rotations = self.straight_speed / self.wheel_circumference
-            # give degrees per sec
-            degrees = rotations * 360
-            return ev3dev2.motor.SpeedDPS(degrees) 
-        def getDistanceInDegrees(): # returns degrees/sec
+            rotations_per_sec = self.straight_speed / self.wheel_circumference
+            degrees_per_sec = rotations_per_sec * 360
+            return ev3dev2.motor.SpeedDPS(degrees_per_sec) 
+        def getDistanceInDegrees():
             dist_in_rotations = distance / self.wheel_circumference
-            return dist_in_rotations * 360
+            distance_deg_sec = dist_in_rotations * 360
+            return distance_deg_sec
 
         speedDPS_obj = getSpeedDPSObj()
         self.tank_drive.on_for_degrees(speedDPS_obj, speedDPS_obj, getDistanceInDegrees(), brake=True, block=True)
