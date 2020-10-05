@@ -1,5 +1,7 @@
 
-see: https://github.com/ev3dev/lego-linux-drivers/blob/5f2f1c686d887c16ad52678d3796bb08a19aa55c/motors/tacho_motor_class.c
+see: https://github.com/ev3dev/lego-linux-drivers/blob/ev3dev-buster/motors/tacho_motor_class.c
+
+great resource: https://www.philohome.com/motors/motorcomp.html
 
 /*
  * Tacho motor device class

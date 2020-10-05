@@ -30,6 +30,7 @@ class Motor:
         return "Port: " + str(self.port) + ";\n robotTemplates.js wheelDiameter: " + str(self.wheelDiameter) + ";\n robotTemplates.js axleTrack: " + str(self.axleTrack) 
 
     # Measuring
+
     def speed(self):
         # TODO how to convert speed in degrees/sec to equivalent 
         # robot.drive() drive_speed parameter
@@ -103,6 +104,7 @@ class Motor:
         self.wheel.position(int(angle))
 
     # Stopping
+
     def stop(self):
         """
             Stop any of the run commands before they are complete using the
@@ -295,6 +297,9 @@ class Motor:
         self.wait_until_stalled(timeout=ev3dev2.motor.WAIT_RUNNING_TIMEOUT)        
 
     def dc(self, power):
+        '''
+        dc = duty cycle
+        '''
         if -100 <= power <= 100:
             speedValue = ev3dev2.motor.SpeedPercent(power)
             speed_sp = int(round(speedValue.to_native_units(self.motor)))       

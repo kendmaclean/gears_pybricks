@@ -18,6 +18,11 @@ class DriveBase:
 
     def __init__(self, left_motor, right_motor, wheel_diameter, axle_track):
         # TODO are these checks even required since motor.py does them anyway...
+
+        # see: EV3DEV2 on github:
+        #     lego-linux-drivers/motors/tacho_motor_class.c
+        #     lego-linux-drivers/ev3/legoev3_motor.c
+        # lego motor specs: https://www.philohome.com/motors/motorcomp.html
         def check_motors():
             if isinstance(left_motor, Motor):
                 self.left_motor = left_motor
@@ -42,7 +47,7 @@ class DriveBase:
                 str(DriveBase.SMALLEST_TIRE_DIAMETER) + "mm and " + str(DriveBase.LARGEST_TIRE_DIAMETER) + "mm")
 
         def check_axle_track():
-            # !!!!!! makes no sense for a wheel to have an axletrack property???
+            # TODO makes no sense for a wheel to have an axletrack property???
             if not math.isclose(axle_track, left_motor.axleTrack) or not math.isclose(axle_track, right_motor.axleTrack):
                 print("DriveBase wheel axle_track of " + str(axle_track) + " not the same as described in robotTemples.js: " + 
                 str(left_motor.axleTrack) + "overriding robotTemplates.js")
@@ -403,9 +408,23 @@ class DriveBase:
         self.tank_drive.left_motor.reset() 
         self.tank_drive.right_motor.reset()         
 
+    def state(self):
+        # TODO: these are draft values, need to confirm they are working the same in EV3 implementation
+  
+        drive_speed = self.drive_speed or self.straight_speed    
+        if self.pivot_turn_angle > 0:
+            angle = self.pivot_turn_angle 
+        elif self.angle() > 0:
+            angle = self.angle()
+        else:
+            angle = 0
+        turn_rate = ("%.2f" % self.turn_rate)       
+        return ([self.distance(), drive_speed , angle, turn_rate])
+
     ###########################################################################
 
     def angle(self):
+        # TODO not working
         '''
             Distances moved by wheels
                 A. Variables
@@ -454,18 +473,7 @@ class DriveBase:
 
         return theta
 
-    def state(self):
-        # TODO: these are draft values, need to confirm they are working the same in EV3 implementation
-  
-        drive_speed = self.drive_speed or self.straight_speed    
-        if self.pivot_turn_angle > 0:
-            angle = self.pivot_turn_angle 
-        elif self.angle() > 0:
-            angle = self.angle()
-        else:
-            angle = 0
-        turn_rate = ("%.2f" % self.turn_rate)       
-        return ([self.distance(), drive_speed , angle, turn_rate])
+
 
 
 

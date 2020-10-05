@@ -76,6 +76,23 @@ var $builtinmodule = function(name) {
       }
     });
 
+    /*
+    $loc.ramp_up_sp = new Sk.builtin.func(function(self, ramp_up_sp) {
+      if (typeof ramp_up_sp != 'undefined') {
+        self.motor.ramp_up_sp = ramp_up_sp.v;
+      } else {
+        return self.motor.ramp_up_sp;
+      }
+    });
+
+    $loc.ramp_down_sp = new Sk.builtin.func(function(self, ramp_down_sp) {
+      if (typeof ramp_down_sp != 'undefined') {
+        self.motor.ramp_down_sp = ramp_down_sp.v;
+      } else {
+        return self.motor.ramp_down_sp;
+      }
+    });
+    */
     $loc.time_sp = new Sk.builtin.func(function(self, time_sp) {
       if (typeof time_sp != 'undefined') {
         self.motor.time_sp = time_sp.v;

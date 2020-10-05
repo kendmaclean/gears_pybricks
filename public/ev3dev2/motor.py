@@ -319,19 +319,52 @@ class Motor:
 
   @property
   def ramp_down_sp(self):
-    return 1
+    '''
+      *      - Writing sets the ramp down setpoint. Reading returns the current
+      *        value. Units are in milliseconds and must be positive. When set to a
+      *        non-zero value, the motor speed will decrease from 0 to 100% of
+      *        ``max_speed`` over the span of this setpoint. The actual ramp time is
+      *        the ratio of the difference between the ``speed_sp`` and the current
+      *        ``speed`` and ``max_speed`` multiplied by ``ramp_down_sp``. Values
+      *        must not be negative.
+    '''
+    return self.ramp_down_sp
 
   @ramp_down_sp.setter
   def ramp_down_sp(self, value):
+    self.ramp_down_sp = int(value)
     return 0
 
   @property
   def ramp_up_sp(self):
-    return 1
+    '''
+      *      - read/write
+      *      - Writing sets the ramp up setpoint. Reading returns the current value.
+      *        Units are in milliseconds and must be positive. When set to a non-zero
+      *        value, the motor speed will increase from 0 to 100% of ``max_speed``
+      *        over the span of this setpoint. The actual ramp time is the ratio of
+      *        the difference between the ``speed_sp`` and the current ``speed`` and
+      *        max_speed multiplied by ``ramp_up_sp``. Values must not be negative.
+
+    '''
+    return self.ramp_up_sp
 
   @ramp_up_sp.setter
   def ramp_up_sp(self, value):
+    self.ramp_up_sp = int(value)
     return 0
+
+  def ramp_up_time(self):
+    '''
+      The actual ramp time is the ratio of the difference between the ``speed_sp`` 
+      and the current ``speed`` and max_speed multiplied by ``ramp_up_sp``. 
+      Values must not be negative.
+    '''
+    delta = self.speed_sp - self.speed
+    diff = self.max_speed * self.ramp_up_sp
+    ramp_up_time = delta / diff
+    return ramp_up_time
+
 
   @property
   def speed(self):
