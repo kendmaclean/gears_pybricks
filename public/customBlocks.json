@@ -6,23 +6,6 @@
   "helpUrl": ""
 },
 
-{ "type": "py_straight",
-  "message0": "move straight for %1 mm, then stop",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "distance",
-      "check": "Number"
-    }
-  ],
-  "inputsInline": true,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "drive straight for a given distance (in millimetres) and then stop",
-  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.straight"
-},
-
 { "type": "py_straight_combo",
   "message0": "move straight for %1 mm, speed %2 mm/s, then stop",
   "args0": [
@@ -45,25 +28,8 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.straight"
 },
 
-{ "type": "py_turn",
-  "message0": "turn in place by %1 degrees, then stop",
-  "args0": [
-     {
-      "type": "input_value",
-      "name": "angle",
-      "check": "Number"
-    }
-  ],
-  "inputsInline": true,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "turns in place by a given angle and then stops.",
-  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.turn"
-},
-
 { "type": "py_turn_combo",
-  "message0": "turn in place by %1 degrees, at turn_rate %2 deg/s then stop",
+  "message0": "turn in place by %1 degrees, at turn_rate %2 deg/s, then stop",
   "args0": [
      {
       "type": "input_value",
@@ -84,12 +50,44 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.turn"
 },
 
-{ "type": "py_settings",
-  "message0": "Settings: for drive(): %1 straight_speed %2 straight_acceleration %3 for turn(): %4 turn_rate %5 turn_acceleration %6",
+{ "type": "py_straight",
+  "message0": "move straight for %1 mm, then stop",
   "args0": [
     {
-      "type": "input_dummy"
-    },    
+      "type": "input_value",
+      "name": "distance",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "drive straight for a given distance (in millimetres) and then stop",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.straight"
+},
+
+{ "type": "py_turn",
+  "message0": "turn in place by %1 degrees, then stop",
+  "args0": [
+     {
+      "type": "input_value",
+      "name": "angle",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "turns in place by a given angle and then stops.",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.turn"
+},
+
+
+{ "type": "py_settings",
+  "message0": "Settings: straight_speed %1 straight_acceleration %2 turn_rate %3 turn_acceleration %4",
+  "args0": [
     {
       "type": "input_value",
       "name": "straight_speed",
@@ -101,9 +99,6 @@
       "check": "Number"
     },
     {
-      "type": "input_dummy"
-    },    
-    {
       "type": "input_value",
       "name": "turn_rate",
       "check": "Number"
@@ -114,7 +109,7 @@
       "check": "Number"
     }      
   ],
-  "inputsInline": false,
+  "inputsInline": true,
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,

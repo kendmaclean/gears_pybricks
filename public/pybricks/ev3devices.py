@@ -122,6 +122,8 @@ class Motor:
 
     # speed (rotational speed: deg/s) – Speed of the motor.
     def run(self, speed):
+        # speed_sp -> sp = set point ( a setpoint is the desired or target value 
+        # for an essential variable, or process value of a system. )
         speedValue = ev3dev2.motor.SpeedDPS(speed)   
         speed_sp = int(round(speedValue.to_native_units(self.motor)))             
         self.wheel.speed_sp(speed_sp)

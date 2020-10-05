@@ -184,6 +184,10 @@ see: https://github.com/ev3dev/lego-linux-drivers/blob/5f2f1c686d887c16ad52678d3
  *        the difference between the ``speed_sp`` and the current ``speed`` and
  *        max_speed multiplied by ``ramp_up_sp``. Values must not be negative.
  *
+
+        a setpoint is the desired or target value for an essential variable,
+        or process value of a system. 
+
  *    * - ``ramp_down_sp``
  *      - read/write
  *      - Writing sets the ramp down setpoint. Reading returns the current
