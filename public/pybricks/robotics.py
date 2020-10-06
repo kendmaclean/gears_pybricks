@@ -47,7 +47,7 @@ class DriveBase:
                 str(DriveBase.SMALLEST_TIRE_DIAMETER) + "mm and " + str(DriveBase.LARGEST_TIRE_DIAMETER) + "mm")
 
         def check_axle_track():
-            # TODO makes no sense for a wheel to have an axletrack property???
+            # TODO makes no sense for a wheel to have an axletrack property... fix
             if not math.isclose(axle_track, left_motor.axleTrack) or not math.isclose(axle_track, right_motor.axleTrack):
                 print("DriveBase wheel axle_track of " + str(axle_track) + " not the same as described in robotTemples.js: " + 
                 str(left_motor.axleTrack) + "overriding robotTemplates.js")
@@ -381,16 +381,6 @@ class DriveBase:
     def stop(self):
         self.tank_drive.off(motors=None, brake=True)
 
-    #def distance(self):
-        #    time.sleep(SENSOR_DELAY)
-        #    average_wheel_position = (self.left_motor.wheel.position() + self.left_motor.wheel.position()) / 2
-        #    quotient_rotations = average_wheel_position // 360
-        #    remainder_degrees = average_wheel_position % 360
-        #    fractionOfrotations = remainder_degrees / 360
-        #    distance_rotations = quotient_rotations + fractionOfrotations
-        #    distance_mm = distance_rotations * self.wheel_circumference
-        #    return distance_mm
-
     def distanceWheel(self, wheel_position):
         time.sleep(SENSOR_DELAY)
 
@@ -418,66 +408,15 @@ class DriveBase:
         # TODO: these are draft values, need to confirm they are working the same in EV3 implementation
   
         drive_speed = self.drive_speed or self.straight_speed    
-        if self.pivot_turn_angle > 0:
-            angle = self.pivot_turn_angle 
-        elif self.angle() > 0:
-            angle = self.angle()
-        else:
-            angle = 0
-        turn_rate = ("%.2f" % self.turn_rate)       
-        return ([self.distance(), drive_speed , angle, turn_rate])
+        #return ([self.distance(), drive_speed , angle, self.turn_rate])
+        return ([self.distance(), drive_speed , self.turn_rate])
 
     ###########################################################################
+    # not implemented
 
     def angle(self):
-        # TODO not working
-        '''
-            Distances moved by wheels
-                A. Variables
+        print("angle() not implemented - use gyro")
 
-                    d_l & d_r = distances moved by the left and right weels in mm/sec
-                    dc = distances moved by centre of robot in mm
-                    b = base width in mm
-
-            Pose of robot after wheels have moved these distances
-                B. Variables
-                    starting positin:
-
-                        (x,y) = position (x,y) relative to fixed origin 
-                        φ = direction which robot is pointing now
-                        (x, y, φ) = pose of robot (where robot is facing north (φ = π/2) )
-
-                    robot moves along an arc:
-
-                        (x', y', φ') = new pose, after turning θ radians
-                        φ' = new heading of robot     
-
-                C. Equations
-
-                    φ' = φ + θ
-                    θ = (dr − dl)/b
-                    (x' , y' , φ') = (−dc sin θ , dc cos θ,φ + θ).
-
-                D. Application
-
-                    φ' = 0 (zero), since measuring angle of robot relative to starting point; 
-                    therefore  
-                    φ' = θ (theta)
-                    
-                    φ' = (dr − dl)/b
-
-        '''
-        time.sleep(SENSOR_DELAY)
-        d_l = self.distanceLeftWheel() # mm
-        d_r = self.distanceRightWheel() # mm
-        b = self.axle_track # mm
-        #print("=============")
-        #print("d_l" + str(d_l))
-        #print("d_r" + str(d_r))      
-        #print("b" + str(b))             
-        theta = (d_r - d_l) / b
-
-        return theta
 
 
 

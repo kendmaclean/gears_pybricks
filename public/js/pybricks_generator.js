@@ -36,14 +36,14 @@ var pybricks_generator = new function() {
      Blockly.Python['py_reset_gyro'] = self.py_reset_gyro;        
      Blockly.Python['py_color'] = self.py_color;    
      Blockly.Python['py_ultrasonic'] = self.py_ultrasonic;       
-    // Logic - ?
-    // Loops - ?
-    // Math - ?
-    // Text - ?
+    // Logic - Blockly builtin
+    // Loops - Blockly builtin
+    // Math - Blockly builtin
+    // Text - Blockly builtin
     // Control
     Blockly.Python['py_wait'] = self.py_wait;    
-    // Variables - ?
-    // Functions - ?
+    // Variables - Blockly builtin
+    // Functions - Blockly builtin
   };
 
   // Generate python code
@@ -240,7 +240,7 @@ var pybricks_generator = new function() {
     var dropdown_port = block.getFieldValue('port');
     var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
 
-    var code = 'motor' + dropdown_port + '.run(' + speed + ')\n';
+    var code = 'motor' + dropdown_port + '.run(speed=' + speed + ')\n';
 
     return code;
   }
@@ -252,7 +252,7 @@ var pybricks_generator = new function() {
     var then = block.getFieldValue('then');    
     var wait = Blockly.Python.valueToCode(block, 'wait', Blockly.Python.ORDER_ATOMIC);
 
-    var code = 'motor' + dropdown_port + '.run_time(' + speed + ', ' + time + ', then=' + then + ', wait=' + wait +  ')\n';
+    var code = 'motor' + dropdown_port + '.run_time(speed=' + speed + ', time=' + time + ', then=' + then + ', wait=' + wait +  ')\n';
 
     return code;
   }  
@@ -264,7 +264,7 @@ var pybricks_generator = new function() {
     var then = block.getFieldValue('then');    
     var wait = Blockly.Python.valueToCode(block, 'wait', Blockly.Python.ORDER_ATOMIC);
 
-    var code = 'motor' + dropdown_port + '.run_angle(' + speed + ', ' + rotation_angle + ', then=' + then + ', wait=' + wait +  ')\n';
+    var code = 'motor' + dropdown_port + '.run_angle(speed=' + speed + ', rotation_angle=' + rotation_angle + ', then=' + then + ', wait=' + wait +  ')\n';
 
     return code;
   }  
@@ -276,7 +276,7 @@ var pybricks_generator = new function() {
     var then = block.getFieldValue('then');    
     var wait = Blockly.Python.valueToCode(block, 'wait', Blockly.Python.ORDER_ATOMIC);
 
-    var code = 'motor' + dropdown_port + '.run_target(' + speed + ', ' + target_angle + 
+    var code = 'motor' + dropdown_port + '.run_target(speed=' + speed + ', target_angle=' + target_angle + 
                ', then=' + then + ', wait=' + wait +  ')\n';
 
     return code;
@@ -288,7 +288,7 @@ var pybricks_generator = new function() {
     var then = block.getFieldValue('then');    
     var duty_limit = Blockly.Python.valueToCode(block, 'duty_limit', Blockly.Python.ORDER_ATOMIC);
 
-    var code = 'motor' + dropdown_port + '.run_until_stalled(' + speed + 
+    var code = 'motor' + dropdown_port + '.run_until_stalled(speed=' + speed + 
                ', then=' + then + ', duty_limit=' + duty_limit + ')\n';  
 
     return code;
@@ -306,7 +306,7 @@ var pybricks_generator = new function() {
         power = -100
       } 
     }
-    var code = 'motor' + dropdown_port + '.dc(' + power + ')\n';  
+    var code = 'motor' + dropdown_port + '.dc(duty=' + power + ')\n';  
 
     return code;
   }  
@@ -331,7 +331,7 @@ var pybricks_generator = new function() {
     var dropdown_port = block.getFieldValue('port');
     var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
 
-    var code = 'motor' + dropdown_port + '.reset_angle(angle)\n';
+    var code = 'motor' + dropdown_port + '.reset_angle(angle=' +angle +  ')\n';
 
     return code;
   };

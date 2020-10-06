@@ -95,11 +95,11 @@
 },
 
 { "type": "py_distance",
-  "message0": "Distance (ms)",
+  "message0": "Distance (mm)",
   "inputsInline": false,
   "output": "Number",
   "colour": 225,
-  "tooltip": "estimated driven distance in milliseconds",
+  "tooltip": "estimated driven distance in millimetres",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.distance"
 },
 
