@@ -104,7 +104,7 @@
 },
 
 { "type": "py_state",
-  "message0": "robot state",
+  "message0": "State of robot",
   "inputsInline": false,
   "output": "Number",
   "colour": 225,

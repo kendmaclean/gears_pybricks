@@ -200,7 +200,7 @@ class DriveBase:
                 left_speed *= speed_factor
 
             return(left_speed, right_speed)        
-        def getSpeedDPSObj(): # turn_rate (speed) in degrees-per-second
+        def getSpeedDPSObj(): # return turn_rate (i.e. speed of robot turn) in degrees-per-second
             rotations = self.turn_rate / self.wheel_circumference
             degrees = rotations * 360
             return ev3dev2.motor.SpeedDPS(degrees)        
@@ -406,16 +406,18 @@ class DriveBase:
 
     def state(self):
         # TODO: these are draft values, need to confirm they are working the same in EV3 implementation
-  
+
+        # TODO how to make sure correct speed is being selected
         drive_speed = self.drive_speed or self.straight_speed    
-        #return ([self.distance(), drive_speed , angle, self.turn_rate])
-        return ([self.distance(), drive_speed , self.turn_rate])
+
+        return ([self.distance(), drive_speed , self.angle(), self.turn_rate])
 
     ###########################################################################
     # not implemented
 
     def angle(self):
         print("angle() not implemented - use gyro")
+        return 0
 
 
 

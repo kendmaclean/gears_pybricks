@@ -309,13 +309,6 @@ class Motor:
         self.wheel.speed_sp(speed_sp)
         self.wheel.command('run-forever')
 
-class TouchSensor:
-    def __init__(self, port):
-        self.port = port
-
-    def pressed(self):
-        print("TouchSensor not implemented")
-
 class UltrasonicSensor:
     def __init__(self, address=None):
         self.sensor = simPython.UltrasonicSensor(address)
@@ -415,3 +408,13 @@ class GyroSensor:
     def reset_angle(self):            
         self.sensor.reset()
         return  
+
+#############################################
+### not implemented
+
+class TouchSensor:
+    def __init__(self, port):
+        self.port = port
+
+    def pressed(self):
+        print("TouchSensor not implemented")
