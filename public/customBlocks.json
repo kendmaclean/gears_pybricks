@@ -85,7 +85,7 @@
 },
 
 { "type": "py_stop",
-  "message0": "Stop",
+  "message0": "Robot stop",
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
@@ -113,12 +113,12 @@
 },
 
 { "type": "py_robot_reset",
-  "message0": "Reset",
+  "message0": "Robot reset",
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
   "colour": 225,
-  "tooltip": "reset estimated driven distance and angle to 0",
+  "tooltip": "reset robot drive distance and angle to 0",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.reset"
 },
 

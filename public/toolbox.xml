@@ -195,6 +195,9 @@
     <block type="controls_whileUntil">
       <field name="MODE">WHILE</field>
     </block>
+    <block type="controls_flow_statements">
+      <field name="FLOW">BREAK</field>
+    </block>    
   </category>
   <category name="Math" colour="#5b67a5">
     <block type="math_number">

@@ -237,8 +237,7 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'Ev3dev Mode', line: false,  callback: self.switchToEv3dev},
-        {html: 'Pybricks Mode (asdfasdfasd Currently not working with simulator)', line: false, callback: self.switchToPybricks}
+        {html: 'Pybricks Mode (Partial implementation)', line: false, callback: self.switchToPybricks}
       ];
       var tickIndex;
       if (blockly.generator == ev3dev2_generator) {
@@ -250,12 +249,6 @@ var main = new function() {
 
       menuDropDown(self.$pythonMenu, menuItems, {className: 'pythonMenuDropDown'});
     }
-  };
-
-  // switch to ev3dev
-  this.switchToEv3dev = function() {
-    blockly.generator = ev3dev2_generator;
-    blockly.generator.load();
   };
 
   // switch to pybricks
