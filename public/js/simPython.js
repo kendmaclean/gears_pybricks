@@ -22,11 +22,6 @@ var $builtinmodule = function(name) {
     });
 
     $loc.command = new Sk.builtin.func(function(self, command) {
-      console.log("==========")
-      console.log("command.v: [" +  command.v + "]")
-      console.log("motor.position: [" +  self.motor.position + "]")
-      console.log("motor.position_sp [" +  self.motor.position_sp + "]")      
-            
       if (command.v == 'run-timed') {
         //self.motor.time_target = Date.now() + self.motor.time_sp * 1000;
         self.motor.time_target = Date.now() + self.motor.time_sp; // already in milliseconds
@@ -76,23 +71,6 @@ var $builtinmodule = function(name) {
       }
     });
 
-    /*
-    $loc.ramp_up_sp = new Sk.builtin.func(function(self, ramp_up_sp) {
-      if (typeof ramp_up_sp != 'undefined') {
-        self.motor.ramp_up_sp = ramp_up_sp.v;
-      } else {
-        return self.motor.ramp_up_sp;
-      }
-    });
-
-    $loc.ramp_down_sp = new Sk.builtin.func(function(self, ramp_down_sp) {
-      if (typeof ramp_down_sp != 'undefined') {
-        self.motor.ramp_down_sp = ramp_down_sp.v;
-      } else {
-        return self.motor.ramp_down_sp;
-      }
-    });
-    */
     $loc.time_sp = new Sk.builtin.func(function(self, time_sp) {
       if (typeof time_sp != 'undefined') {
         self.motor.time_sp = time_sp.v;
@@ -338,6 +316,7 @@ var $builtinmodule = function(name) {
     $loc.reset = new Sk.builtin.func(function(self) {
       self.sensor.reset();
     });
+  
 
   }, 'GPSSensor', []);
 

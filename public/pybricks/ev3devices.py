@@ -11,7 +11,7 @@ class Motor:
     MAX_SPEED = 300    
     MAX_DURATION = 1000    
     # TODO not a ful implementation
-    
+
     def __init__(self, port, positive_direction=Direction.CLOCKWISE, gears=None):
         self.port = port
         self.positive_direction = positive_direction
@@ -402,12 +402,9 @@ class GyroSensor:
             angle_and_rate[i] = int(angle_and_rate[i])
         return angle_and_rate
 
-    #def reset_angle(self, angle):
-    #    if angle is not None:
-    #        print("ERROR: cannot set Gyro to specified angle in this virtual environment")
-    def reset_angle(self):            
+    def reset_angle(self, angle=0):
+        print("WARNING: cannot set Gyro to specified angle in this virtual environment")
         self.sensor.reset()
-        return  
 
 #############################################
 ### not implemented

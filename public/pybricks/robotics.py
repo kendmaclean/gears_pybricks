@@ -416,7 +416,7 @@ class DriveBase:
     # not implemented
 
     def angle(self):
-        print("angle() not implemented - use gyro")
+        print("Warning: Drivebase angle() not implemented.  Use gyro")
         return 0
 
 
