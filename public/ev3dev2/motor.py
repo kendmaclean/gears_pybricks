@@ -813,7 +813,6 @@ class MoveTank(MotorSet):
     self.left_motor.speed_sp = abs(left_speed_var)
     self.right_motor.position_sp = right_degrees_in if right_speed_var >= 0 else -right_degrees_in
     self.right_motor.speed_sp = abs(right_speed_var)
-
     self.left_motor.stop_action = self.left_motor.STOP_ACTION_HOLD if brake else self.left_motor.STOP_ACTION_COAST
     self.right_motor.stop_action = self.right_motor.STOP_ACTION_HOLD if brake else self.right_motor.STOP_ACTION_COAST
 

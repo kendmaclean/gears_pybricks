@@ -71,6 +71,14 @@ var $builtinmodule = function(name) {
       }
     });
 
+    $loc.speed = new Sk.builtin.func(function(self) {
+      return self.motor.speed;
+    });
+
+    $loc.max_speed = new Sk.builtin.func(function(self) {
+      return self.motor.max_speed;
+    });        
+
     $loc.time_sp = new Sk.builtin.func(function(self, time_sp) {
       if (typeof time_sp != 'undefined') {
         self.motor.time_sp = time_sp.v;
@@ -105,9 +113,6 @@ var $builtinmodule = function(name) {
       }
     });
 
-    $loc.speed = new Sk.builtin.func(function(self) {
-      return self.motor.speed;
-    });
 
     // !!!!!! these need to be called as functions from Python (i.e. have brackets at end: '()')
     // they are not object attributes
@@ -134,9 +139,7 @@ var $builtinmodule = function(name) {
     //$loc.rotationRounds = new Sk.builtin.func(function(self) {
     //  return self.motor.rotationRounds;
     //});       
-    $loc.MAX_SPEED = new Sk.builtin.func(function(self) {
-      return self.motor.MAX_SPEED;
-    });          
+  
     // !!!!!!
     
   }, 'Motor', []);
