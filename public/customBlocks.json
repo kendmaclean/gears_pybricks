@@ -41,13 +41,18 @@
 },
 
 { "type": "py_settings",
-  "message0": "Settings: straight_speed %1 turn_rate %2",
+  "message0": "Settings: straight_speed %1 straight_acceleration %2 turn_rate %3",
   "args0": [
     {
       "type": "input_value",
       "name": "straight_speed",
       "check": "Number"
     },
+    {
+      "type": "input_value",
+      "name": "straight_acceleration",
+      "check": "Number"
+    },    
     {
       "type": "input_value",
       "name": "turn_rate",

@@ -8,12 +8,15 @@ import ev3dev2.motor
 from pybricks.ev3devices import *
 
 class DriveBase:
+    # TODO rationalize the assertions which use these constants - duplicates
+    # what is already done elsewhere
+    # TODO these are initial guesses
     SMALLEST_TIRE_DIAMETER = 10
     LARGEST_TIRE_DIAMETER = 200
     SMALLEST_AXLE_TRACK = 20
     LARGEST_AXLE_TRACK = 250
     MAX_SPEED = 1000
-    MAX_ACCEL = 300
+    MAX_ACCEL = 500
     MAX_DEGREES = 360
 
     def __init__(self, left_motor, right_motor, wheel_diameter, axle_track):
@@ -89,6 +92,7 @@ class DriveBase:
             turn_acceleration (rotational acceleration: deg/s/s) – Angular acceleration and deceleration 
                 of the robot at the start and end of turn().            
         '''
+        # TODO are these max checks/assertions even required
         def check_straight_speed():
             if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
                 self.straight_speed = straight_speed
@@ -118,54 +122,71 @@ class DriveBase:
         check_turn_acceleration()
 
     def straight(self, distance):
-        start_speed_dps = 20
+        robot_distance = self.distance()  
 
-        speed_mms = self.straight_speed # millimetres per second
-        speed_rps = speed_mms / self.wheel_circumference # rotations per second (wheel_circumference = wheel_diameter * pi)
-        speed_dps = speed_rps * 360 # dps = degrees per second
+        speed_sp_mms = self.straight_speed # millimetres per second
+        speed_sp_rps = speed_sp_mms / self.wheel_circumference # rotations per second (wheel_circumference = wheel_diameter * pi)
+        speed_sp_dps = speed_sp_rps * 360 # dps = degrees per second
 
-        accel_mms = self.straight_acceleration # only looking at mm/s not true acceleration of mm/s/s here
-        accel_rps = accel_mms / self.wheel_circumference
-        accel_dps = accel_rps * 360
+        accel_sp_mms = self.straight_acceleration # only looking at mm/s not true acceleration of mm/s/s here
+        accel_sp_rps = accel_sp_mms / self.wheel_circumference
+        accel_sp_dps = accel_sp_rps * 360
 
-        def getSegmentCharacteristics(segments_per_seconds):
-            length_of_segment = 1000 / segments_per_seconds
-            wait_per_segment = length_of_segment / 1000
-            speed_segment_deg = accel_dps / segments_per_seconds  
+        def robot_speed():
+            return (self.left_motor.wheel.speed_sp() + self.right_motor.wheel.speed_sp() ) / 2
 
-            print("!!!!!! wait_per_segment " + str(wait_per_segment))
+        def rampTime(): # 
+            '''
+                ramp_up_sp 
+                Units are in milliseconds and must be positive. When set to a non-zero
+                value, the motor speed will increase from 0 to 100% of ``max_speed``
+                over the span of this setpoint.         
+
+                The actual ramp time is [the ratio of [the difference between the ``speed_sp`` 
+                and the current ``speed``] and max_speed] multiplied by ``ramp_up_sp``. 
+
+                see: https://github.com/ev3dev/lego-linux-drivers/blob/ev3dev-buster/motors/tacho_motor_class.c
+            '''
+            speed = robot_speed()
+            max_speed = self.left_motor.max_dps
+            ramp_up_sp = accel_sp_dps
+            ramp_time =( (speed_sp_dps - speed) / max_speed ) * ramp_up_sp
+
+            segments_per_second = 10            
+            wait_per_segment = (ramp_time / segments_per_second) / 1000 # convert milliseconds to seconds
+            speed_segment_deg = accel_sp_dps / segments_per_second 
 
             return (wait_per_segment, speed_segment_deg)
 
         # TODO what about going reverse
-        def ramp_up():
+        def ramp_up(wait_per_segment, speed_segment_deg):
             '''
                 ``ramp_up_sp`` (sp = set point - i.e. user's target value)
                     Writing sets the 'ramp up setpoint'. Reading returns the current value.
                     Units are in milliseconds and must be positive. When set to a non-zero
                     value, the motor speed will increase from 0 to 100% of ``max_speed``
-                    over the span of this setpoint. The actual ramp time is the ratio of
-                    the difference between the ``speed_sp`` and the current ``speed`` and
-                    max_speed multiplied by ``ramp_up_sp``. Values must not be negative.
+                    over the span of this setpoint. 
+                    
+                    The actual ramp time is the ratio of the difference between the ``speed_sp`` 
+                    and the current ``speed`` and max_speed[;] multiplied by ``ramp_up_sp``. 
+                    
+                    Values must not be negative.
 
                     see: https://github.com/ev3dev/lego-linux-drivers/blob/ev3dev-buster/motors/tacho_motor_class.c
             '''
             start_distance = self.distance()            
-            (wait_per_segment, speed_segment_deg) = getSegmentCharacteristics(10)
-
-            speed = start_speed_dps
-            while int(self.left_motor.wheel.speed_sp()) <  int(speed_dps) and \
-                int(self.right_motor.wheel.speed_sp()) <  int(speed_dps) and \
-                speed < self.left_motor.max_speed and \
-                self.distance() < distance:
-                    self.left_motor.run(speed)
-                    self.right_motor.run(speed)
-                    speed = speed + speed_segment_deg
-                    time.sleep(wait_per_segment) 
+ 
+            max_speed = self.left_motor.max_speed
+            speed = speed_segment_deg   
+            while robot_speed() <= speed_sp_dps and speed < max_speed and self.distance() <= distance:
+                self.left_motor.run(speed)
+                self.right_motor.run(speed)
+                time.sleep(wait_per_segment)                 
+                speed = speed + speed_segment_deg
 
             return self.distance() - start_distance # ramp_distance
 
-        def ramp_down():
+        def ramp_down(wait_per_segment, speed_segment_deg):
             '''
                 ``ramp_down_sp``
                     Writing sets the ramp down setpoint. Reading returns the current
@@ -178,38 +199,47 @@ class DriveBase:
 
                     see: https://github.com/ev3dev/lego-linux-drivers/blob/ev3dev-buster/motors/tacho_motor_class.c 
             '''
-            (wait_per_segment, speed_segment_deg) = getSegmentCharacteristics(10)
+            start_distance = self.distance()       
+            speed = speed_sp_dps - speed_segment_deg
+            while robot_speed() >= 0 and speed >= 0 and self.distance() <= distance:
+                self.left_motor.run(speed)
+                self.right_motor.run(speed)
+                speed = speed - speed_segment_deg
+                time.sleep(wait_per_segment) 
 
-            speed = speed_dps
-            while int(self.left_motor.wheel.speed_sp()) > int(start_speed_dps) and \
-                int(self.right_motor.wheel.speed_sp()) >  int(start_speed_dps) and \
-                speed > 0 and \
-                self.distance() < distance:
-                    self.left_motor.run(speed)
-                    self.right_motor.run(speed)
-                    speed = speed - speed_segment_deg
-                    time.sleep(wait_per_segment) 
+            if speed < 0:
+                self.left_motor.run(0)
+                self.right_motor.run(0)
+                time.sleep(wait_per_segment) 
 
-        def getSpeedDPSObj(): 
-            rotations_per_sec = self.straight_speed / self.wheel_circumference
-            degrees_per_sec = rotations_per_sec * 360
-            return ev3dev2.motor.SpeedDPS(degrees_per_sec) 
+            self.left_motor.stop()
+            self.right_motor.stop()
 
-        def getDistanceInDegrees(net_distance):
-            dist_in_rotations = net_distance / self.wheel_circumference
-            distance_deg_sec = dist_in_rotations * 360
-            return distance_deg_sec
+            return self.distance() - start_distance # ramp_distance
 
-        ramp_up_distance = ramp_up()
+        (wait_per_segment, speed_segment_deg) = rampTime()
+        ramp_up_distance = ramp_up(wait_per_segment, speed_segment_deg)
 
-        # not an exact approach but good enough for a simulation; ramp_down_distances are alsways shorter than ramp_up_distance
-        net_distance = distance - (ramp_up_distance * 2)
-        if net_distance > 50:
-            speedDPS_obj = getSpeedDPSObj() 
-            self.tank_drive.on_for_degrees(speedDPS_obj, speedDPS_obj, getDistanceInDegrees(net_distance), brake=False, block=True)
+        # not an exact approach but good enough for a simulation; ramp_down_distances 
+        # are always a bit shorter than ramp_up_distance because of distance measurement lag,
+        # remaining_distance = distance - (ramp_up_distance * 2) # stops short
+        # why: because self.distance() already include the distance travelled by ramp_up!!!!!        
+        remaining_distance = distance - ramp_up_distance
 
-        ramp_down()  
-        self.tank_drive.stop()
+        if remaining_distance > ramp_up_distance:
+            while self.distance() < remaining_distance:
+                self.left_motor.run(speed_sp_dps)
+                self.right_motor.run(speed_sp_dps)
+
+                time.sleep(wait_per_segment) 
+                
+        ramp_down_distance = ramp_down(wait_per_segment, speed_segment_deg)
+
+        print("ramp_up_distance " + str(ramp_up_distance))
+        print("remaining_distance " + str(remaining_distance))        
+        print("ramp_down_distance " + str(ramp_down_distance))   
+        print("calculated distance " + str(ramp_up_distance + remaining_distance + ramp_down_distance))           
+        print("total distance() " + str(self.distance() - robot_distance) )
 
     def turn(self, angle): # pivot turn
         '''
@@ -461,7 +491,9 @@ class DriveBase:
         self.tank_drive.off(motors=None, brake=True)
 
     def distanceWheel(self, wheel_position):
-        time.sleep(SENSOR_DELAY)
+        # this is an expensive calculation to start with... adding 
+        # a wait stime slows it down too much
+        #time.sleep(SENSOR_DELAY)
 
         quotient_rotations = wheel_position // 360
         remainder_degrees = wheel_position % 360
