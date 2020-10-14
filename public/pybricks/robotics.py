@@ -322,7 +322,6 @@ class DriveBase:
         self.tank_drive.on_for_degrees(ev3dev2.motor.SpeedNativeUnits(left_speed), ev3dev2.motor.SpeedNativeUnits(right_speed), degrees=getTurnInDegrees(), brake=True, block=True)
 
     def drive(self, drive_speed, turn_rate):
-        #TODO implement rampup and rampdown
         '''
             This method converts the Pybricks drive() command to the on() method of 
             the EV3DEV2 MoveTank class, whose speed parameters can be instantiated as 
@@ -464,12 +463,6 @@ class DriveBase:
         self.turn_rate = turn_rate
         self.straight_speed = 0
 
-        #def getDriveSpeedDPSObj(): # convert drive_speed from millimetres-per-second to degrees-per-second
-        #    rotations = drive_speed / self.wheel_circumference
-        #    degrees = rotations * 360
-        #    print("mm/sec " + str(drive_speed) + "degrees/sec " + str(degrees))            
-        #    return ev3dev2.motor.SpeedDPS(degrees)
-
         v = drive_speed / 1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
         # TODO makes no sense for axleTrack to be attached to motor property; should be robot attribute
@@ -490,29 +483,31 @@ class DriveBase:
     def stop(self):
         self.tank_drive.off(motors=None, brake=True)
 
-    def distanceWheel(self, wheel_position):
-        # this is an expensive calculation to start with... adding 
-        # a wait stime slows it down too much
-        #time.sleep(SENSOR_DELAY)
-
-        quotient_rotations = wheel_position // 360
-        remainder_degrees = wheel_position % 360
-        fractionOfrotations = remainder_degrees / 360
-        distance_rotations = quotient_rotations + fractionOfrotations
-        distance_mm = distance_rotations * self.wheel_circumference
-        return distance_mm
-
-    def distanceLeftWheel(self):
-       return self.distanceWheel(self.left_motor.wheel.position())
-
-    def distanceRightWheel(self):
-       return self.distanceWheel(self.right_motor.wheel.position())
-
     def distance(self):   
         '''
-        Gets the estimated driven distance in mm since last reset
+            Gets the estimated driven distance in mm since last reset
         '''
-        return ( self.distanceLeftWheel() + self.distanceRightWheel() ) / 2
+        def distanceWheel(self, wheel_position):
+            '''
+                # this is an expensive calculation to start with... adding 
+                # a wait stime slows it down too much
+                #time.sleep(SENSOR_DELAY)
+            '''
+            quotient_rotations = wheel_position // 360
+            remainder_degrees = wheel_position % 360
+            fractionOfrotations = remainder_degrees / 360
+            distance_rotations = quotient_rotations + fractionOfrotations
+            distance_mm = distance_rotations * self.wheel_circumference
+            print("distance_mm" + str(distance_mm))
+            return distance_mm
+
+        def distanceLeftWheel(self):
+            return distanceWheel(self.left_motor.wheel.position())
+
+        def distanceRightWheel(self):
+            return distanceWheel(self.right_motor.wheel.position()) 
+
+        return ( distanceLeftWheel() + distanceRightWheel() ) / 2
 
     def reset(self):
         self.tank_drive.left_motor.reset() 
