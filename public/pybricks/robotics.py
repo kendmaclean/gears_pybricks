@@ -223,7 +223,7 @@ class DriveBase:
         # not an exact approach but good enough for a simulation; ramp_down_distances 
         # are always a bit shorter than ramp_up_distance because of distance measurement lag,
         # remaining_distance = distance - (ramp_up_distance * 2) # stops short
-        # why: because self.distance() already include the distance travelled by ramp_up!!!!!        
+        # why: because self.distance() already includes the distance travelled by ramp_up!!!!!        
         remaining_distance = distance - ramp_up_distance
 
         if remaining_distance > ramp_up_distance:
@@ -487,7 +487,7 @@ class DriveBase:
         '''
             Gets the estimated driven distance in mm since last reset
         '''
-        def distanceWheel(self, wheel_position):
+        def distanceWheel(wheel_position):
             '''
                 # this is an expensive calculation to start with... adding 
                 # a wait stime slows it down too much
@@ -501,15 +501,16 @@ class DriveBase:
             print("distance_mm" + str(distance_mm))
             return distance_mm
 
-        def distanceLeftWheel(self):
+        def distanceLeftWheel():
             return distanceWheel(self.left_motor.wheel.position())
 
-        def distanceRightWheel(self):
+        def distanceRightWheel():
             return distanceWheel(self.right_motor.wheel.position()) 
 
         return ( distanceLeftWheel() + distanceRightWheel() ) / 2
 
     def reset(self):
+        # confirm this resets distance _and_ angle
         self.tank_drive.left_motor.reset() 
         self.tank_drive.right_motor.reset()         
 
@@ -523,13 +524,6 @@ class DriveBase:
 
     ###########################################################################
     # not implemented
-
     def angle(self):
         print("Warning: Drivebase angle() not implemented.  Use gyro")
         return 0
-
-
-
-
-
-
