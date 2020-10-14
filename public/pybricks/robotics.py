@@ -199,7 +199,6 @@ class DriveBase:
 
                     see: https://github.com/ev3dev/lego-linux-drivers/blob/ev3dev-buster/motors/tacho_motor_class.c 
             '''
-            start_distance = self.distance()       
             speed = speed_sp_dps - speed_segment_deg
             while robot_speed() >= 0 and speed >= 0 and self.distance() <= distance:
                 self.left_motor.run(speed)
@@ -214,8 +213,6 @@ class DriveBase:
 
             self.left_motor.stop()
             self.right_motor.stop()
-
-            return self.distance() - start_distance # ramp_distance
 
         (wait_per_segment, speed_segment_deg) = rampTime()
         ramp_up_distance = ramp_up(wait_per_segment, speed_segment_deg)
@@ -233,13 +230,10 @@ class DriveBase:
 
                 time.sleep(wait_per_segment) 
                 
-        ramp_down_distance = ramp_down(wait_per_segment, speed_segment_deg)
+        ramp_down(wait_per_segment, speed_segment_deg)
+        #print("total distance() " + str(self.distance() - robot_distance) )
 
-        print("ramp_up_distance " + str(ramp_up_distance))
-        print("remaining_distance " + str(remaining_distance))        
-        print("ramp_down_distance " + str(ramp_down_distance))   
-        print("calculated distance " + str(ramp_up_distance + remaining_distance + ramp_down_distance))           
-        print("total distance() " + str(self.distance() - robot_distance) )
+        self.reset()
 
     def turn(self, angle): # pivot turn
         '''
@@ -498,7 +492,6 @@ class DriveBase:
             fractionOfrotations = remainder_degrees / 360
             distance_rotations = quotient_rotations + fractionOfrotations
             distance_mm = distance_rotations * self.wheel_circumference
-            print("distance_mm" + str(distance_mm))
             return distance_mm
 
         def distanceLeftWheel():

@@ -98,16 +98,6 @@ class Motor:
         return int(self.wheel.position()) # in degrees
 
     def reset_angle(self, angle):
-        '''
-            weird behaviour when run this:
-            robot.straight(200)
-            robot.straight(300)  
-            motorA.reset_angle(0)  
-            motorB.reset_angle(0)  
-
-            resetting the motor angle causes the robot to coast, and no longer breaks
-            after robot.straight
-        '''
         time.sleep(SENSOR_DELAY)        
         self.wheel.position(int(angle))
 
