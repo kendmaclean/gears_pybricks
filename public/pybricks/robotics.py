@@ -122,8 +122,6 @@ class DriveBase:
         check_turn_acceleration()
 
     def straight(self, distance):
-        robot_distance = self.distance()  
-
         speed_sp_mms = self.straight_speed # millimetres per second
         speed_sp_rps = speed_sp_mms / self.wheel_circumference # rotations per second (wheel_circumference = wheel_diameter * pi)
         speed_sp_dps = speed_sp_rps * 360 # dps = degrees per second
@@ -231,7 +229,6 @@ class DriveBase:
                 time.sleep(wait_per_segment) 
                 
         ramp_down(wait_per_segment, speed_segment_deg)
-        #print("total distance() " + str(self.distance() - robot_distance) )
 
         self.reset()
 
@@ -515,8 +512,7 @@ class DriveBase:
 
         return ([self.distance(), drive_speed , self.angle(), self.turn_rate])
 
-    ###########################################################################
-    # not implemented
     def angle(self):
-        print("Warning: Drivebase angle() not implemented.  Use gyro")
-        return 0
+        # hack to get this to work     
+        # robotAngle should not be a property of a wheel   
+        return int(self.left_motor.wheel.robotAngle())

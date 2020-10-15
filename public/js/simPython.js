@@ -135,6 +135,13 @@ var $builtinmodule = function(name) {
       return axleTrack * 10
     });       
 
+    $loc.robotAngle = new Sk.builtin.func(function(self) {
+      let angles = robot.body.absoluteRotationQuaternion.toEulerAngles();
+      let rot = Math.round(angles.y / Math.PI * 1800) / 10;
+
+      return rot;
+    });      
+
     // self.motor = robot.leftWheel or robot.rightWheel;
     //$loc.rotationRounds = new Sk.builtin.func(function(self) {
     //  return self.motor.rotationRounds;
