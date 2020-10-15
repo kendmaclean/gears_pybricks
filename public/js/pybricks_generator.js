@@ -69,8 +69,8 @@ var pybricks_generator = new function() {
        
       'robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=152)\n' +   
       // TODO only required if user using straight or turn commands...
-      'robot.settings(straight_speed=' + self.straight_speed + ',' +
-                     'straight_acceleration=' + self.straight_acceleration +   
+      'robot.settings(straight_speed=' + self.straight_speed + ', ' +
+                     'straight_acceleration=' + self.straight_acceleration +  ', ' +
                      'turn_rate=' + self.turn_rate + ')\n' +                                     
       '\n';
     var sensorsCode = '';
