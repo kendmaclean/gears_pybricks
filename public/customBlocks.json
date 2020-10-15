@@ -41,7 +41,7 @@
 },
 
 { "type": "py_settings",
-  "message0": "Settings: straight_speed %1 straight_acceleration %2 turn_rate %3",
+  "message0": "Settings: straight_speed (mm/s) %1 straight_acceleration (mm/s/s) %2 turn_rate (deg/s) %3",
   "args0": [
     {
       "type": "input_value",
