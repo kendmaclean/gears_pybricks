@@ -54,8 +54,9 @@ var main = new function() {
     let $body = $(
       '<div class="about">' +
         '<div></div>' +
-        '<h3>Credits</h3>' +
-        '<p>Created by Cort @ <a href="https://aposteriori.com.sg" target="_blank">A Posteriori</a>.</p>' +
+        '<h3>Credits</h3>' +  
+        '<p><a href="https://github.com/kendmaclean/gears_pybricks/" target="_blank">Gears Pybricks</a> is a fork of: <a href="https://quirkycort.github.io/gears/public/" target="_blank">Gearsbot</a></li></p>' + 
+        '<p>which was created by Cort @ <a href="https://aposteriori.com.sg" target="_blank">A Posteriori</a>.</p>' +
         '<p>This simulator would not have been possible without the great people behind:</p>' +
         '<ul>' +
           '<li><a href="https://www.babylonjs.com/" target="_blank">Babylon.js</a></li>' +
@@ -64,12 +65,9 @@ var main = new function() {
           '<li><a href="https://skulpt.org/" target="_blank">Skulpt</a></li>' +
           '<li><a href="https://github.com/kripken/ammo.js/" target="_blank">Ammo.js</a> (port of <a href="https://pybullet.org/wordpress/" target="_blank">Bullet</a>)</li>' +
         '</ul>' +
-        '<h3>Contact</h3>' +
-        '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +
-        '<p>If you\'re in the market for STEM training, do consider <a href="https://aposteriori.com.sg" target="_blank">A Posteriori</a>.</p>' +
         '<h3>License</h3>' +
         '<p>GNU General Public License v3.0</p>' +
-        '<p>Gears is a Free and Open Source Software</p>' +
+        '<p>Gears Pybricks is a Free and Open Source Software</p>' +
       '</div>'
     );
 
@@ -97,8 +95,7 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'Wiki', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears/wiki'); }},
-        {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
+        {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/kendmaclean/gears_pybricks/'); }},
         {html: 'About', line: false, callback: self.openAbout }
       ];
 
