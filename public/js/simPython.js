@@ -23,9 +23,7 @@ var $builtinmodule = function(name) {
       let rot = Math.round(angles.y / Math.PI * 1800) / 10;
 
       return rot;
-    });      
-
-    
+    });
   }, 'Robot', []);
 
   mod.Motor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
@@ -54,12 +52,10 @@ var $builtinmodule = function(name) {
 
       } else if (command.v == 'run-to-rel-pos') {
         self.motor.position_target = self.motor.position + self.motor.position_sp;
-        console.log("run-to-rel-pos motor.position_target [" +  self.motor.position_target + "]")             
         self.motor.runToPosition();
 
       } else if (command.v == 'run-to-abs-pos') {
         self.motor.position_target = self.motor.position_sp;
-        console.log("run-to-abs-pos motor.position_target [" +  self.motor.position_target + "]")       
         self.motor.runToPosition();
 
       } else if (command.v == 'run-forever') {
