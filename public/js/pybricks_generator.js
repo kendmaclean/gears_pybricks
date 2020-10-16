@@ -17,6 +17,7 @@ var pybricks_generator = new function() {
     Blockly.Python['py_drive'] = self.py_drive;       
     Blockly.Python['py_stop'] = self.py_stop;        
     Blockly.Python['py_distance'] = self.py_distance;    
+    Blockly.Python['py_angle'] = self.py_angle;      
     Blockly.Python['py_state'] = self.py_state;     
     Blockly.Python['py_robot_reset'] = self.py_robot_reset;        
     // Motor run
@@ -175,6 +176,11 @@ var pybricks_generator = new function() {
 
   this.py_distance = function(block) {
     var code = 'robot.distance()';
+    return [code, Blockly.Python.ORDER_NONE];
+  };
+
+  this.py_angle = function(block) {
+    var code = 'robot.angle()';
     return [code, Blockly.Python.ORDER_NONE];
   };
 

@@ -49,6 +49,8 @@
     </block>  
     <block type="py_distance">
     </block>  
+    <block type="py_angle">
+    </block>      
     <block type="py_state">
     </block>         
     <block type="py_robot_reset">

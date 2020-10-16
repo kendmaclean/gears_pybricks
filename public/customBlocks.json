@@ -108,6 +108,15 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.distance"
 },
 
+{ "type": "py_angle",
+  "message0": "Angle (deg)",
+  "inputsInline": false,
+  "output": "Number",
+  "colour": 225,
+  "tooltip": "estimated rotation angle of the drive base in degrees",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.angle"
+},
+
 { "type": "py_state",
   "message0": "State of robot",
   "inputsInline": false,
