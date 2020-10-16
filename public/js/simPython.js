@@ -3,6 +3,30 @@
 
 var $builtinmodule = function(name) {
   var mod = {};
+  mod.Robot = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self) {
+
+    });
+
+    $loc.axle_track = new Sk.builtin.func(function(self) {
+      //  returns axle_track in millimetres
+      var wheelMidpoint = robot.options.wheelWidth  / 2;
+      axle_track = robot.options.bodyWidth + (robot.options.wheelToBodyOffset * 2) + (wheelMidpoint * 2);
+      return axle_track * 10
+    });       
+
+    $loc.angle = new Sk.builtin.func(function(self) {
+      // returns robot angle in degrees
+      let angles = robot.body.absoluteRotationQuaternion.toEulerAngles();
+      let rot = Math.round(angles.y / Math.PI * 1800) / 10;
+
+      return rot;
+    });      
+
+    
+  }, 'Robot', []);
 
   mod.Motor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
@@ -117,35 +141,15 @@ var $builtinmodule = function(name) {
     // !!!!!! these need to be called as functions from Python (i.e. have brackets at end: '()')
     // they are not object attributes
 
-    // returns wheelDiameter in millimetres
     $loc.wheelDiameter = new Sk.builtin.func(function(self) {
+      // returns wheelDiameter in millimetres
       return robot.options.wheelDiameter * 10;
     });   
 
-    // returns wheelRadius in millimetres    
     $loc.wheelRadius = new Sk.builtin.func(function(self) {
+      // returns wheelRadius in millimetres    
       return robot.options.wheelDiameter / 2 * 10;
     });   
-
-    // !!!!!! makes no sense for this to be here... should be in Robot.js
-    // returns axleTrack in millimetres
-    $loc.axleTrack = new Sk.builtin.func(function(self) {
-      var wheelMidpoint = robot.options.wheelWidth  / 2;
-      axleTrack = robot.options.bodyWidth + (robot.options.wheelToBodyOffset * 2) + (wheelMidpoint * 2);
-      return axleTrack * 10
-    });       
-
-    $loc.robotAngle = new Sk.builtin.func(function(self) {
-      let angles = robot.body.absoluteRotationQuaternion.toEulerAngles();
-      let rot = Math.round(angles.y / Math.PI * 1800) / 10;
-
-      return rot;
-    });      
-
-    // self.motor = robot.leftWheel or robot.rightWheel;
-    //$loc.rotationRounds = new Sk.builtin.func(function(self) {
-    //  return self.motor.rotationRounds;
-    //});       
   
     // !!!!!!
     

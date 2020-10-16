@@ -24,7 +24,6 @@ class Motor:
         # TODO should these be robot attributes, not wheel attributes?
         self.wheelDiameter = self.wheel.wheelDiameter()
         self.wheelRadius = self.wheel.wheelRadius()        
-        self.axleTrack = self.wheel.axleTrack() 
         
         # copied from ev3dev2/motor.py
         self.max_speed = 1050
@@ -35,7 +34,7 @@ class Motor:
         self.max_dpm = self.max_rpm * 360
 
     def __str__(self):
-        return "Port: " + str(self.port) + ";\n robotTemplates.js wheelDiameter: " + str(self.wheelDiameter) + ";\n robotTemplates.js axleTrack: " + str(self.axleTrack) 
+        return "Port: " + str(self.port) + ";\n robotTemplates.js wheelDiameter: " + str(self.wheelDiameter) 
 
     # Measuring
 

@@ -4,6 +4,7 @@ SENSOR_DELAY = 0.001
 # Import the necessary libraries
 
 import math, time
+import simPython
 import ev3dev2.motor
 from pybricks.ev3devices import *
 
@@ -50,10 +51,9 @@ class DriveBase:
                 str(DriveBase.SMALLEST_TIRE_DIAMETER) + "mm and " + str(DriveBase.LARGEST_TIRE_DIAMETER) + "mm")
 
         def check_axle_track():
-            # TODO makes no sense for a wheel to have an axletrack property... fix
-            if not math.isclose(axle_track, left_motor.axleTrack) or not math.isclose(axle_track, right_motor.axleTrack):
+            if not math.isclose(axle_track, self.robot.axle_track()):
                 print("DriveBase wheel axle_track of " + str(axle_track) + " not the same as described in robotTemples.js: " + 
-                str(left_motor.axleTrack) + "overriding robotTemplates.js")
+                str( self.robot.axle_track) + "overriding robotTemplates.js")
 
             if DriveBase.SMALLEST_AXLE_TRACK <= axle_track <= DriveBase.LARGEST_AXLE_TRACK:
                 self.axle_track = axle_track
@@ -65,6 +65,8 @@ class DriveBase:
                 raise ValueError("Wheel diameter must be between " +
                 str(DriveBase.SMALLEST_AXLE_TRACK) + "mm and " + str(DriveBase.LARGEST_AXLE_TRACK) + "mm")       
        
+        self.robot = simPython.Robot()
+
         check_motors()
         self.tank_drive = ev3dev2.motor.MoveTank(left_motor.port, right_motor.port) 
 
@@ -456,8 +458,7 @@ class DriveBase:
 
         v = drive_speed / 1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
-        # TODO makes no sense for axleTrack to be attached to motor property; should be robot attribute
-        L = self.left_motor.axleTrack / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
+        L = self.axle_track / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
         R = self.wheel_radius / 1000 # radius (metres per wheel radian)
      
         def getLeftSpeedDPSObj(): 
@@ -513,6 +514,5 @@ class DriveBase:
         return ([self.distance(), drive_speed , self.angle(), self.turn_rate])
 
     def angle(self):
-        # hack to get this to work     
-        # robotAngle should not be a property of a wheel   
-        return int(self.left_motor.wheel.robotAngle())
+        return int(self.robot.angle())
+        
