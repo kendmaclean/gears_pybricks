@@ -248,7 +248,6 @@ var main = new function() {
     }
   };
 
-  // switch to pybricks
   this.switchToPybricks = function() {
     blockly.generator = pybricks_generator;
     blockly.generator.load();
