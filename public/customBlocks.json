@@ -632,7 +632,7 @@
           "ANGLE"
         ],
         [
-          "speed",
+          "speed (angular velocity)",
           "SPEED"
         ]
       ]
