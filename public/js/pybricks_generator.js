@@ -323,7 +323,7 @@ var pybricks_generator = new function() {
         power = -100
       } 
     }
-    var code = 'motor' + dropdown_port + '.dc(duty=' + power + ')\n';  
+    var code = 'motor' + dropdown_port + '.dc(' + power + ')\n';  
 
     return code;
   }  
