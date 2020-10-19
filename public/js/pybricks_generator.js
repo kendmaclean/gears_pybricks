@@ -36,6 +36,7 @@ var pybricks_generator = new function() {
      Blockly.Python['py_gyro'] = self.py_gyro;    
      Blockly.Python['py_reset_gyro'] = self.py_reset_gyro;        
      Blockly.Python['py_color'] = self.py_color;    
+     Blockly.Python['py_color_list'] = self.py_color_list;    
      Blockly.Python['py_ultrasonic'] = self.py_ultrasonic;       
     // Logic - Blockly builtin
     // Loops - Blockly builtin
@@ -228,6 +229,14 @@ var pybricks_generator = new function() {
     }
 
     var code = 'color_sensor_in' + dropdown_port + '.' + methodStr;
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };  
+
+    this.py_color_list = function(block) {
+    var color_name = block.getFieldValue('color_name');
+    var dropdown_port = block.getFieldValue('port');
+
+    var code = 'color_sensor_in' + dropdown_port + '.color() == ' + color_name;
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
 
