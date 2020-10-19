@@ -55,7 +55,7 @@ var main = new function() {
       '<div class="about">' +
         '<div></div>' +
         '<h3>Credits</h3>' +  
-        '<p><a href="https://github.com/kendmaclean/gears_pybricks/" target="_blank">Pybricks Gears</a> is a fork of: <a href="https://quirkycort.github.io/gears/public/" target="_blank">Gearsbot</a></li></p>' + 
+        '<p><a href="https://github.com/kendmaclean/gears_pybricks/" target="_blank">Gears Pybricks</a> is a fork of: <a href="https://quirkycort.github.io/gears/public/" target="_blank">Gearsbot</a></li></p>' + 
         '<p>which was created by Cort @ <a href="https://aposteriori.com.sg" target="_blank">A Posteriori</a>.</p>' +
         '<p>This simulator would not have been possible without the great people behind:</p>' +
         '<ul>' +
@@ -67,7 +67,7 @@ var main = new function() {
         '</ul>' +
         '<h3>License</h3>' +
         '<p>GNU General Public License v3.0</p>' +
-        '<p>Pybricks Gears is a Free and Open Source Software</p>' +
+        '<p>Gears Pybricks is a Free and Open Source Software</p>' +
       '</div>'
     );
 

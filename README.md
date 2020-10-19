@@ -1,6 +1,6 @@
 Gears_pybricks
 ===
-Generic Educational Robotics Simulator using Pybricks - work in progress
+Generic Educational Robotics Simulator using Pybricks
 
 This simulator was created to allow anyone to experiment with robotics without owning a robot.
 
@@ -9,7 +9,7 @@ Try it out at https://kendmaclean.github.io/gears_pybricks/public/
 
 Credits
 ---
-This is an attempt at integrating Pybricks blocks into Gears.
+gears_pybricks is a fork of: [Gearsbot](https://github.com/QuirkyCort/gears)
 
 This simulator would not have been possible without the great people behind:
 
