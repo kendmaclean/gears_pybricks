@@ -18,16 +18,15 @@ class DriveBase:
     LARGEST_AXLE_TRACK = 250
     MAX_SPEED = 1000
     MAX_ACCEL = 500
-    MAX_DEGREES = 360
 
     def __init__(self, left_motor, right_motor, wheel_diameter, axle_track):
-        # TODO are these checks even required since motor.py does them anyway...
-
-        # see: EV3DEV2 on github:
-        #     lego-linux-drivers/motors/tacho_motor_class.c
-        #     lego-linux-drivers/ev3/legoev3_motor.c
-        # lego motor specs: https://www.philohome.com/motors/motorcomp.html
         def check_motors():
+            '''
+                see: EV3DEV2 on github:
+                     lego-linux-drivers/motors/tacho_motor_class.c
+                     lego-linux-drivers/ev3/legoev3_motor.c
+                lego motor specs: https://www.philohome.com/motors/motorcomp.html   
+            '''         
             if isinstance(left_motor, Motor):
                 self.left_motor = left_motor
             else:
@@ -98,30 +97,31 @@ class DriveBase:
         def check_straight_speed():
             if -DriveBase.MAX_SPEED <= straight_speed <= DriveBase.MAX_SPEED:
                 self.straight_speed = straight_speed
-                self.turn_rate = turn_rate                
-                self.drive_speed = 0
             else:
-                raise ValueError("straight_speed outside allowable bounds")
+                if straight_speed < - DriveBase.MAX_SPEED:
+                    self.straight_speed = - DriveBase.MAX_SPEED        
+                if straight_speed > DriveBase.MAX_SPEED:
+                    self.straight_speed = DriveBase.MAX_SPEED     
+                print("Warning: straight_speed outside allowable bounds +/- " + str(DriveBase.MAX_SPEED)) 
+
         def check_straight_acceleration():
-            if -DriveBase.MAX_ACCEL <= straight_acceleration <= DriveBase.MAX_ACCEL:
+            # do not allow negative value for acceleration
+            if 0 <= straight_acceleration <= DriveBase.MAX_ACCEL:
                 self.straight_acceleration = straight_acceleration
             else:
-                raise ValueError("straight_acceleration outside allowable bounds")
-        def check_turn_rate():
-            if -DriveBase.MAX_DEGREES <= turn_rate <= DriveBase.MAX_DEGREES:
-                self.turn_rate = turn_rate
-            else:
-                raise ValueError("turn_rate outside allowable bounds")   
-        def check_turn_acceleration():       
-            if -DriveBase.MAX_ACCEL <= turn_acceleration <= DriveBase.MAX_ACCEL:
-                self.turn_acceleration = turn_acceleration
-            else:
-                raise ValueError("turn_acceleration outside allowable bounds")        
+                if straight_acceleration < 0:
+                    self.straight_acceleration = 0        
+                if straight_acceleration > DriveBase.MAX_ACCEL:
+                    self.straight_acceleration = DriveBase.MAX_ACCEL     
+                print("Warning: straight_acceleration outside allowable bounds of 0 and " + str(DriveBase.MAX_ACCEL))   
+
+        #def check_turn_acceleration():       
+        #    print("Warning: turn_acceleration not implemented")
 
         check_straight_speed()
         check_straight_acceleration()
-        check_turn_rate()
-        check_turn_acceleration()
+        self.settings_turn_rate = turn_rate
+        #check_turn_acceleration() # not implemented
 
     def straight(self, distance):
         speed_sp_mms = self.straight_speed # millimetres per second
@@ -219,8 +219,8 @@ class DriveBase:
 
         # not an exact approach but good enough for a simulation; ramp_down_distances 
         # are always a bit shorter than ramp_up_distance because of distance measurement lag,
-        # remaining_distance = distance - (ramp_up_distance * 2) # stops short
-        # why: because self.distance() already includes the distance travelled by ramp_up!!!!!        
+
+        # note: self.distance() already includes the distance travelled by ramp_up        
         remaining_distance = distance - ramp_up_distance
 
         if remaining_distance > ramp_up_distance:
@@ -276,8 +276,6 @@ class DriveBase:
 
             # see: https://sheldenrobotics.com/tutorials/Detailed_Turning_Tutorial.pdf    
         '''        
-        self.pivot_turn_angle = angle
-
         def get_speed_steering(steering, speed):
             if steering > 100 or steering < -100:
                 raise ValueError("Invalid Steering Value. Between -100 and 100 (inclusive).")
@@ -302,14 +300,18 @@ class DriveBase:
                 left_speed *= speed_factor
 
             return(left_speed, right_speed)        
-        def getSpeedDPSObj(): # return turn_rate (i.e. speed of robot turn) in degrees-per-second
-            rotations = self.turn_rate / self.wheel_circumference
+            
+        def getSpeedDPSObj(): # return settings_turn_rate (i.e. speed of robot turn) in degrees-per-second
+            rotations = self.settings_turn_rate / self.wheel_circumference
             degrees = rotations * 360
-            return ev3dev2.motor.SpeedDPS(degrees)        
+            return ev3dev2.motor.SpeedDPS(degrees)  
+      
         def getTurnInDegrees():
             robot_circumference_of_turn = self.axle_track * math.pi
             angleInDegrees = angle * (robot_circumference_of_turn / self.wheel_circumference)
             return angleInDegrees
+
+        self.pivot_turn_angle = angle
 
         (left_speed, right_speed) = get_speed_steering(steering=100, speed=getSpeedDPSObj())
         self.tank_drive.on_for_degrees(ev3dev2.motor.SpeedNativeUnits(left_speed), ev3dev2.motor.SpeedNativeUnits(right_speed), degrees=getTurnInDegrees(), brake=True, block=True)
@@ -453,13 +455,12 @@ class DriveBase:
                 2. mouhknowsbest: https://www.youtube.com/watch?v=aE7RQNhwnPQ&list=PLp8ijpvp8iCvFDYdcXqqYU5Ibl_aOqwjr&index=10
         '''
         self.drive_speed = drive_speed
-        self.turn_rate = turn_rate
-        self.straight_speed = 0
+        self.drive_turn_rate = turn_rate
 
         v = drive_speed / 1000 # forward velocity (metres per sec)
         w = math.radians(turn_rate) # angular velocity (radians per sec)
-        L = self.axle_track / 1000 # wheelbase (metres per one_wheel_robot_turn radian)
-        R = self.wheel_radius / 1000 # radius (metres per wheel radian)
+        L = self.axle_track / 1000 # wheelbase (metres per one_wheel_robot_turn in radians)
+        R = self.wheel_radius / 1000 # radius (metres per wheel in radians)
      
         def getLeftSpeedDPSObj(): 
             v_r = ((2 * v) + (w * L)) / (2 * R) # in radians
@@ -500,19 +501,25 @@ class DriveBase:
 
         return ( distanceLeftWheel() + distanceRightWheel() ) / 2
 
-    def reset(self):
-        # confirm this resets distance _and_ angle
-        self.tank_drive.left_motor.reset() 
-        self.tank_drive.right_motor.reset()         
-
-    def state(self):
-        # TODO: these are draft values, need to confirm they are working the same in EV3 implementation
-
-        # TODO how to make sure correct speed is being selected
-        drive_speed = self.drive_speed or self.straight_speed    
-
-        return ([self.distance(), drive_speed , self.angle(), self.turn_rate])
+    def speed(self):
+        speed_dps = self.tank_drive.left_motor.speed()  # dps = degrees per second
+        speed_rps = speed_dps / 360  # rotations per second 
+        speed_mms = speed_rps * self.wheel_circumference # millimetres per second (where wheel_circumference = wheel_diameter * pi)
+        return speed_mms
 
     def angle(self):
         return int(self.robot.angle())
-        
+
+    def state(self):
+        '''
+            returns the current distance(), drive speed, angle(), and turn rate of the robot
+        '''
+        #return self.distance(), self.speed(), self.angle(), self.drive_turn_rate # tuple
+        print("Warning: robot turn_rate not implemented")
+        return self.distance(), self.speed(), self.angle() # tuple        
+
+    def reset(self):
+        # resets distance
+        # TODO does robot.reset() actually reset angle?
+        self.tank_drive.left_motor.reset() 
+        self.tank_drive.right_motor.reset()         
