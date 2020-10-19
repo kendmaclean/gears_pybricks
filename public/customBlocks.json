@@ -100,20 +100,20 @@
 },
 
 { "type": "py_robot_distance",
-  "message0": "Distance (mm)",
+  "message0": "Robot distance (mm)",
   "inputsInline": false,
   "output": "Number",
   "colour": 225,
-  "tooltip": "estimated driven distance in millimetres",
+  "tooltip": "estimated driven distance of robot in millimetres",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.distance"
 },
 
 { "type": "py_robot_angle",
-  "message0": "Angle (deg)",
+  "message0": "Robot angle (deg)",
   "inputsInline": false,
   "output": "Number",
   "colour": 225,
-  "tooltip": "estimated rotation angle of the drive base in degrees",
+  "tooltip": "estimated rotation angle of the robot drive base in degrees",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.angle"
 },
 
@@ -127,7 +127,7 @@
 },
 
 { "type": "py_robot_reset",
-  "message0": "Robot reset",
+  "message0": "Reset robot",
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
