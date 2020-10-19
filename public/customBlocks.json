@@ -6,7 +6,7 @@
   "helpUrl": ""
 },
 
-{ "type": "py_straight",
+{ "type": "py_robot_straight",
   "message0": "move straight for %1 mm, then stop",
   "args0": [
     {
@@ -23,7 +23,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.straight"
 },
 
-{ "type": "py_turn",
+{ "type": "py_robot_turn",
   "message0": "turn in place by %1 degrees, then stop",
   "args0": [
      {
@@ -40,7 +40,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.turn"
 },
 
-{ "type": "py_settings",
+{ "type": "py_robot_settings",
   "message0": "Settings: straight_speed (mm/s) %1 straight_acceleration (mm/s/s) %2 turn_rate (deg/s) %3",
   "args0": [
     {
@@ -67,7 +67,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.settings"
 },
 
-{ "type": "py_drive",
+{ "type": "py_robot_drive",
   "message0": "drive at speed %1 mm/s and turn rate of %2 deg/s",
   "args0": [
     {
@@ -89,7 +89,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.drive"
 },
 
-{ "type": "py_stop",
+{ "type": "py_robot_stop",
   "message0": "Robot stop",
   "inputsInline": false,
   "previousStatement": null,
@@ -99,7 +99,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.stop"
 },
 
-{ "type": "py_distance",
+{ "type": "py_robot_distance",
   "message0": "Distance (mm)",
   "inputsInline": false,
   "output": "Number",
@@ -108,7 +108,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.distance"
 },
 
-{ "type": "py_angle",
+{ "type": "py_robot_angle",
   "message0": "Angle (deg)",
   "inputsInline": false,
   "output": "Number",
@@ -117,7 +117,7 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/robotics.html#pybricks.robotics.DriveBase.angle"
 },
 
-{ "type": "py_state",
+{ "type": "py_robot_state",
   "message0": "State of robot",
   "inputsInline": false,
   "output": "Number",
@@ -719,8 +719,8 @@
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.ColorSensor"
 },
 
-{ "type": "py_color_list",
-  "message0": "color %1 on port %2",
+{ "type": "py_color_name",
+  "message0": "parameter: color name %1",
   "args0": [
     {
       "type": "field_dropdown",
@@ -751,39 +751,13 @@
           "Color.BLUE"
         ]
       ]
-    },
-    {
-      "type": "field_dropdown",
-      "name": "port",
-      "options": [
-        [
-          "1",
-          "1"
-        ],
-        [
-          "2",
-          "2"
-        ],
-        [
-          "3",
-          "3"
-        ],
-        [
-          "4",
-          "4"
-        ],
-        [
-          "5",
-          "5"
-        ]
-      ]
     }
   ],
   "inputsInline": true,
   "output": null,
   "colour": 160,
-  "tooltip": "color sensor",
-  "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.ColorSensor"
+  "tooltip": "Name of color to be used with Color sensor color() detector",
+  "helpUrl": "https://pybricks.github.io/ev3-micropython/parameters.html#pybricks.parameters.Color"
 },
 
 { "type": "py_ultrasonic",

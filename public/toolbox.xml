@@ -1,6 +1,6 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
   <category name="Robot: move and stop" colour="#5b67a5">
-    <block type="py_settings">
+    <block type="py_robot_settings">
       <value name="straight_speed">
         <shadow type="math_number">
           <field name="NUM">200</field>
@@ -17,14 +17,14 @@
         </shadow>
       </value>                     
     </block>          
-    <block type="py_straight">
+    <block type="py_robot_straight">
       <value name="distance">
         <shadow type="math_number">
           <field name="NUM">200</field>
         </shadow>
       </value>
     </block>
-    <block type="py_turn">
+    <block type="py_robot_turn">
       <value name="angle">
         <shadow type="math_number">
           <field name="NUM">0</field>
@@ -33,7 +33,7 @@
     </block>
   </category>
   <category name="Robot: continuous move" colour="#5b67a5">
-    <block type="py_drive">
+    <block type="py_robot_drive">
       <value name="drive_speed">
         <shadow type="math_number">
           <field name="NUM">200</field>
@@ -45,13 +45,13 @@
         </shadow>
       </value>      
     </block>
-    <block type="py_stop">
+    <block type="py_robot_stop">
     </block>  
-    <block type="py_distance">
+    <block type="py_robot_distance">
     </block>  
-    <block type="py_angle">
+    <block type="py_robot_angle">
     </block>      
-    <block type="py_state">
+    <block type="py_robot_state">
     </block>         
     <block type="py_robot_reset">
     </block>      
@@ -174,11 +174,10 @@
     <block type="py_color">
       <field name="type">INTENSITY</field>
       <field name="port">1</field>
-    </block>    
-    <block type="py_color_list">
+    </block>  
+    <block type="py_color_name">
       <field name="color_name">Black</field>
-      <field name="port">1</field>
-    </block>       
+    </block>        
     <block type="py_ultrasonic">
     </block>     
   </category>

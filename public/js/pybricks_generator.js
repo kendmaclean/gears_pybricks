@@ -10,15 +10,15 @@ var pybricks_generator = new function() {
   this.load = function() {
     Blockly.Python['when_started'] = self.when_started;
     // Robot move and stop
-    Blockly.Python['py_settings'] = self.py_settings;      
-    Blockly.Python['py_straight'] = self.py_straight; 
-    Blockly.Python['py_turn'] = self.py_turn;     
+    Blockly.Python['py_robot_settings'] = self.py_robot_settings;      
+    Blockly.Python['py_robot_straight'] = self.py_robot_straight; 
+    Blockly.Python['py_robot_turn'] = self.py_robot_turn;     
     // Robot continuous move
-    Blockly.Python['py_drive'] = self.py_drive;       
-    Blockly.Python['py_stop'] = self.py_stop;        
-    Blockly.Python['py_distance'] = self.py_distance;    
-    Blockly.Python['py_angle'] = self.py_angle;      
-    Blockly.Python['py_state'] = self.py_state;     
+    Blockly.Python['py_robot_drive'] = self.py_robot_drive;       
+    Blockly.Python['py_robot_stop'] = self.py_robot_stop;        
+    Blockly.Python['py_robot_distance'] = self.py_robot_distance;    
+    Blockly.Python['py_robot_angle'] = self.py_robot_angle;      
+    Blockly.Python['py_robot_state'] = self.py_robot_state;     
     Blockly.Python['py_robot_reset'] = self.py_robot_reset;        
     // Motor run
     Blockly.Python['py_motor_run'] = self.py_motor_run;    
@@ -36,7 +36,7 @@ var pybricks_generator = new function() {
      Blockly.Python['py_gyro'] = self.py_gyro;    
      Blockly.Python['py_reset_gyro'] = self.py_reset_gyro;        
      Blockly.Python['py_color'] = self.py_color;    
-     Blockly.Python['py_color_list'] = self.py_color_list;    
+     Blockly.Python['py_color_name'] = self.py_color_name;    
      Blockly.Python['py_ultrasonic'] = self.py_ultrasonic;       
     // Logic - Blockly builtin
     // Loops - Blockly builtin
@@ -126,7 +126,7 @@ var pybricks_generator = new function() {
     return code;
   };
 
-  this.py_straight = function(block) {
+  this.py_robot_straight = function(block) {
     var distance = Blockly.Python.valueToCode(block, 'distance', Blockly.Python.ORDER_ATOMIC);
     if (distance === undefined) { distance = 0;  }
 
@@ -135,7 +135,7 @@ var pybricks_generator = new function() {
     return code;    
   }
 
-  this.py_turn = function(block) {
+  this.py_robot_turn = function(block) {
     var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
     if (angle === undefined) { angle = 0; }
 
@@ -144,7 +144,7 @@ var pybricks_generator = new function() {
     return code;    
   }  
   
-  this.py_settings = function(block) {
+  this.py_robot_settings = function(block) {
     straight_speed = Blockly.Python.valueToCode(block, 'straight_speed', Blockly.Python.ORDER_ATOMIC);
     if (straight_speed === undefined) { straight_speed = 0;  }
 
@@ -159,7 +159,7 @@ var pybricks_generator = new function() {
     return code;        
   }
 
-  this.py_drive = function(block) {
+  this.py_robot_drive = function(block) {
     var drive_speed = Blockly.Python.valueToCode(block, 'drive_speed', Blockly.Python.ORDER_ATOMIC);
     var turn_rate = Blockly.Python.valueToCode(block, 'turn_rate', Blockly.Python.ORDER_ATOMIC);  
     if (drive_speed === undefined) { drive_speed = 0;  }
@@ -170,22 +170,22 @@ var pybricks_generator = new function() {
     return code;    
   }  
 
-  this.py_stop = function(block) {
+  this.py_robot_stop = function(block) {
     var code = 'robot.stop()\n';
     return code;
   };
 
-  this.py_distance = function(block) {
+  this.py_robot_distance = function(block) {
     var code = 'robot.distance()';
     return [code, Blockly.Python.ORDER_NONE];
   };
 
-  this.py_angle = function(block) {
+  this.py_robot_angle = function(block) {
     var code = 'robot.angle()';
     return [code, Blockly.Python.ORDER_NONE];
   };
 
-  this.py_state = function(block) {
+  this.py_robot_state = function(block) {
     var code = 'robot.state()';
     return [code, Blockly.Python.ORDER_NONE];
   };  
@@ -232,11 +232,10 @@ var pybricks_generator = new function() {
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
 
-    this.py_color_list = function(block) {
+  this.py_color_name = function(block) {
     var color_name = block.getFieldValue('color_name');
-    var dropdown_port = block.getFieldValue('port');
 
-    var code = 'color_sensor_in' + dropdown_port + '.color() == ' + color_name;
+    var code = color_name;
     return [code, Blockly.Python.ORDER_ATOMIC];
   };  
 
