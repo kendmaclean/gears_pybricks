@@ -387,7 +387,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "run motor at a constant speed (in degrees per second) towards a given target angle (in degrees)",
+  "tooltip": "run motor at a constant speed (in degrees per second) towards a given target angle (in degrees) - Note: zero angle is the position of the motor at the start of the program - which means it may change each time you restart your program; but is the same each time you reset the World",
   "helpUrl": "https://pybricks.github.io/ev3-micropython/ev3devices.html#pybricks.ev3devices.Motor.run_target"
 },
 
