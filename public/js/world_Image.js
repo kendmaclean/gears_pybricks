@@ -82,7 +82,8 @@ var world_Image = new function() {
         ['Center', 'center'],
         ['Bottom Left', 'bottomLeft'],
         ['Bottom Center', 'bottomCenter'],
-        ['Bottom Right', 'bottomRight']
+        ['Bottom Right', 'bottomRight'],
+        ['FLL Start Area', 'FllStart']
       ]
     },
     {
@@ -168,6 +169,11 @@ var world_Image = new function() {
           let x = (self.options.length / 2 - 12.5);
           let z = -(self.options.width / 2 - 12.5) + 1;
           self.robotStart.position = new BABYLON.Vector3(x, 0, z);
+        } else if (self.options.startPos == 'FllStart') {
+          let x = -55;
+          let z = -40;
+          self.robotStart.position = new BABYLON.Vector3(x,0,z);
+          self.robotStart.rotation.y = Math.PI/2;
         }
 
         if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
