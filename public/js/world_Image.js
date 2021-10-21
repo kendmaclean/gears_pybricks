@@ -173,7 +173,6 @@ var world_Image = new function() {
           let x = -55;
           let z = -40;
           self.robotStart.position = new BABYLON.Vector3(x,0,z);
-          self.robotStart.rotation.y = Math.PI/2;
         }
 
         if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
@@ -183,7 +182,11 @@ var world_Image = new function() {
         if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
           self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
         } else {
-          self.robotStart.rotation.y = 0;
+          if (self.options.startPos== 'FllStart') {
+            self.robotStart.rotation.y = Math.PI/2.0;
+          } else {
+            self.robotStart.rotation.y = 0;
+          }
         }
 
         resolve();
