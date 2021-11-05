@@ -20,11 +20,12 @@ var world_Image = new function() {
       title: 'Select Image',
       type: 'select',
       options: [
-        ['WRO 2019', 'textures/maps/WRO-2019-Regular-Junior.jpg'],
-        ['WRO 2018', 'textures/maps/WRO-2018-Regular-Junior.png'],
-        ['FLL 2020', 'textures/maps/FLL2020.jpg'],        
-        ['FLL 2019', 'textures/maps/FLL2019.jpg'],
-        ['FLL 2018', 'textures/maps/FLL2018.jpg']
+        ['WRO 2019', 'textures/maps/images/WRO-2019-Regular-Junior.jpg'],
+        ['WRO 2018', 'textures/maps/images/WRO-2018-Regular-Junior.png'],
+        ['FLL 2021', 'textures/maps/images/FLL2021.jpg'], 
+        ['FLL 2020', 'textures/maps/images/FLL2020.jpg'],        
+        ['FLL 2019', 'textures/maps/images/FLL2019.jpg'],
+        ['FLL 2018', 'textures/maps/images/FLL2018.jpg']
       ],
       help: 'You can override this by setting an image URL or uploading a file'
     },
@@ -81,7 +82,8 @@ var world_Image = new function() {
         ['Center', 'center'],
         ['Bottom Left', 'bottomLeft'],
         ['Bottom Center', 'bottomCenter'],
-        ['Bottom Right', 'bottomRight']
+        ['Bottom Right', 'bottomRight'],
+        ['FLL Start Area', 'FllStart']
       ]
     },
     {
@@ -167,6 +169,10 @@ var world_Image = new function() {
           let x = (self.options.length / 2 - 12.5);
           let z = -(self.options.width / 2 - 12.5) + 1;
           self.robotStart.position = new BABYLON.Vector3(x, 0, z);
+        } else if (self.options.startPos == 'FllStart') {
+          let x = -55;
+          let z = -40;
+          self.robotStart.position = new BABYLON.Vector3(x,0,z);
         }
 
         if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
@@ -176,7 +182,11 @@ var world_Image = new function() {
         if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
           self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
         } else {
-          self.robotStart.rotation.y = 0;
+          if (self.options.startPos== 'FllStart') {
+            self.robotStart.rotation.y = Math.PI/2.0;
+          } else {
+            self.robotStart.rotation.y = 0;
+          }
         }
 
         resolve();
