@@ -20,8 +20,6 @@ var world_Image = new function() {
       title: 'Select Image',
       type: 'select',
       options: [
-        ['WRO 2019', 'textures/maps/images/WRO-2019-Regular-Junior.jpg'],
-        ['WRO 2018', 'textures/maps/images/WRO-2018-Regular-Junior.png'],
         ['FLL 2021', 'textures/maps/images/FLL2021.jpg'], 
         ['FLL 2020', 'textures/maps/images/FLL2020.jpg'],        
         ['FLL 2019', 'textures/maps/images/FLL2019.jpg'],
@@ -101,7 +99,7 @@ var world_Image = new function() {
   ];
 
   this.defaultOptions = {
-    image: 'textures/maps/WRO-2019-Regular-Junior.jpg',
+    image: 'textures/maps/images/FLL2021.jpg',
     imageURL: '',
     length: 100,
     width: 100,
